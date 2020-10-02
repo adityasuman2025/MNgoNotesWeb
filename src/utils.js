@@ -5,7 +5,7 @@ import { ENCRYPTION_KEY, COOKIE_EXPIRATION_TIME, MONTH_LIST } from "./constants"
 const cookies = new Cookies();
 
 //function to get a cookie value, decrypt it and return real value
-export function getDecryptedCookieValue (cookie_name) {
+export function getDecryptedCookieValue(cookie_name) {
     let value = null;
     try {
         const cookieValue = cookies.get(cookie_name);
@@ -21,7 +21,7 @@ export function getDecryptedCookieValue (cookie_name) {
 }
 
 //function to set cookie after encrypting the value
-export function makeEncryptedCookie (key, value) {
+export function makeEncryptedCookie(key, value) {
     try {
         const encryptedValue = CryptoJS.AES.encrypt(value, ENCRYPTION_KEY).toString();
         cookies.set(key, encryptedValue, { path: "/", expires: COOKIE_EXPIRATION_TIME, });
@@ -33,12 +33,12 @@ export function makeEncryptedCookie (key, value) {
 };
 
 //function to validate name, contact no and email
-export function validateUsername (name) {
+export function validateUsername(name) {
     var re = /^[a-zA-Z]*$/;
     return re.test(name);
 };
 
-export function validateContactNo (number) {
+export function validateContactNo(number) {
     var re = /^[0-9]*$/;
     return re.test(number);
 };
