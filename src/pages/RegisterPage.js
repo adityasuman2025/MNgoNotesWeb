@@ -87,7 +87,7 @@ export default function RegisterPage(props) {
 
                 //sending rqst to api
                 try {
-                    const response = parseInt(await registerNewUser(username,  password));
+                    const response = parseInt(await registerNewUser(username, email, password, passCode));
                     if (response === 1) {
                         makeSnackBar("Sucessfully registered. Please Login to continue", "success");
                         setRegisterSuccess(true);
