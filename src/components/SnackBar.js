@@ -14,7 +14,7 @@ function SnackBar(props) {
             autoHideDuration={6000}
             onClose={props.handleClose}
         >
-            <Alert onClose={props.handleClose} severity={props.type}>
+            <Alert onClose={props.handleClose} severity={props.type || "error"}>
                 {props.msg}
             </Alert>
         </Snackbar>

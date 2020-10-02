@@ -107,6 +107,12 @@ body {
     cursor: pointer;
   }
 
+  .successRegistrationText {
+    padding: 20px;
+    color: rgba(255,255,255,0.6);
+    font-size: 16px;
+  }
+
 /*----login/register page-----*/
 
 /*----others-----*/
@@ -148,23 +154,6 @@ body {
     text-decoration: none
   }
   
-  /*------nav bar------*/  
-    .navBarBrand{
-      padding: 10px;
-      padding-left: 15px;
-      font-size: 125%;
-    }
-  
-    #mobileNavBarToggler {
-      margin-Right: 5px;
-    }
-  
-    .navWebMenu {
-      margin-right: 10px;
-      margin-left: 10px;
-    }
-  /*------nav bar------*/
-  
   /*--------landing page--------*/
   
   /*media screens*/
@@ -177,7 +166,7 @@ body {
       .smallTopMargin {
         margin-top: 20px;
       }
-      
+
       .logoIcon {
         width: 120px;
       }
