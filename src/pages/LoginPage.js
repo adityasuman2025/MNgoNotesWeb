@@ -27,7 +27,7 @@ export default function LoginPage(props) {
     }
 
     //function to handle when login btn is clicked
-    async function handleLoginClick (e) {
+    async function handleLoginClick(e) {
         e.preventDefault();
 
         //hanling stuffs if login is not already clicked
@@ -50,6 +50,7 @@ export default function LoginPage(props) {
                         const mngoNotesLoggedUserIdCookie = await makeEncryptedCookie("mngoNotesLoggedUserId", response.toString());
                         if (mngoNotesLoggedUserIdCookie) {
                             setRedirectToUserDashboard(true);
+                            return;
                         } else {
                             makeSnackBar("Something went wrong", "error");
                         }

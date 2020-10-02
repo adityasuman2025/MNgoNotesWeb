@@ -42,7 +42,7 @@ body {
   .noPadding {
     padding: 0;
   }
-
+  
 /*----login/register page-----*/
   .loginPageContent {
     display: flex;
@@ -55,6 +55,10 @@ body {
     margin: auto;
 
     margin-top: 50px;
+  }
+
+  .smallTopMargin {
+    margin-top: 20px;
   }
 
   .logoIcon {
@@ -170,6 +174,10 @@ body {
         margin-top: 100px;
       }
     
+      .smallTopMargin {
+        margin-top: 20px;
+      }
+      
       .logoIcon {
         width: 120px;
       }
