@@ -1,0 +1,344 @@
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+      sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+      monospace;
+  }
+  
+  .circularBtnContainer {
+    border: none;
+    margin: 0px;
+    padding: 0px;
+    
+  
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: auto;
+    padding: 8px;
+    padding-left: 25px;
+    padding-right: 25px;
+    border-radius: 20px;
+  
+    background: #EC3D64;
+    
+    width: 180px;
+    
+    color: white;
+    font-size: 107%;
+    font-weight: 500;
+    cursor: pointer;
+  }
+  
+  .loadingAnimation {
+    width: 50px;
+  }
+  
+  .paginationContainer {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .defaultBtn {
+    background-color: #e2e2e2;
+    margin: 5px;
+  }
+  
+  .coloredBtn {
+    background: #EC3D64;
+    color: white;
+    margin: 5px;
+  }
+  
+  .pageContent {
+    width: 60%;
+    margin: auto;
+    margin-top: 30px;
+    margin-bottom: 50px;
+  }
+  
+  .center {
+    text-align: center;
+  }
+  
+  .floatRight {
+    float: right;
+  }
+  
+  .inputBox {
+    border: none;
+    border-bottom: 2px solid grey;
+    width: 400px;
+    margin-top: 20px;
+    padding: 5px;
+  }
+  
+  .inputBox2 {
+    margin-top: 5px
+  }
+  
+  .labelBox {
+    text-align: left;
+    font-weight: 600;
+  }
+  
+  .redColored {
+    color: red;
+  }
+  
+  .coloredBackground {
+    margin: 0px;
+    padding: 0px;
+    padding: 15px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 105%;
+  
+    cursor: pointer;
+    word-wrap: break-word;
+    word-break: break-all;
+  
+    border-radius: 5px;
+    box-shadow: 0px 0px 1px grey;
+  
+    background: #EC3D64;
+    color: white;
+    color: #f1f1f1;
+  }
+  
+  .coloredTextBtn {
+    color: #EC3D64;
+    font-weight: 500;
+    font-size: 110%;
+  }
+  
+  .coloredTextBtn:hover {
+    color: #EC3D64;
+  }
+  
+  .successImg {
+    width: 150px;
+  }
+  
+  .successText {
+    font-size: 120%;
+    
+  }
+  
+  .noPadding {
+    padding: 0;
+  }
+  
+  .wideBtn {
+    width: 180px;
+  }
+  
+  .whiteLink { 
+    color: white;
+    text-decoration: none
+  }
+  
+  .whiteLink:hover { 
+    color: white;
+    text-decoration: none
+  }
+  
+  /*------nav bar------*/  
+    .navBarBrand{
+      padding: 10px;
+      padding-left: 15px;
+      font-size: 125%;
+    }
+  
+    #mobileNavBarToggler {
+      margin-Right: 5px;
+    }
+  
+    .navWebMenu {
+      margin-right: 10px;
+      margin-left: 10px;
+    }
+  /*------nav bar------*/
+  
+  /*--------landing page--------*/
+    .horiVertCenter {
+      padding: 0;
+      margin: 0;
+      
+      display: -webkit-box;
+      display: -moz-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      display: flex;
+  
+      align-items: center;
+      justify-content: center;
+      
+      height: 100%;
+  
+      margin-top: 150px;
+    }
+  
+    .choiceBox{
+      text-align: center;
+    }
+  
+    .logoImg {
+      width: 150px;
+    }
+  
+    .projectTitleText {
+      font-size: 250%;
+      font-weight: 700;
+    }
+  
+  /*--------landing page--------*/
+  
+  /*--------user home page--------*/
+    .productList {
+      margin: 0px;
+      padding: 0px;
+      padding: 15px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      font-size: 105%;
+  
+      cursor: pointer;
+      word-wrap: break-word;
+      word-break: break-all;
+  
+      background-color: #f1f1f1;
+      border-radius: 5px;
+      box-shadow: 0px 0px 1px grey;
+  
+      /* vertical-align: middle; */
+    }
+  
+    .productText {
+      font-weight: 600;
+      font-size: 125%;
+  
+    }
+  
+    .productDateTimeText {
+      color: dimgrey;
+      font-size: 90%;
+    }
+  
+    .productPrice {
+      font-size: 87%;
+      font-weight: 400;
+    }
+  
+    .orderUserName {
+      text-align: right;
+      /* float: right; */
+    }
+  
+  /*--------user home page--------*/
+  
+  /*-----admin -------*/
+    .navLogoImg {
+      height: 30px;
+    }
+  
+    #navbarCollapse {
+      /* transition: 1s ease-in-out; */
+      transition-duration: 1s;
+      transition-timing-function: ease-in-out ;
+    }
+  
+    .dashPageContent {
+      width: 80%;
+      margin: auto;
+    }
+  
+    .dashbordPartContainer {
+      padding-left: 30px;
+      padding-right: 30px;    
+    }
+  
+    .graphContainer {
+      background-color: #faf9f9;
+      padding: 15px;
+    }
+  
+    .graphContainer h5 {
+      font-weight: 500;
+      font-size: 120%;
+      padding-left: 10px;
+    }
+  
+    .graphContainer hr {
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+  
+    .graph {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      align-items: flex-end;
+  
+      text-align: center;
+      height: 230px;
+    }
+  
+    .graphPillarBox {
+      word-wrap: break-word;
+      word-break: break-all;
+    }
+  
+    .graphPillar {
+      width: 90px;
+      background-color: white;
+      word-wrap: break-word;
+      word-break: break-all;
+  
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  
+    .graphPillarTitle {
+      font-weight: 450;
+      font-size: 105%;
+    }
+  
+  /*media screens*/
+    @media screen and (max-width: 800px) {
+      .pageContent {
+        width: 92%;
+        margin-top: 20px;
+        margin-bottom: 30px;
+      }
+  
+      .inputBox {
+        width: 300px;
+      }
+  
+      .dashPageContent {
+        width: 95%;
+        margin: auto;
+      }
+  
+      .dashbordPartContainer {
+        padding: 0px;
+        margin-bottom: 30px;
+      }
+  
+      .graphPillar {
+        width: 70px;
+      }
+  
+      .orderUserName {
+        text-align: left;
+      }
+    }
