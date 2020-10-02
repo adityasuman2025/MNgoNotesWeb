@@ -92,6 +92,7 @@ export default function LoginPage(props) {
                 onSubmit={handleLoginClick} 
             >
                 <img
+                    alt="logo img"
                     className="logoIcon"
                     src={require("../img/logo.png")}
                 />

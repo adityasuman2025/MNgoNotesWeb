@@ -1,7 +1,7 @@
 import Cookies from "universal-cookie";
 import CryptoJS from "crypto-js";
 
-import { ENCRYPTION_KEY, COOKIE_EXPIRATION_TIME, MONTH_LIST } from "./constants";
+import { ENCRYPTION_KEY, COOKIE_EXPIRATION_TIME } from "./constants";
 const cookies = new Cookies();
 
 //function to get a cookie value, decrypt it and return real value

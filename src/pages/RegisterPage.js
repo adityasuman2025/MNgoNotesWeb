@@ -126,6 +126,7 @@ export default function RegisterPage(props) {
                 onSubmit={handleRegisterClick} 
             >
                 <img
+                    alt="logo img"
                     className="logoIcon"
                     src={require("../img/logo.png")}
                 />
