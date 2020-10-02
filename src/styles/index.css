@@ -5,65 +5,28 @@ body {
       sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    background-color: #455a64;
   }
   
   code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
       monospace;
   }
-  
-  .circularBtnContainer {
-    border: none;
-    margin: 0px;
-    padding: 0px;
-    
-  
-    margin: auto;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    width: auto;
-    padding: 8px;
-    padding-left: 25px;
-    padding-right: 25px;
-    border-radius: 20px;
-  
-    background: #EC3D64;
-    
-    width: 180px;
-    
-    color: white;
-    font-size: 107%;
-    font-weight: 500;
-    cursor: pointer;
+
+  /*----input fields placeholder color-------*/
+  ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #d8d8d8;
+    opacity: 1; /* Firefox */
   }
   
-  .loadingAnimation {
-    width: 50px;
+  :-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: #d8d8d8;
   }
   
-  .paginationContainer {
-    margin-top: 20px;
-    margin-bottom: 20px;
+  ::-ms-input-placeholder { /* Microsoft Edge */
+    color: #d8d8d8;
   }
-  
-  .defaultBtn {
-    background-color: #e2e2e2;
-    margin: 5px;
-  }
-  
-  .coloredBtn {
-    background: #EC3D64;
-    color: white;
-    margin: 5px;
-  }
-  
-  .pageContent {
-    width: 60%;
-    margin: auto;
-    margin-top: 30px;
-    margin-bottom: 50px;
-  }
-  
+
   .center {
     text-align: center;
   }
@@ -72,55 +35,90 @@ body {
     float: right;
   }
   
-  .inputBox {
-    border: none;
-    border-bottom: 2px solid grey;
-    width: 400px;
-    margin-top: 20px;
-    padding: 5px;
-  }
-  
-  .inputBox2 {
-    margin-top: 5px
-  }
-  
-  .labelBox {
-    text-align: left;
-    font-weight: 600;
-  }
-  
   .redColored {
     color: red;
   }
-  
-  .coloredBackground {
-    margin: 0px;
-    padding: 0px;
-    padding: 15px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    font-size: 105%;
-  
-    cursor: pointer;
-    word-wrap: break-word;
-    word-break: break-all;
-  
-    border-radius: 5px;
-    box-shadow: 0px 0px 1px grey;
-  
-    background: #EC3D64;
+
+  .noPadding {
+    padding: 0;
+  }
+
+/*----login/register page-----*/
+  .loginPageContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+    /* background-color: grey; */
+    width: 60%;
+    margin: auto;
+
+    margin-top: 50px;
+  }
+
+  .logoIcon {
+    width: 200px;
+  }
+
+  .logoTitle {
+    font-size: 21px;
+    font-weight: 600;
     color: white;
-    color: #f1f1f1;
   }
-  
-  .coloredTextBtn {
-    color: #EC3D64;
+
+  .inputBox {
+    width: 350px;
+    height: 45px;
+    background-color: rgba(255, 255,255,0.2);
+    border: none;
+    border-radius: 25px;
+    padding: 0px 16px; /*vertical horizontal */
+    font-size: 16px;
+    color: #ffffff;
+    margin: 10px 0px;
+  }
+
+  .buttonText {
+    font-size: 16px;
     font-weight: 500;
-    font-size: 110%;
+    color: #d8d8d8;
+    text-align: center;
+  }
+
+  .signupText {
+    position: absolute;
+    bottom: 15px;
+    width: 100%;
+    text-align: center;
+
+    color: rgba(255,255,255,0.6);
+    font-size: 16px;
+  }
+
+  .signupButton {
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+/*----login/register page-----*/
+
+/*----others-----*/
+  .circularBtnContainer {
+    width: 350px;
+    height: 50px;
+    background-color: #1c313a;
+    border: none;
+    border-radius: 25px;
+    margin: 10px 0px;
+    padding: 13px 0px;
+    text-align: center;
   }
   
-  .coloredTextBtn:hover {
-    color: #EC3D64;
+  .loadingAnimation {
+    width: 50px;
   }
   
   .successImg {
@@ -130,10 +128,6 @@ body {
   .successText {
     font-size: 120%;
     
-  }
-  
-  .noPadding {
-    padding: 0;
   }
   
   .wideBtn {
@@ -171,31 +165,17 @@ body {
   
   /*media screens*/
     @media screen and (max-width: 800px) {
-      .pageContent {
-        width: 92%;
-        margin-top: 20px;
-        margin-bottom: 30px;
+      .loginPageContent {
+        width: 90%;
+        margin-top: 100px;
+      }
+    
+      .logoIcon {
+        width: 120px;
       }
   
-      .inputBox {
-        width: 300px;
+      .inputBox, .circularBtnContainer {
+        width: 280px;
       }
   
-      .dashPageContent {
-        width: 95%;
-        margin: auto;
-      }
-  
-      .dashbordPartContainer {
-        padding: 0px;
-        margin-bottom: 30px;
-      }
-  
-      .graphPillar {
-        width: 70px;
-      }
-  
-      .orderUserName {
-        text-align: left;
-      }
     }

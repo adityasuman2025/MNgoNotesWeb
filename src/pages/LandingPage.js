@@ -5,7 +5,7 @@ import LoadingAnimation from "../components/LoadingAnimation";
 
 import { getDecryptedCookieValue } from '../utils';
 
-function LandingPage(props) {
+function LandingPage() {
     //hooks variables
     const [redirectToLoginPage, setRedirectToLoginPage] = useState(false);
     const [redirectToUserDashboard, setRedirectToUserDashboard] = useState(false);

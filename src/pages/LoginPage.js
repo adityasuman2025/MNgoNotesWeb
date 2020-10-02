@@ -1,167 +1,84 @@
 import React, { useState } from 'react';
+import { Redirect } from "react-router-dom";
 
-export default function LoginPage() 
-{
-//   const [loginInfo, setLoginInfo] = useState({username: "", password: ""});
-//   const [error, setError] = useState("");
+import CircularButton from "../components/CircularButton";
+import LoadingAnimation from "../components/LoadingAnimation";
 
-//   const [loginBtnStatus, setLoginBtnStatus] = useState("not_clicked");
+import { PROJECT_NAME } from '../constants';
 
-// //on clicking on login btn  
-//   const loginBtnClickHandler = () =>
-//   {
-//     if(loginBtnStatus == "clicked") //if btn is already clicked
-//     {
-//       setError("hold on!!");
-//     }
-//     else
-//     {
-//       var username = loginInfo.username.trim();
-//       var password = loginInfo.password.trim();
+export default function LoginPage(props) {
+    //hooks variables
+    const [displayLoader, setDisplayLoader] = useState(false);
+    const [enteredUsername, setEnteredUsername] = useState("");
+    const [enteredPassword, setEnteredPassword] = useState("");
 
-//       if(username != "" && password != "")
-//       {
-//         setError("");
+    //function to handle when signup is clicked
+    function handleSignUpClick() {
+        props.history.push("/register");
+    }
 
-//       //posting request to API  
-//         const api_end_point = api_url_address + "verifyLogin.php";
-//         axios.post( api_end_point, {
-//           username: username,
-//           password: password
-//         })
-//         .then(function(response) 
-//         {
-//           setLoginBtnStatus("not_clicked");
+    //function to handle when login btn is clicked
+    function handleLoginClick(e) {
+        e.preventDefault();
 
-//           var data = (response.data).toString();
-//           //console.log(data);
+        //hanling stuffs if login is not already clicked
+        if (!displayLoader) {
+            setDisplayLoader(true);
+            console.log("enteredUsername", enteredUsername);
+            console.log("enteredPassword", enteredPassword);
+        }
+    }
 
-//           if(data == 0)
-//           {
-//             setError("login credentials is not correct");
-//           }
-//           else if(data == -1)
-//           {
-//             setError("something went wrong");
-//           }
-//           else //succesfully logged in
-//           {
-//             setLoginBtnStatus("clicked");
-            
-//           //creating cookie  
-//             AsyncStorage.setItem('logged_user_id', data);
-            
-//           //redirecting to the home page
-//             var toCarry = {};
-//             toCarry['logged_user_id'] = data;
-            
-//             Actions.passCode({ toCarry: toCarry });
-//           }
-//         })
-//         .catch(error => 
-//         {
-//           setError("please check your internet connection");
-//         });
-//       }
-//       else
-//       {
-//         setError("please fill all the fields");
-//       }
-//     }
-//   }
+//component rendering
+    return (
+        <>
+            <form 
+                className="loginPageContent"
+                onSubmit={handleLoginClick} 
+            >
+                <img
+                    className="logoIcon"
+                    src={require("../img/logo.png")}
+                />
+                <div className="logoTitle">
+                    {PROJECT_NAME}
+                </div>
+                {/* <br /> */}
 
-// //for redirecting to the register page
-//   const redirectToRegisterPage = () =>
-//   {
-//     Actions.registerPage();
-//   }
+                <input
+                    className="inputBox"
+                    type="text"
+                    placeholder="Username"
+                    value={enteredUsername}
+                    autoFocus
+                    onChange={(e) => setEnteredUsername(e.target.value)}
+                />
 
-// //rendering
-//   return (
-//     <View style={globalStyles.container}>
-//       <View style={styles.loginContainer}>
-//         <Image
-//           style={{width:100, height: 100}}
-//           source={require('../img/logo.png')}
-//         />
-          
-//         <Text style={styles.logoText}>MNgo Notes</Text> 
+                <input
+                    className="inputBox"
+                    type="password"
+                    placeholder="Password"
+                    value={enteredPassword}
+                    onChange={(e) => setEnteredPassword(e.target.value)}
+                />
 
-//         <View style={globalStyles.formContainer} >
-//            <TextInput style={globalStyles.inputBox}
-//               placeholder="Username"
-//               placeholderTextColor = "#d8d8d8"
-//               selectionColor="#1c313a"
-//               // keyboardType="email-address"
-//               autoCapitalize = 'none'
-//               autoFocus
-//               onChangeText={(val) => setLoginInfo({username: val, password: loginInfo.password})}
-//           />
+                <CircularButton >
+                    <span className="buttonText">Login</span>
+                </CircularButton>
+                <br />
 
-//           <TextInput style={globalStyles.inputBox}
-//               placeholder="Password"
-//               placeholderTextColor = "#d8d8d8"
-//               selectionColor="#1c313a"
-//               secureTextEntry={true}
-//               onChangeText={(val) => setLoginInfo({username: loginInfo.username, password: val})}
-//           />
-//         </View>
+                <LoadingAnimation loading={displayLoader}/>
 
-//         <TouchableOpacity style={globalStyles.loginSignUpBtn} onPress={loginBtnClickHandler}>
-//           <Text style={globalStyles.buttonText}>Login</Text>
-//         </TouchableOpacity>
-
-//         <Text style={globalStyles.errorText} >{error}</Text>
-//       </View>
-
-//       <View style={styles.signupTextCont}>
-//           <Text style={styles.signupText}>Don't have an account yet?</Text>
-//           <TouchableOpacity onPress={redirectToRegisterPage} >
-//             <Text style={styles.signupButton}> Signup</Text>
-//           </TouchableOpacity>
-//       </View>
-//     </View>
-//   );
-
-    return(
-        <div>
-            login
-        </div>
+                <div className="signupText">
+                    {"Don't have an account yet? "}
+                    <span 
+                        className="signupButton" 
+                        onClick={handleSignUpClick}
+                    > 
+                    Signup
+                    </span>
+                </div>
+            </form>
+        </>
     )
 }
-
-// const styles = StyleSheet.create({
-//   loginContainer:
-//   {
-//     flex: 10,
-//     alignItems:'center',
-//     justifyContent :'center',
-//     width: '100%',
-//   },
-  
-//   logoText :
-//   {
-//     fontSize: 20,
-//     color:'#fff'
-//   },
-
-//   signupTextCont : 
-//   {
-//     flex: 1,
-//     alignItems:'flex-end',
-//     justifyContent :'center',
-//     paddingVertical:16,
-//     flexDirection:'row'
-//   },
-
-//   signupText: {
-//     color:'rgba(255,255,255,0.6)',
-//     fontSize:16
-//   },
-
-//   signupButton: {
-//     color:'#ffffff',
-//     fontSize:16,
-//     fontWeight:'500'
-//   },
-// });

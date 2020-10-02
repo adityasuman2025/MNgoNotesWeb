@@ -1,19 +1,16 @@
 import Cookies from "universal-cookie";
 import CryptoJS from "crypto-js";
 
-import { encryption_key, cookie_expiration_time, monthList } from "./constants";
+import { ENCRYPTION_KEY, COOKIE_EXPIRATION_TIME, MONTH_LIST } from "./constants";
 const cookies = new Cookies();
 
 //function to get a cookie value, decrypt it and return real value
 export function getDecryptedCookieValue (cookie_name) {
     let value = null;
     try {
-        const cookie_value = cookies.get(cookie_name);
-        if (cookie_value) {
-            const decrypted = CryptoJS.AES.decrypt(
-            cookie_value,
-            encryption_key
-            );
+        const cookieValue = cookies.get(cookie_name);
+        if (cookieValue) {
+            const decrypted = CryptoJS.AES.decrypt(cookieValue, ENCRYPTION_KEY);
             value = CryptoJS.enc.Utf8.stringify(decrypted);
         }
     } catch {
@@ -26,14 +23,8 @@ export function getDecryptedCookieValue (cookie_name) {
 //function to set cookie after encrypting the value
 export function makeEncryptedCookie (key, value) {
     try {
-        const encrypted_value = CryptoJS.AES.encrypt(
-            value,
-            encryption_key
-        ).toString();
-        cookies.set(key, encrypted_value, {
-            path: "/",
-            expires: cookie_expiration_time,
-        });
+        const encryptedValue = CryptoJS.AES.encrypt(value, ENCRYPTION_KEY).toString();
+        cookies.set(key, encryptedValue, { path: "/", expires: COOKIE_EXPIRATION_TIME, });
 
         return true;
     } catch {
