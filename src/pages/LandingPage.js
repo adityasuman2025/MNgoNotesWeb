@@ -12,10 +12,11 @@ function LandingPage(props) {
 
     //componentDidMount
     useEffect(() => {
+        //checking if someone is logged or not
         const mngoNotesLoggedUserId = getDecryptedCookieValue("mngoNotesLoggedUserId");
         if (mngoNotesLoggedUserId) {
             //redirect to user's dashboard
-            console.log(mngoNotesLoggedUserId);
+            console.log("mngoNotesLoggedUserId", mngoNotesLoggedUserId);
             setRedirectToUserDashboard(true);
         } else {
             //redirect to login page
@@ -25,7 +26,7 @@ function LandingPage(props) {
 
     //component rendering
     return (
-        <div>
+        <>
             {
                 //redirecting to admin login page
                 redirectToLoginPage ? <Redirect to="/login" /> : null
@@ -42,7 +43,7 @@ function LandingPage(props) {
             </center>
             <br />
             <LoadingAnimation loading={true}/>
-        </div>
+        </>
     )
 }
 
