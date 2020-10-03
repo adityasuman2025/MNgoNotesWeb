@@ -7,7 +7,7 @@ function LoadingAnimation(props) {
             <img
                 alt="loading"
                 className="loadingAnimation"
-                src={require("../img/loaders2.gif")}
+                src={require("../img/loader.gif")}
             />
         </center>
     ) : null;
