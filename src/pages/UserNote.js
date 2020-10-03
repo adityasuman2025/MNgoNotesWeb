@@ -26,7 +26,6 @@ function UserNotes() {
             const mngoNotesLoggedUserId = getDecryptedCookieValue("mngoNotesLoggedUserId");
             const mngoNotesSelectedNotesId = getDecryptedCookieValue("mngoNotesSelectedNotesId");
             if (mngoNotesLoggedUserId && mngoNotesSelectedNotesId) {
-                console.log("col");
                 //fetching user's notes list from api
                 fetchNotesListData(mngoNotesSelectedNotesId);
             } else {
@@ -44,21 +43,21 @@ function UserNotes() {
     //function to handle when any note item is clicked on
     async function fetchNotesListData(notesId) {
         //sending rqst to api
-         try {
-             const response = await getListDataOfANote(notesId);
-             if (response === "-10") {
-                 makeSnackBar("Internal Server Error");
-             } else if (response === "-1") {
-                 makeSnackBar("Something went wrong");
-             } else if (response === "0") {
-                 makeSnackBar("Failed to fetch notes list data");
-             } else {
-                 const jsonResponse = JSON.parse(response);
-                 setNotesListData(jsonResponse);
-                 console.log(jsonResponse);
-             }
-         } catch {
-             makeSnackBar("Something went wrong");
+        try {
+            const response = await getListDataOfANote(notesId);
+            if (response === "-10") {
+                makeSnackBar("Internal Server Error");
+            } else if (response === "-1") {
+                makeSnackBar("Something went wrong");
+            } else if (response === "0") {
+                makeSnackBar("Failed to fetch notes list data");
+            } else {
+                const jsonResponse = JSON.parse(response);
+                setNotesListData(jsonResponse);
+                console.log(jsonResponse);
+            }
+        } catch {
+            makeSnackBar("Something went wrong");
          }
  
          setDisplayLoader(false);

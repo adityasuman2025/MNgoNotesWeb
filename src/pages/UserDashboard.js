@@ -88,7 +88,7 @@ function UserDashboard(props) {
             const notesId = item.notes_id;
             const mngoNotesSelectedNotesIdCookie = await makeEncryptedCookie("mngoNotesSelectedNotesId", notesId);
             if (mngoNotesSelectedNotesIdCookie) {
-                props.history.push("/notes");
+                props.history.push("/note");
                 return;
             } else {
                 makeSnackBar("Something went wrong");
