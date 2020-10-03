@@ -1,9 +1,13 @@
 import React from "react";
+import classNames from "classnames";
 
 export default function NotesListDataItem({
+    idx,
     notesType,
     notesListData,
-    onClick,
+    onCheckBoxClick,
+    onRemoveClick,
+    onInputFieldChange,
 }) {
     const rowId = notesListData.id;
     const isActive = parseInt(notesListData.is_active);
@@ -12,16 +16,14 @@ export default function NotesListDataItem({
 
     //function to hanlde when note item is clicked on
     function handleNoteItemClick() {
-        onClick(notesListData);
+        // onClick(notesListData);
     }
 
     //component rendering
     return (
-        <div
-            className="notesListDataFields"
-        >
+        <div className="notesListDataFields" >
             {
-            //checkbox icon
+            //if notes type is checkbox then showing checkbox icon
                 notesType === 2 ?
                     <img
                         alt="checkBoxIcon"
@@ -32,28 +34,47 @@ export default function NotesListDataItem({
                             :
                                 require('../img/checked.png')
                         }
-                        // onPress={() => checkboxClickHandler(idx, rowId, toSet)}
+                        onClick={() => onCheckBoxClick(idx, rowId, toSet)}
                     />
                 : null
             }
 
-            <input
-                type="text"
-                className="notesListDataFieldInput"
-                value={title}
-                // onChangeText={(val) => updateHandlerOfNotesOldList(idx, row_id, val)}
-                // onSubmitEditing={() => submitEditList(idx)}
-                // autoFocus //to auto focus on creation of its new element
-            />
+            {
+                //if notes type is checkbox then showing checkbox icon
+                notesType === 2 ? 
+                    <input
+                        type="text"
+                        className={
+                            classNames(
+                                "notesListDataFieldInput",
+                                { checked: isActive === 2 },
+                            )
+                        }
+                        value={title}
+                        onChange={(e) => onInputFieldChange(idx, rowId, e.target.value)}
+                        // onSubmitEditing={() => submitEditList(idx)}
+                        // autoFocus //to auto focus on creation of its new element
+                    />
+                :
+                    <textarea
+                        type="text"
+                        className="notesListDataFieldTextArea"
+                        onChange={(e) => onInputFieldChange(idx, rowId, e.target.value)}
+                        // autoFocus //to auto focus on creation of its new element
+                    >
+                        {title}
+                    </textarea>
+            }
+           
 
             {
                 //if notes type is checkbox then showing remove icon
-                notesType == 2 ?
+                notesType === 2 ?
                     <img
                         alt="removeNotesListDataIcon"
                         className={"notesListDataFieldRemoveIcon"}
                         src={require('../img/cross2.png')}
-                        // onPress={() => removeOldList(row_id)}
+                        onClick={() => onRemoveClick(rowId)}
                     />
                 : null
             }

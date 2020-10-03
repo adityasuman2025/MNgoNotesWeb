@@ -87,19 +87,34 @@ export default function ViewNote() {
         setSnackBarVisible(false);
     }
 
+    //function to handle when checkbox icon is clicked
+    function hanldeCheckBoxClick(idx, rowId, toSet) {
+        console.log(rowId);
+    }
+
+    //function to handle when remove icon is clicked
+    function handleRemoveClick(rowId) {
+        console.log(rowId);
+    }
+
+    //function to handle when notes data list input field is changed
+    function handleInputFieldChange(idx, rowId, value) {
+        console.log(value);
+    }
+
     //function to render page content
     function renderPageContent() {
         return (
-            <div className="notesListContainer">
-                <div className="notesHeader" >
-                    <div className="notesTitleContainer">
-                        <img
-                            alt="saveNoteImg"
-                            className="saveNoteImg"
-                            src={require('../img/save2.png')}
-                        />
+            <>
+                <div className="notesHeaderContainer">
+                    <div className="notesHeader" >
+                        <div className="notesTitleContainer">
+                            <img
+                                alt="saveNoteImg"
+                                className="saveNoteImg"
+                                src={require('../img/save2.png')}
+                            />
 
-                        <div className="titleFormContainer">
                             <input
                                 type="text"
                                 className="notesInputBox"
@@ -108,47 +123,55 @@ export default function ViewNote() {
                                 onChange={(e) => setNotesData( {title: e.target.value, hasChanged: true} )}
                             />
                         </div>
+
+                        <img
+                            alt="deleteNotesImg"
+                            className="deleteNotesImg"
+                            src={require('../img/delete.png')}
+                        />
                     </div>
-
-                    <img
-                        alt="deleteNotesImg"
-                        className="deleteNotesImg"
-                        src={require('../img/delete.png')}
-                    />
                 </div>
+                
+                <br />
 
-                <div className="notesFormContainer" >
-                    {
-                        //if notes type is checkbox then displaying Add Item btn
-                        notesType === 2 ?
-                            <div
-                                className="addNotesListDataItemBtn"
-                                // onPress={() => handleAddBtnClick(-1) }
-                            >
-                                <img
-                                    alt="addItemIcon"
-                                    className="addNotesListDataItemBtnIcon"
-                                    src={require('../img/add1.png')}
-                                />
-                                <span className="addNotesListDataItemBtnText" > Add Item</span>
-                            </div>
-                        : null
-                    }
+                <div className="notesListContainer">
+                    <div className="notesFormContainer" >
+                        {
+                            //if notes type is checkbox then displaying Add Item btn
+                            notesType === 2 ?
+                                <div
+                                    className="addNotesListDataItemBtn"
+                                    // onPress={() => handleAddBtnClick(-1) }
+                                >
+                                    <img
+                                        alt="addItemIcon"
+                                        className="addNotesListDataItemBtnIcon"
+                                        src={require('../img/add1.png')}
+                                    />
+                                    <span className="addNotesListDataItemBtnText" > Add Item</span>
+                                </div>
+                            : null
+                        }
 
-                    {
-                        //rendering notes data list items
-                        notesListData.map( function(item, idx) {
-                            return (
-                                <NotesListDataItem
-                                    key={idx}
-                                    notesType={notesType}
-                                    notesListData={item}
-                                />
-                            )
-                        })
-                    }
+                        {
+                            //rendering notes data list items
+                            notesListData.map( function(item, idx) {
+                                return (
+                                    <NotesListDataItem
+                                        key={idx}
+                                        idx={idx}
+                                        notesType={notesType}
+                                        notesListData={item}
+                                        onCheckBoxClick={hanldeCheckBoxClick}
+                                        onRemoveClick={handleRemoveClick}
+                                        onInputFieldChange={handleInputFieldChange}
+                                    />
+                                )
+                            })
+                        }
+                    </div>
                 </div>
-            </div>
+            </>
         )
     }
 

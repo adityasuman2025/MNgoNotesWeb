@@ -43,6 +43,11 @@ body {
     padding: 0;
   }
 
+  .checked {
+    text-decoration: line-through;
+    background-color: red;
+    /* text-decoration-style: solid; */
+  }
 
 /*----login/register page-----*/
   .loginPageContent {
@@ -153,7 +158,6 @@ body {
     justify-content: center;
     width: 60%;
     margin: auto;
-    margin-bottom: 20px;
     margin-top: 20px;
   }
 
@@ -202,16 +206,25 @@ body {
 
 
 /*-----notes list data------*/
+.notesHeaderContainer {
+  position: fixed;
+  top: 6px;
+  left: 0px;
+  right: 0px;
+}
+
 .notesHeader {
-  width: 100%;
+  width: 60%;
   display: flex;
   align-items: center; /*vertical align*/
   justify-content: space-between; /*horizontal align*/
+  margin: auto;
 }
 
 .notesTitleContainer {
   display: flex;
   align-items: center; /*vertical align*/
+  flex: 1;
 }
 
 .saveNoteImg {
@@ -224,7 +237,7 @@ body {
 }
 
 .notesInputBox {
-  width: 500px;
+  width: 95%;
   height: 40px;
 
   padding: 0px;
@@ -313,6 +326,19 @@ body {
   border: none;
 }
 
+.notesListDataFieldTextArea {
+  width: 97%;
+  height: 700px;
+  padding: 0px;
+  margin: 0px 5px;  
+  padding: 0px 7px;
+  color: #d8d8d8;
+  font-size: 17px;
+
+  background: none;
+  border: none;
+}
+
 /*-----notes list data------*/
 
 
@@ -382,6 +408,10 @@ body {
 
     .inputBox, .circularBtnContainer {
       width: 280px;
+    }
+
+    .notesHeader {
+      width: 97%;
     }
 
     .notesListContainer {
