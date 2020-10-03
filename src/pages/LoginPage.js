@@ -97,6 +97,61 @@ export default function LoginPage(props) {
         setSnackBarVisible(false);
     }
 
+    //function to render page contenr
+    function renderPageContent() {
+        return (
+            <form
+                className="loginPageContent"
+                onSubmit={handleLoginClick} 
+            >
+                <img
+                    alt="logo img"
+                    className="logoIcon"
+                    src={require("../img/logo.png")}
+                />
+                <div className="logoTitle">
+                    {PROJECT_NAME}
+                </div>
+                {/* <br /> */}
+
+                <input
+                    className="inputBox"
+                    type="text"
+                    placeholder="Username"
+                    value={enteredUsername}
+                    autoFocus
+                    onChange={(e) => setEnteredUsername(e.target.value)}
+                />
+
+                <input
+                    className="inputBox"
+                    type="password"
+                    placeholder="Password"
+                    value={enteredPassword}
+                    onChange={(e) => setEnteredPassword(e.target.value)}
+                />
+
+                <CircularButton >
+                    <span className="buttonText">Login</span>
+                </CircularButton>
+                <br />
+
+                <LoadingAnimation loading={displayLoader} />
+                
+                <br /><br /><br />
+                <div className="signupText">
+                    {"Don't have an account yet? "}
+                    <span 
+                        className="signupButton" 
+                        onClick={handleSignUpClick}
+                    > 
+                    Signup
+                    </span>
+                </div>
+            </form>
+        )
+    }
+
 //component rendering
     return (
         <>
@@ -114,55 +169,7 @@ export default function LoginPage(props) {
 
             {
                 isContentVisible ?
-                    <form
-                        className="loginPageContent"
-                        onSubmit={handleLoginClick} 
-                    >
-                        <img
-                            alt="logo img"
-                            className="logoIcon"
-                            src={require("../img/logo.png")}
-                        />
-                        <div className="logoTitle">
-                            {PROJECT_NAME}
-                        </div>
-                        {/* <br /> */}
-
-                        <input
-                            className="inputBox"
-                            type="text"
-                            placeholder="Username"
-                            value={enteredUsername}
-                            autoFocus
-                            onChange={(e) => setEnteredUsername(e.target.value)}
-                        />
-
-                        <input
-                            className="inputBox"
-                            type="password"
-                            placeholder="Password"
-                            value={enteredPassword}
-                            onChange={(e) => setEnteredPassword(e.target.value)}
-                        />
-
-                        <CircularButton >
-                            <span className="buttonText">Login</span>
-                        </CircularButton>
-                        <br />
-
-                        <LoadingAnimation loading={displayLoader} />
-                        
-                        <br /><br /><br />
-                        <div className="signupText">
-                            {"Don't have an account yet? "}
-                            <span 
-                                className="signupButton" 
-                                onClick={handleSignUpClick}
-                            > 
-                            Signup
-                            </span>
-                        </div>
-                    </form>
+                    renderPageContent()
                 :
                     <LoadingAnimation loading={displayLoader} />
             }
