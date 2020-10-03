@@ -120,6 +120,7 @@ body {
     border-bottom: 1px solid #3d4e56;
     padding: 0px;
     padding: 2px 5px;
+    background-color: #455a64;
   }
 
   .navLogoImg {
@@ -145,9 +146,12 @@ body {
 /*----notes list-----*/ 
   .notesListContainer {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     width: 60%;
     margin: auto;
+    margin-bottom: 20px;
+    margin-top: 20px;
   }
 
   .notesListItem {
@@ -156,11 +160,11 @@ body {
     justify-content: flex-start;
     align-items: center;
 
-    border-bottom: 1px solid #3d4e56 ;
+    border-bottom: 1px solid #1c313a ;
     border-radius: 8px;
     box-shadow: 1px 1px 5px #3d4e56;
     padding: 15px;
-    margin: 0px 5px;
+    margin: 5px 5px;
     cursor: pointer;
   }
 
@@ -241,5 +245,18 @@ body {
   
       .notesListContainer {
         width: 99%;
+      }
+
+      .notesListImg {
+        height: 80px;
+        margin-right: 10px;
+      }
+    
+      .notesListTitleText {
+        font-size: 16px;
+      }
+    
+      .notesListType {
+        font-size: 13px;
       }
     }

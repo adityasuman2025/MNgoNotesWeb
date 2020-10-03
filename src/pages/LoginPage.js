@@ -41,26 +41,28 @@ export default function LoginPage(props) {
             if (username !== "" && password !== "") {
                 //sending rqst to api
                 try {
-                    const response = parseInt(await VerifyLogin(username,  password));
-                    if (response === -1) {
-                        makeSnackBar("Something went wrong", "error");
-                    } else if ( response === 0 ) {
-                        makeSnackBar("Login credentials is not correct", "error");
+                    const response = await VerifyLogin(username,  password);
+                    if (response === "-10") {
+                        makeSnackBar("Internal Server Error");
+                    } else if (response === "-1") {
+                        makeSnackBar("Something went wrong");
+                    } else if (response === "0") {
+                        makeSnackBar("Login credentials is not correct");
                     } else {
                         //setting cookie and redirecting to user's dashboard
-                        const mngoNotesLoggedUserIdCookie = await makeEncryptedCookie("mngoNotesLoggedUserId", response.toString());
+                        const mngoNotesLoggedUserIdCookie = await makeEncryptedCookie("mngoNotesLoggedUserId", response);
                         if (mngoNotesLoggedUserIdCookie) {
                             setRedirectToUserDashboard(true);
                             return;
                         } else {
-                            makeSnackBar("Something went wrong", "error");
+                            makeSnackBar("Something went wrong");
                         }
                     }
                 } catch {
-                    makeSnackBar("Something went wrong", "error");
+                    makeSnackBar("Something went wrong");
                 }
             } else {
-                makeSnackBar("Please fill all details", "error");
+                makeSnackBar("Please fill all details");
             }
         }
 

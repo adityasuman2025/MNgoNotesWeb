@@ -87,13 +87,15 @@ export default function RegisterPage(props) {
 
                 //sending rqst to api
                 try {
-                    const response = parseInt(await registerNewUser(username, email, password, passCode));
-                    if (response === 1) {
+                    const response = await registerNewUser(username, email, password, passCode);
+                    if (response === "-10") {
+                        makeSnackBar("Internal Server Error");
+                    } else if (response === "1") {
                         makeSnackBar("Sucessfully registered. Please Login to continue", "success");
                         setRegisterSuccess(true);
-                    } else if(response === 0) {
+                    } else if(response === "0") {
                         makeSnackBar("Failed to register user");
-                    } else if(response === -2) {
+                    } else if(response === "-2") {
                         makeSnackBar("This email or username is already registered");
                     } else {
                         makeSnackBar("Unknown error");
