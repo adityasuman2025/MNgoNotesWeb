@@ -14,6 +14,7 @@ export default function LoginPage(props) {
     const [redirectToUserDashboard, setRedirectToUserDashboard] = useState(false);
 
     const [displayLoader, setDisplayLoader] = useState(false);
+    
     const [enteredUsername, setEnteredUsername] = useState("");
     const [enteredPassword, setEnteredPassword] = useState("");
 
