@@ -4,19 +4,28 @@ import { Redirect } from "react-router-dom";
 import LoadingAnimation from "../components/LoadingAnimation";
 import SnackBar from "../components/SnackBar";
 import NotesListDataItem from "../components/NotesListDataItem";
+import ConfirmDialog from "../components/ConfirmDialog";
 
-import { getListDataOfANote } from "../apis";
+import { getListDataOfANote, deleteNotesListDataItem, deleteANote } from "../apis";
 import { getDecryptedCookieValue } from '../utils';
 
-export default function ViewNote() {
+export default function ViewNote(props) {
     //hooks variables
     const [redirectToLandingPage, setRedirectToLandingPage] = useState(false);
 
     const [displayLoader, setDisplayLoader] = useState(true);
 
+    const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
+    const [confirmDialogText, setConfirmDialogText] = useState(false);
+    
+    const [deleteWhat, setDeleteWhat] = useState(null);
+    const [notesListDataItemToDelete, setNotesListDataItemToDelete] = useState(null);
+
     const [notesType, setNotesType] = useState(null);
     const [notesData, setNotesData] = useState({title: "", hasChanged: false});
+   
     const [notesListData, setNotesListData] = useState([]);
+    const [tempNotesOldList, setTempNotesOldList] = useState([]);
 
     const [snackBarVisible, setSnackBarVisible] = useState(false);
     const [snackBarMsg, setSnackBarMsg] = useState("");
@@ -62,10 +71,12 @@ export default function ViewNote() {
                 makeSnackBar("Something went wrong");
             } else if (response === "0") {
                 makeSnackBar("Failed to fetch notes list data");
+            } else if (response === "[]") {
+                //if that note does not exist
+                makeSnackBar("Invalid Request");
             } else {
                 const jsonResponse = JSON.parse(response);
                 setNotesListData(jsonResponse);
-                console.log(jsonResponse);
             }
         } catch {
             makeSnackBar("Something went wrong");
@@ -89,17 +100,142 @@ export default function ViewNote() {
 
     //function to handle when checkbox icon is clicked
     function hanldeCheckBoxClick(idx, rowId, toSet) {
-        console.log(rowId);
+        rowId = parseInt(rowId);
+
+        //marking its checkbox condition  	
+		var oldJSON = notesListData[idx];
+		oldJSON["is_active"] = toSet;
+		oldJSON["hasChanged"] = true;
+
+	//updating the textInputs according to the latest user input 
+		setTempNotesOldList(notesListData);
+		setTempNotesOldList((prevNotesOldList) => {
+	      return prevNotesOldList.filter(newNotesOldList => parseInt(newNotesOldList.id) !== rowId)
+	    });
+
+	    //i don't know how its happening, but its really happening.
+		//that textinput remains at the same place and we can alwo type there freely
     }
 
     //function to handle when remove icon is clicked
     function handleRemoveClick(rowId) {
-        console.log(rowId);
+        //if that textinput is newly added
+        rowId = parseInt(rowId);
+        if (rowId < 0) {
+		    //removing that textInput
+			setNotesListData((prevNotesOldList) => {
+		        return prevNotesOldList.filter(newNotesOldList => newNotesOldList.id !== rowId);
+		    });
+		} else {
+            //if that textinput is old fetched from database
+            setNotesListDataItemToDelete(rowId);
+            setDeleteWhat("notesListDataItem");
+
+            setConfirmDialogText("Are you sure to delete this item?");
+			setIsConfirmDialogOpen(true);
+		}		
+    }
+
+    //function to delete a notes list data  item
+    async function deleteANotesListDataItem(rowId) {
+        rowId = parseInt(rowId);
+        if (rowId) {
+            setDisplayLoader(true);
+
+            //sending rqst to api
+            try {
+                const response = await deleteNotesListDataItem(rowId);
+                if (response === "-10") {
+                    makeSnackBar("Internal Server Error");
+                } else if (response === "-1") {
+                    makeSnackBar("Something went wrong");
+                } else if (response === "0") {
+                    makeSnackBar("Fail to delete notes list item");
+                } else if (response === "1") {
+                    // await window.location.reload();
+                    //removing that notes list data item
+                    setNotesListData((prevNotesOldList) =>  {
+                        return prevNotesOldList.filter(newNotesOldList => newNotesOldList.id != rowId); // !== is not working
+                    });
+                } else {
+                    makeSnackBar("Unknown error");
+                }
+            } catch {
+                makeSnackBar("Something went wrong");
+            }
+
+            setDisplayLoader(false);
+        }
+    }
+
+    //function to close the confirm dialog box
+    function handleConfirmDialogClose() {
+        setIsConfirmDialogOpen(false);
+    }
+
+    //funtion to confirm the confirm dialog //when yes is pressed
+    function handleConfirmDialogConfirm() {
+        setIsConfirmDialogOpen(false);
+
+        if (deleteWhat === "notesListDataItem") {
+            deleteANotesListDataItem(notesListDataItemToDelete);
+        } else if (deleteWhat === "note") {
+            deleteNote();
+        }
     }
 
     //function to handle when notes data list input field is changed
     function handleInputFieldChange(idx, rowId, value) {
-        console.log(value);
+        rowId = parseInt(rowId);
+
+        var oldJSON = notesListData[idx];
+		oldJSON["list_title"] = value;
+		oldJSON["hasChanged"] = true;
+	
+	//updating the textInputs according to the latest user input 
+		setTempNotesOldList(notesListData);
+		setTempNotesOldList((prevNotesOldList) => {
+	        return prevNotesOldList.filter(newNotesOldList => parseInt(newNotesOldList.id) !== rowId)
+	    });
+	    //i don't know how its happening, but its really happening.
+		//that textinput remains at the same place and we can alwo type there freely
+    }
+
+    //function to handle when delete note btn is pressed
+    function handleDeleteNoteClick() {
+        setDeleteWhat("note");
+
+        setConfirmDialogText("Are you sure to delete " + notesData.title + "?");
+        setIsConfirmDialogOpen(true);
+    }
+
+    //function to delete a note
+    async function deleteNote() {
+        const mngoNotesLoggedUserId = getDecryptedCookieValue("mngoNotesLoggedUserId");
+        const mngoNotesSelectedNotesId = getDecryptedCookieValue("mngoNotesSelectedNotesId");
+        if (mngoNotesLoggedUserId && mngoNotesSelectedNotesId) {
+            setDisplayLoader(true);
+
+            //sending rqst to api
+            try {
+                const response = await deleteANote(mngoNotesLoggedUserId, mngoNotesSelectedNotesId);
+                if (response === "-10") {
+                    makeSnackBar("Internal Server Error");
+                } else if (response === "-1") {
+                    makeSnackBar("Something went wrong");
+                } else if (response === "-2") {
+                    makeSnackBar("Fail to get updated data");
+                } else if (response === "0") {
+                    makeSnackBar("Fail to delete note");
+                } else {
+                    props.history.goBack(); //going back to user's home page
+                }
+            } catch {
+                makeSnackBar("Something went wrong");
+            }
+
+            setDisplayLoader(false);
+        }
     }
 
     //function to render page content
@@ -128,10 +264,10 @@ export default function ViewNote() {
                             alt="deleteNotesImg"
                             className="deleteNotesImg"
                             src={require('../img/delete.png')}
+                            onClick={handleDeleteNoteClick}
                         />
                     </div>
                 </div>
-                
                 <br />
 
                 <div className="notesListContainer">
@@ -188,6 +324,13 @@ export default function ViewNote() {
                 msg={snackBarMsg}
                 type={snackBarType}
                 handleClose={handleSnackBarClose}
+            />
+
+            <ConfirmDialog
+                isDialogOpen={isConfirmDialogOpen}
+                dialogText={confirmDialogText}
+                onClose={handleConfirmDialogClose}
+                onConfirm={handleConfirmDialogConfirm}
             />
 
             {

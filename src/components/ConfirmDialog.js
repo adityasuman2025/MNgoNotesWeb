@@ -42,19 +42,19 @@ export default function ConfirmDialog({
             }
 
             <DialogActions>
-                <Button 
-                    variant="outlined" 
-                    color="secondary"
-                    onClick={onClose}
-                >
-                    No
-                </Button>
                 <Button  
                     variant="outlined" 
                     color="primary" 
                     onClick={onConfirm} 
                 >
                     Yes
+                </Button>
+                <Button 
+                    variant="outlined" 
+                    color="secondary"
+                    onClick={onClose}
+                >
+                    No
                 </Button>
             </DialogActions>
         </Dialog>

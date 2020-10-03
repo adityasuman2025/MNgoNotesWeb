@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
 
-import ConfirmDialog from "../components/ConfirmDialog";
+import ConfirmDialog from "./ConfirmDialog";
 
 import { logout } from "../utils";
 import { PROJECT_NAME } from "../constants";
@@ -26,7 +26,7 @@ export default function NavBar() {
     async function handleConfirmDialogConfirm() {
         await logout();
 
-        await setIsConfirmDialogOpen(true);
+        await setIsConfirmDialogOpen(false);
         await setRedirectToLandingPage(true);
     }
 

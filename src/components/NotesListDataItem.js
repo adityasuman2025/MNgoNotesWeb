@@ -50,6 +50,7 @@ export default function NotesListDataItem({
                                 { checked: isActive === 2 },
                             )
                         }
+                        placeholder="type text"
                         value={title}
                         onChange={(e) => onInputFieldChange(idx, rowId, e.target.value)}
                         // onSubmitEditing={() => submitEditList(idx)}
@@ -59,11 +60,11 @@ export default function NotesListDataItem({
                     <textarea
                         type="text"
                         className="notesListDataFieldTextArea"
+                        placeholder="type text"
+                        value={title}
                         onChange={(e) => onInputFieldChange(idx, rowId, e.target.value)}
                         // autoFocus //to auto focus on creation of its new element
-                    >
-                        {title}
-                    </textarea>
+                    />
             }
            
 

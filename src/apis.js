@@ -65,3 +65,35 @@ export async function getListDataOfANote(notesId) {
         return "-10"; //internal server error
     }
 }
+
+export async function deleteNotesListDataItem(rowId) {
+    //sending rqst to api
+    try {
+        const requestAddress = API_URL_ADDRESS + "deleteNotesListFromDB.php";
+        const response = await axios.post(requestAddress, {
+            row_id: rowId,
+        });
+
+        const data = (response.data).toString();
+        return data;
+    } catch {
+        return "-10"; //internal server error
+    }
+}
+
+export async function deleteANote(userId, notesId) {
+    //sending rqst to api
+    try {
+        const requestAddress = API_URL_ADDRESS + "deleteANote.php";
+        const response = await axios.post(requestAddress, {
+            user_id: userId,
+            notes_id: notesId
+        });
+
+        const data = JSON.stringify(response.data);
+        return data;
+    } catch {
+        return "-10"; //internal server error
+    }
+}
+

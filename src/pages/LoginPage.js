@@ -11,7 +11,7 @@ import { PROJECT_NAME } from '../constants';
 
 export default function LoginPage(props) {
     //hooks variables
-    const [redirectToUserDashboard, setRedirectToUserDashboard] = useState(false);
+    const [redirectToUserHome, setRedirectToUserHome] = useState(false);
 
     const [displayLoader, setDisplayLoader] = useState(false);
     
@@ -49,10 +49,10 @@ export default function LoginPage(props) {
                     } else if (response === "0") {
                         makeSnackBar("Login credentials is not correct");
                     } else {
-                        //setting cookie and redirecting to user's dashboard
+                        //setting cookie and redirecting to user's home page
                         const mngoNotesLoggedUserIdCookie = await makeEncryptedCookie("mngoNotesLoggedUserId", response);
                         if (mngoNotesLoggedUserIdCookie) {
-                            setRedirectToUserDashboard(true);
+                            setRedirectToUserHome(true);
                             return;
                         } else {
                             makeSnackBar("Something went wrong");
@@ -86,8 +86,8 @@ export default function LoginPage(props) {
     return (
         <>
             {
-                //redirecting to admin login page
-                redirectToUserDashboard ? <Redirect to="/dashboard" /> : null
+                //redirecting to user's home page
+                redirectToUserHome ? <Redirect to="/home" /> : null
             }
 
             <SnackBar
