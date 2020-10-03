@@ -97,8 +97,8 @@ body {
   }
 
   .signupText {
-    position: absolute;
-    bottom: 15px;
+    /* position: fixed; */
+    /* bottom: 15px; */
     width: 100%;
     text-align: center;
 
@@ -167,8 +167,9 @@ body {
     justify-content: flex-start;
     align-items: center;
 
-    border-bottom: 1px solid #1c313a ;
+    border-bottom: .5px solid #1c313a;
     border-radius: 8px;
+    /* box-shadow: 1px 1px 5px #3d4e56; */
     box-shadow: 1px 1px 5px #3d4e56;
     padding: 15px;
     margin: 5px 5px;
@@ -411,11 +412,11 @@ body {
     }
 
     .notesHeader {
-      width: 97%;
+      width: 95%;
     }
 
     .notesListContainer {
-      width: 97%;
+      width: 95%;
     }
 
     .notesListImg {
@@ -436,10 +437,10 @@ body {
     }
 
     .createNewNoteBtn {
-      bottom: 8px;
-      right: 8px;
-      height: 50px;
-      width: 50px;
+      bottom: 10px;
+      right: 10px;
+      height: 55px;
+      width: 55px;
     }
   }
 

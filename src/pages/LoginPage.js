@@ -134,7 +134,8 @@ export default function LoginPage(props) {
                 <br />
 
                 <LoadingAnimation loading={displayLoader}/>
-
+                
+                <br /><br /><br />
                 <div className="signupText">
                     {"Don't have an account yet? "}
                     <span 

@@ -286,14 +286,14 @@ export default function ViewNote(props) {
                 // inserting the new empty json at desired position
 				if(i === len - 1) {
                     //if last element
-					var newPosition = parseInt(parseInt(thisArray["position"]) + parseInt(100000));
+					let newPosition = parseInt(parseInt(thisArray["position"]) + parseInt(100000));
 					emptyJSON["position"] = newPosition;
 				} else {
                     //if any between elements
 					let thisPosition = thisArray["position"];
-					var nextPosition = tempNotesList[i+1]["position"];
+					let nextPosition = tempNotesList[i+1]["position"];
 
-					var newPosition = parseInt((parseInt(thisPosition) + parseInt(nextPosition))/2);
+					let newPosition = parseInt((parseInt(thisPosition) + parseInt(nextPosition))/2);
 					emptyJSON["position"] = newPosition;
 				}
 
@@ -307,6 +307,16 @@ export default function ViewNote(props) {
 
 		setCounter(counter-1);
 	}
+
+    //function to hadle when enter is pressed in any input field
+    function handleSubmitInputField(e, idx) {
+        e.preventDefault();
+
+        if (notesType === 2) {
+            //if type is checkbox
+			handleAddBtnClick(idx);
+		}
+    }
 
     //function to render page content
     function renderPageContent() {
@@ -372,6 +382,7 @@ export default function ViewNote(props) {
                                         onCheckBoxClick={hanldeCheckBoxClick}
                                         onRemoveClick={handleRemoveClick}
                                         onInputFieldChange={handleInputFieldChange}
+                                        onSubmitInputField={handleSubmitInputField}
                                     />
                                 )
                             })

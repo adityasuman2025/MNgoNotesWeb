@@ -8,20 +8,19 @@ export default function NotesListDataItem({
     onCheckBoxClick,
     onRemoveClick,
     onInputFieldChange,
+    onSubmitInputField,
 }) {
-    const rowId = notesListData.id;
+    const rowId = parseInt(notesListData.id);
     const isActive = parseInt(notesListData.is_active);
     const title = notesListData.list_title.toString();
     var toSet = isActive === 1 ? 2: 1;
 
-    //function to hanlde when note item is clicked on
-    function handleNoteItemClick() {
-        // onClick(notesListData);
-    }
-
     //component rendering
     return (
-        <div className="notesListDataFields" >
+        <form 
+            className="notesListDataFields" 
+            onSubmit={(e) => onSubmitInputField(e, idx)}
+        >
             {
             //if notes type is checkbox then showing checkbox icon
                 notesType === 2 ?
@@ -53,8 +52,11 @@ export default function NotesListDataItem({
                         placeholder="type text"
                         value={title}
                         onChange={(e) => onInputFieldChange(idx, rowId, e.target.value)}
-                        // onSubmitEditing={() => submitEditList(idx)}
-                        // autoFocus //to auto focus on creation of its new element
+                        // autoFocus={
+                        //     rowId < 0 ?
+                        //         true
+                        //     : false
+                        // }
                     />
                 :
                     <textarea
@@ -79,6 +81,6 @@ export default function NotesListDataItem({
                     />
                 : null
             }
-        </div>
+        </form>
     )
 }
