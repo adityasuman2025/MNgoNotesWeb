@@ -1,8 +1,15 @@
+import React from 'react';
 import Cookies from "universal-cookie";
 import CryptoJS from "crypto-js";
+import Slide from '@material-ui/core/Slide';
 
 import { ENCRYPTION_KEY, COOKIE_EXPIRATION_TIME } from "./constants";
 const cookies = new Cookies();
+
+//animation for apperance of dialog box
+export const Transition = React.forwardRef(function Transition(props, ref) {
+    return <Slide direction="up" ref={ref} {...props} />;
+});
 
 //function to get a cookie value, decrypt it and return real value
 export function getDecryptedCookieValue(cookie_name) {
@@ -46,4 +53,9 @@ export function validateEmail(email) {
 export function validateContactNo(number) {
     var re = /^[0-9]*$/;
     return re.test(number);
+};
+
+//function to logout
+export async function logout() {
+    await cookies.remove("mngoNotesLoggedUserId", { path: "/", expires: COOKIE_EXPIRATION_TIME });
 };

@@ -87,7 +87,14 @@ export default function LoginPage(props) {
                 redirectToUserDashboard ? <Redirect to="/dashboard" /> : null
             }
 
-            <form 
+            <SnackBar
+                open={snackBarVisible}
+                msg={snackBarMsg}
+                type={snackBarType}
+                handleClose={handleSnackBarClose}
+            />
+
+            <form
                 className="loginPageContent"
                 onSubmit={handleLoginClick} 
             >
@@ -135,13 +142,6 @@ export default function LoginPage(props) {
                     </span>
                 </div>
             </form>
-
-            <SnackBar
-                open={snackBarVisible}
-                msg={snackBarMsg}
-                type={snackBarType}
-                handleClose={handleSnackBarClose}
-            />
         </>
     )
 }

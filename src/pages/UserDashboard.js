@@ -1,7 +1,11 @@
 import React from "react";
 
+import NavBar from "../components/NavBar";
+
 function UserDashboard(props) {
-    return <div className="redColored">UserDashboard</div>;
+    return (
+        <NavBar />
+    )
 }
 
 export default UserDashboard;

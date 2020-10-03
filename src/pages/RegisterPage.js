@@ -192,7 +192,14 @@ export default function RegisterPage(props) {
     //component rendering
     return (
         <>
-            <form 
+            <SnackBar
+                open={snackBarVisible}
+                msg={snackBarMsg}
+                type={snackBarType}
+                handleClose={handleSnackBarClose}
+            />
+
+            <form
                 className={cx("loginPageContent", "smallTopMargin")}
                 onSubmit={handleRegisterClick} 
             >
@@ -221,13 +228,6 @@ export default function RegisterPage(props) {
                         </div>
                 }
             </form>
-
-            <SnackBar
-                open={snackBarVisible}
-                msg={snackBarMsg}
-                type={snackBarType}
-                handleClose={handleSnackBarClose}
-            />
         </>
     )
 }

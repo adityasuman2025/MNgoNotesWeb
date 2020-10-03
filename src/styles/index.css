@@ -115,6 +115,33 @@ body {
 
 /*----login/register page-----*/
 
+/*-----navbar--------*/
+  .navBar {
+    border-bottom: 1px solid #3d4e56;
+    padding: 0px;
+    padding: 2px 5px;
+  }
+
+  .navLogoImg {
+    height: 40px;
+    width: 40px;
+    margin-right: 7px;
+  }
+
+  .navTitle {
+    font-weight: bold;
+		font-size: 20px;
+		color: #fff;
+  }
+
+  .logOutImg {
+    height: 30px;
+    width: 30px;
+    margin-right: 3px;
+    /* tint-color: #181915; */
+  }
+/*-----navbar--------*/
+
 /*----others-----*/
   .circularBtnContainer {
     width: 350px;
@@ -153,8 +180,6 @@ body {
     color: white;
     text-decoration: none
   }
-  
-  /*--------landing page--------*/
   
   /*media screens*/
     @media screen and (max-width: 800px) {
