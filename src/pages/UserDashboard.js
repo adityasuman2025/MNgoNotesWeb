@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
 
 import LoadingAnimation from "../components/LoadingAnimation";
+import NotesListItem from "../components/NotesListItem";
+
 import NavBar from "../components/NavBar";
 
 import { getDecryptedCookieValue } from '../utils';
@@ -31,6 +33,13 @@ function UserDashboard(props) {
             <>
                 <NavBar />
                 <br /><br /><br />
+                
+                <div className="notesListContainer">
+                    <NotesListItem
+                        title="to do's to do's to do's to do's to do's to do's to do's to to do's to do's to do's to do's to to do's to do's to do's to do's to 's to do's to do's to do's "
+                        type={2}
+                    />
+                </div>
             </>
         )
     }
