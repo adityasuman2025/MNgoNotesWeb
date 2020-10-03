@@ -131,7 +131,6 @@ body {
   }
 
   .navLogoImg {
-    height: 40px;
     width: 40px;
     margin-right: 7px;
   }
@@ -143,10 +142,10 @@ body {
   }
 
   .logOutImg {
-    height: 30px;
     width: 30px;
-    margin-right: 3px;
-    /* tint-color: #181915; */
+
+    /* tintColor: #181915; */
+    filter: invert(6%) sepia(16%) saturate(592%) hue-rotate(34deg) brightness(96%) contrast(91%);
   }
 /*-----navbar--------*/
 
@@ -429,7 +428,7 @@ body {
     }
 
     .notesListImg {
-      height: 80px;
+      height: 75px;
       margin-right: 10px;
     }
   
@@ -450,6 +449,18 @@ body {
       right: 10px;
       height: 55px;
       width: 55px;
+    }
+
+    .navBar {
+      padding: 5px 10px;
+    }
+
+    .navLogoImg {
+      width: 30px;
+    }
+
+    .logOutImg {
+      width: 25px;
     }
   }
 
