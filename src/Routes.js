@@ -5,9 +5,9 @@ import LandingPage from './pages/LandingPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 
-import UserDashboard from './pages/UserDashboard';
-import UserNote from './pages/UserNote';
-import CreateNewNote from './pages/CreateNewNote';
+import Home from './pages/Home';
+import ViewNote from './pages/ViewNote';
+import CreateNote from './pages/CreateNote';
 
 import NotFound from './pages/NotFound';
 
@@ -18,9 +18,9 @@ const Routes = () => (
             <Route exact path="/login" component={LoginPage} />
             <Route exact path="/register" component={RegisterPage} />
 
-            <Route exact path="/dashboard" component={UserDashboard} />
-            <Route exact path="/note" component={UserNote} />
-            <Route exact path="/create-note" component={CreateNewNote} />            
+            <Route exact path="/home" component={Home} />
+            <Route exact path="/view-note" component={ViewNote} />
+            <Route exact path="/create-note" component={CreateNote} />            
 
             <Route path="*" component={ NotFound } />
         </Switch>

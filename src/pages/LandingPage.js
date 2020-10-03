@@ -5,19 +5,19 @@ import LoadingAnimation from "../components/LoadingAnimation";
 
 import { getDecryptedCookieValue } from '../utils';
 
-function LandingPage() {
+export default function LandingPage() {
     //hooks variables
     const [redirectToLoginPage, setRedirectToLoginPage] = useState(false);
-    const [redirectToUserDashboard, setRedirectToUserDashboard] = useState(false);
+    const [redirectToUsersHome, setRedirectToUsersHome] = useState(false);
 
     //componentDidMount
     useEffect(() => {
         //checking if someone is logged or not
         const mngoNotesLoggedUserId = getDecryptedCookieValue("mngoNotesLoggedUserId");
         if (mngoNotesLoggedUserId) {
-            //redirect to user's dashboard
+            //redirect to user's home page
             console.log("mngoNotesLoggedUserId", mngoNotesLoggedUserId);
-            setRedirectToUserDashboard(true);
+            setRedirectToUsersHome(true);
         } else {
             //redirect to login page
             setRedirectToLoginPage(true);
@@ -34,7 +34,7 @@ function LandingPage() {
 
             {
                 //redirecting to admin login page
-                redirectToUserDashboard ? <Redirect to="/dashboard" /> : null
+                redirectToUsersHome ? <Redirect to="/home" /> : null
             }
 
             <br /><br />
@@ -46,5 +46,3 @@ function LandingPage() {
         </>
     )
 }
-
-export default LandingPage;

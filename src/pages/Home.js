@@ -9,7 +9,7 @@ import SnackBar from "../components/SnackBar";
 import { getUserNotes } from "../apis";
 import { getDecryptedCookieValue, makeEncryptedCookie } from '../utils';
 
-function UserDashboard(props) {
+export default function Home(props) {
     //hooks variables
     const [redirectToLandingPage, setRedirectToLandingPage] = useState(false);
 
@@ -88,7 +88,7 @@ function UserDashboard(props) {
             const notesId = item.notes_id;
             const mngoNotesSelectedNotesIdCookie = await makeEncryptedCookie("mngoNotesSelectedNotesId", notesId);
             if (mngoNotesSelectedNotesIdCookie) {
-                props.history.push("/note");
+                props.history.push("/view-note");
                 return;
             } else {
                 makeSnackBar("Something went wrong");
@@ -158,5 +158,3 @@ function UserDashboard(props) {
         </>
     )
 }
-
-export default UserDashboard;

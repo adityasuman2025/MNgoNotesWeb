@@ -1,7 +1,5 @@
 import React from "react";
 
-function CreateNewNote() {
+export default function CreateNote() {
     return <div className="redColored">CreateNewNote</div>;
 }
-
-export default CreateNewNote;

@@ -7,7 +7,7 @@ import SnackBar from "../components/SnackBar";
 import { getListDataOfANote } from "../apis";
 import { getDecryptedCookieValue } from '../utils';
 
-function UserNotes() {
+export default function ViewNote() {
     //hooks variables
     const [redirectToLandingPage, setRedirectToLandingPage] = useState(false);
 
@@ -101,5 +101,3 @@ function UserNotes() {
         </>
     )
 }
-
-export default UserNotes;
