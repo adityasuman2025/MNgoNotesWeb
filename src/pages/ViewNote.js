@@ -26,6 +26,7 @@ export default function ViewNote(props) {
    
     const [notesListData, setNotesListData] = useState([]);
     const [tempNotesOldList, setTempNotesOldList] = useState([]);
+    const [counter, setCounter] = useState(-1);
 
     const [snackBarVisible, setSnackBarVisible] = useState(false);
     const [snackBarMsg, setSnackBarMsg] = useState("");
@@ -238,6 +239,75 @@ export default function ViewNote(props) {
         }
     }
 
+    //function to handle when save btn is clicked on
+    function handleSaveNoteClick() {
+        console.log("saved");
+    }
+
+    //function to handle when add item btn is clicked on
+	function handleAddBtnClick(idx) {
+        idx = parseInt(idx);
+
+	    //creating a new empty json object
+		let emptyJSON = {};
+		emptyJSON["id"] = counter;
+		emptyJSON["position"] = "";
+		emptyJSON["list_title"] = "";
+		emptyJSON["type"] = notesType;
+		emptyJSON["is_active"] = 1;
+		emptyJSON["hasChanged"] = true;
+
+	    //storing the noteslist	data in a temp array
+        let tempNotesList = [...notesListData];
+        let len = Object.keys(tempNotesList).length;
+
+		let newNotesList = [];
+
+	    //if to be added at beginning
+		if (idx === -1) {
+            let nextPosition = tempNotesList[0]["position"];
+			if (len === 0) {
+                //if list is empty
+                nextPosition = 100000;
+            }
+
+			let newPosition = parseInt((parseInt(0) + parseInt(nextPosition))/2);
+
+			emptyJSON["position"] = newPosition;
+			newNotesList.push(emptyJSON);
+		}
+	
+	    //looping through the temp notes list to insert new empty json at desired position
+		for (let i = 0; i < len; i++) {
+			let thisArray = tempNotesList[i];
+			newNotesList.push(thisArray);
+
+			if(i === idx) {
+                // inserting the new empty json at desired position
+				if(i === len - 1) {
+                    //if last element
+					var newPosition = parseInt(parseInt(thisArray["position"]) + parseInt(100000));
+					emptyJSON["position"] = newPosition;
+				} else {
+                    //if any between elements
+					let thisPosition = thisArray["position"];
+					var nextPosition = tempNotesList[i+1]["position"];
+
+					var newPosition = parseInt((parseInt(thisPosition) + parseInt(nextPosition))/2);
+					emptyJSON["position"] = newPosition;
+				}
+
+				newNotesList.push(emptyJSON);
+			}
+		}
+		
+	    //updating the state
+        setNotesListData([]);
+		setNotesListData(newNotesList);
+
+		setCounter(counter-1);
+	}
+
     //function to render page content
     function renderPageContent() {
         return (
@@ -249,6 +319,7 @@ export default function ViewNote(props) {
                                 alt="saveNoteImg"
                                 className="saveNoteImg"
                                 src={require('../img/save2.png')}
+                                onClick={handleSaveNoteClick}
                             />
 
                             <input
@@ -277,7 +348,7 @@ export default function ViewNote(props) {
                             notesType === 2 ?
                                 <div
                                     className="addNotesListDataItemBtn"
-                                    // onPress={() => handleAddBtnClick(-1) }
+                                    onClick={() => handleAddBtnClick(-1)}
                                 >
                                     <img
                                         alt="addItemIcon"
