@@ -35,24 +35,38 @@ export default function ViewNote(props) {
     //handling back btn press
     const [isBackButtonClicked, setBackbuttonPress] = useState(false)
 
-    useEffect(() => {
-        window.history.pushState(null, null, window.location.pathname);
-        window.addEventListener('popstate', onBackButtonEvent);
-        return () => {
-            window.removeEventListener('popstate', onBackButtonEvent);
-        }
-    }, []);
+    // useEffect(() => {
+    //     window.history.pushState(null, null, window.location.pathname);
+    //     window.addEventListener('popstate', onBackButtonEvent);
+    //     return () => {
+    //         window.removeEventListener('popstate', onBackButtonEvent);
+    //     }
+    // }, []);
 
-    const onBackButtonEvent = (e) => {
-        e.preventDefault();
-        if (!isBackButtonClicked) {
-            //asking user to save his changes
-            setDeleteWhat("backPressHandler");
+    // async function onBackButtonEvent(e) {
+    //     e.preventDefault();
 
-            setConfirmDialogText("Do you want to save your changes?");
-            setIsConfirmDialogOpen(true);
-        }
-    }
+    //     //checking is some change has been done in notes data or not
+    //     const hasChanged = await checkIfNotesDataIsChanged();
+    //     console.log(hasChanged);
+    //     if (hasChanged === false) {
+    //         console.log("no change");
+    //         //no any change has occured
+    //         //redirecting back to user's home page
+    //         props.history.goBack();
+    //     } else {
+    //         //some changes has occured
+    //         console.log("some changes has occured");
+
+    //         if (!isBackButtonClicked) {
+    //             //asking user to save his changes
+    //             setDeleteWhat("backPressHandler");
+
+    //             setConfirmDialogText("Do you want to save your changes?");
+    //             setIsConfirmDialogOpen(true);
+    //         }
+    //     }
+    // }
 
     //componentDidMount
     useEffect(() => {
@@ -265,6 +279,7 @@ export default function ViewNote(props) {
         } else if (deleteWhat === "note") {
             deleteNote();
         } else if(deleteWhat === "backPressHandler") {
+            //if confirm dialog has appeared for confirm saving change
             //going back
             setBackbuttonPress(true);
             handleSaveNoteClick();
@@ -272,60 +287,80 @@ export default function ViewNote(props) {
     }
 
     //function to handle when save btn is clicked on
-    function handleSaveNoteClick() {
+    async function handleSaveNoteClick() {
         if (!displayLoader) {
-            //checking if notes title has changed or not
-            let notesDataDb = notesData;
-
-            let notesTitleChanged = notesData.hasChanged;
-            if (!notesTitleChanged) {
-                notesDataDb = 0;
-            }
-
-            //deciding list datas which is to be sent to server
-            //for old lists checking if some change has occur // for new list simply pushing it
-            let notesListDataDb = [];
-
-            let len = Object.keys(notesListData).length;
-            for (let i = 0; i < len; i++) {
-                let id 				= notesListData[i].id;
-                let hasChanged 		= notesListData[i].hasChanged;
-
-                if (parseInt(id) > 0) {
-                    //if notes list is old
-                    if (hasChanged) {
-                        notesListDataDb.push(notesListData[i]);
-                    }
-                } else {
-                    //if notes list is new
-                    notesListDataDb.push(notesListData[i]);
-                }
-            }
-
-            var listLength = Object.keys(notesListDataDb).length;
-            if (listLength === 0)	{
-                notesListDataDb = 0;
-            }
-
             //checking is some change has been done in notes data or not
-            if(notesDataDb === 0 && notesListDataDb === 0){
+            const hasChanged = await checkIfNotesDataIsChanged();
+            if (hasChanged === false){
+                //no any change has occured
                 //redirecting back to user's home page
-                makeSnackBar("Saved", "success");
-
-                //going back to user's home page after .7s
-                //so that success toast can be visible for some moment
-                setTimeout(function() {
-                    props.history.goBack();
-                }, 700);
+                props.history.goBack();
             } else {
-                //some change has occured
-                //sending rqst to api
-                updateANotesListData(notesDataDb, notesListDataDb);
+                //some changes has occured
+                try {
+                    const notesDataDb = hasChanged.notesDataDb;
+                    const notesListDataDb = hasChanged.notesListDataDb;
+
+                    //sending rqst to api
+                    if (notesDataDb || notesListDataDb) {
+                        updateANotesListData(notesDataDb, notesListDataDb);
+                    }
+                } catch {
+                    makeSnackBar("Something went wrong");
+                }
             }
 		}
     }
 
-    //function to hadle update notes list data
+    //function to check is changes in notes data has taken place
+    async function checkIfNotesDataIsChanged() {
+        //checking if notes title has changed or not
+        let notesDataDb = notesData;
+
+        let notesTitleChanged = notesData.hasChanged;
+        if (!notesTitleChanged) {
+            notesDataDb = 0;
+        }
+
+        //deciding list datas which is to be sent to server
+        //for old lists checking if some change has occur // for new list simply pushing it
+        let notesListDataDb = [];
+
+        let len = Object.keys(notesListData).length;
+        for (let i = 0; i < len; i++) {
+            let id 				= notesListData[i].id;
+            let hasChanged 		= notesListData[i].hasChanged;
+
+            if (parseInt(id) > 0) {
+                //if notes list is old
+                if (hasChanged) {
+                    notesListDataDb.push(notesListData[i]);
+                }
+            } else {
+                //if notes list is new
+                notesListDataDb.push(notesListData[i]);
+            }
+        }
+
+        var listLength = Object.keys(notesListDataDb).length;
+        if (listLength === 0)	{
+            notesListDataDb = 0;
+        }
+
+        //checking is some change has been done in notes data or not
+        if(notesDataDb === 0 && notesListDataDb === 0){
+            //no any change is done by user
+            return false;
+        } else {
+            //some change has occured
+            return {
+                "notesDataDb": notesDataDb,
+                "notesListDataDb": notesListDataDb,
+            }
+        }
+    }
+
+    //function to handle update notes list data
     async function updateANotesListData(notesDataDb, notesListDataDb) {
         const mngoNotesLoggedUserId = getDecryptedCookieValue("mngoNotesLoggedUserId");
         const mngoNotesSelectedNotesId = getDecryptedCookieValue("mngoNotesSelectedNotesId");
