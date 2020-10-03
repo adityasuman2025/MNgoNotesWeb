@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Redirect } from "react-router-dom";
 
 import CircularButton from "../components/CircularButton";
@@ -6,14 +6,16 @@ import LoadingAnimation from "../components/LoadingAnimation";
 import SnackBar from "../components/SnackBar";
 
 import { VerifyLogin } from "../apis";
-import { makeEncryptedCookie } from "../utils";
+import { makeEncryptedCookie, getDecryptedCookieValue } from "../utils";
 import { PROJECT_NAME } from '../constants';
 
 export default function LoginPage(props) {
     //hooks variables
     const [redirectToUserHome, setRedirectToUserHome] = useState(false);
 
-    const [displayLoader, setDisplayLoader] = useState(false);
+    const [isContentVisible, setIsContentVisible] = useState(false);
+
+    const [displayLoader, setDisplayLoader] = useState(true);
     
     const [enteredUsername, setEnteredUsername] = useState("");
     const [enteredPassword, setEnteredPassword] = useState("");
@@ -21,6 +23,19 @@ export default function LoginPage(props) {
     const [snackBarVisible, setSnackBarVisible] = useState(false);
     const [snackBarMsg, setSnackBarMsg] = useState("");
     const [snackBarType, setSnackBarType] = useState("success");
+
+    //componentDidMount
+    useEffect(() => {
+        //checking if someone is already logged in
+        const mngoNotesLoggedUserId = getDecryptedCookieValue("mngoNotesLoggedUserId");
+        if (mngoNotesLoggedUserId) {
+            //redirect to user's home page
+            setRedirectToUserHome(true);
+        }
+        
+        setDisplayLoader(false);
+        setIsContentVisible(true);
+    }, []);
 
     //function to handle when signup is clicked
     function handleSignUpClick() {
@@ -97,55 +112,60 @@ export default function LoginPage(props) {
                 handleClose={handleSnackBarClose}
             />
 
-            <form
-                className="loginPageContent"
-                onSubmit={handleLoginClick} 
-            >
-                <img
-                    alt="logo img"
-                    className="logoIcon"
-                    src={require("../img/logo.png")}
-                />
-                <div className="logoTitle">
-                    {PROJECT_NAME}
-                </div>
-                {/* <br /> */}
+            {
+                isContentVisible ?
+                    <form
+                        className="loginPageContent"
+                        onSubmit={handleLoginClick} 
+                    >
+                        <img
+                            alt="logo img"
+                            className="logoIcon"
+                            src={require("../img/logo.png")}
+                        />
+                        <div className="logoTitle">
+                            {PROJECT_NAME}
+                        </div>
+                        {/* <br /> */}
 
-                <input
-                    className="inputBox"
-                    type="text"
-                    placeholder="Username"
-                    value={enteredUsername}
-                    autoFocus
-                    onChange={(e) => setEnteredUsername(e.target.value)}
-                />
+                        <input
+                            className="inputBox"
+                            type="text"
+                            placeholder="Username"
+                            value={enteredUsername}
+                            autoFocus
+                            onChange={(e) => setEnteredUsername(e.target.value)}
+                        />
 
-                <input
-                    className="inputBox"
-                    type="password"
-                    placeholder="Password"
-                    value={enteredPassword}
-                    onChange={(e) => setEnteredPassword(e.target.value)}
-                />
+                        <input
+                            className="inputBox"
+                            type="password"
+                            placeholder="Password"
+                            value={enteredPassword}
+                            onChange={(e) => setEnteredPassword(e.target.value)}
+                        />
 
-                <CircularButton >
-                    <span className="buttonText">Login</span>
-                </CircularButton>
-                <br />
+                        <CircularButton >
+                            <span className="buttonText">Login</span>
+                        </CircularButton>
+                        <br />
 
-                <LoadingAnimation loading={displayLoader}/>
-                
-                <br /><br /><br />
-                <div className="signupText">
-                    {"Don't have an account yet? "}
-                    <span 
-                        className="signupButton" 
-                        onClick={handleSignUpClick}
-                    > 
-                    Signup
-                    </span>
-                </div>
-            </form>
+                        <LoadingAnimation loading={displayLoader} />
+                        
+                        <br /><br /><br />
+                        <div className="signupText">
+                            {"Don't have an account yet? "}
+                            <span 
+                                className="signupButton" 
+                                onClick={handleSignUpClick}
+                            > 
+                            Signup
+                            </span>
+                        </div>
+                    </form>
+                :
+                    <LoadingAnimation loading={displayLoader} />
+            }
         </>
     )
 }

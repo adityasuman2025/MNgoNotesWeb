@@ -16,7 +16,6 @@ export default function LandingPage() {
         const mngoNotesLoggedUserId = getDecryptedCookieValue("mngoNotesLoggedUserId");
         if (mngoNotesLoggedUserId) {
             //redirect to user's home page
-            console.log("mngoNotesLoggedUserId", mngoNotesLoggedUserId);
             setRedirectToUsersHome(true);
         } else {
             //redirect to login page
