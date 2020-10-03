@@ -213,6 +213,28 @@ body {
     width: 50px;
   }
   
+  .createNewNoteBtn {
+    position: fixed;
+    bottom: 15px;
+    right: 15px;
+    height: 70px;
+    width: 70px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    border-radius: 100px;
+    background-color: #181915;
+  }
+
+  .createNewNoteImg {
+    height: 50%;
+    width: 50%;
+    /* tintColor: '#455a64', */
+    filter: invert(31%) sepia(43%) saturate(259%) hue-rotate(154deg) brightness(94%) contrast(87%);
+  }
+
   .whiteLink { 
     color: white;
     text-decoration: none

@@ -6,6 +6,7 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 
 import UserDashboard from './pages/UserDashboard';
+import CreateNewNote from './pages/CreateNewNote';
 
 import NotFound from './pages/NotFound';
 
@@ -17,6 +18,8 @@ const Routes = () => (
             <Route exact path="/register" component={RegisterPage} />
 
             <Route exact path="/dashboard" component={UserDashboard} />
+            <Route exact path="/create-note" component={CreateNewNote} />
+            
 
             <Route path="*" component={ NotFound } />
         </Switch>

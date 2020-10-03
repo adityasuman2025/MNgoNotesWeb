@@ -71,6 +71,11 @@ function UserDashboard(props) {
         setSnackBarVisible(false);
     }
 
+    //when Create New Note Button is clicked
+    function hanldeCreateNewNoteBtnClick() {
+        props.history.push("/create-note");
+    }
+
     //function to render page content
     function renderPageContent() {
         return (
@@ -98,6 +103,17 @@ function UserDashboard(props) {
                         )
                     })
                 }
+                </div>
+
+                <div 
+                    className="createNewNoteBtn" 
+                    onClick={hanldeCreateNewNoteBtnClick}
+                >
+                    <img
+                        alt="createNewNoteImg"
+                        src={require('../img/add1.png')}
+                        className="createNewNoteImg" 
+                    />
                 </div>
             </>
         )
