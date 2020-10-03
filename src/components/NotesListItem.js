@@ -1,19 +1,24 @@
 import React from "react";
 
 function NotesListItem({
-    title,
-    type,
+    noteDetails,
     onClick,
 }) {
+    //function to hanlde when note item is clicked on
+    function handleNoteItemClick() {
+        onClick(noteDetails);
+    }
+
+    //component rendering
     return (
         <div
             className="notesListItem"
-            onClick={onClick}>
+            onClick={handleNoteItemClick}>
             <img
                 alt="notesItemIcon"
                 className="notesListImg"
                 src={
-                        type === "1" ?
+                    noteDetails.type === "1" ?
                             require('../img/notes_icon.png')
                         :
                             require('../img/todos_icon.png')
@@ -22,10 +27,10 @@ function NotesListItem({
 
             <div className="notesListText">
                 <div className="notesListTitleText" >
-                    {title}
+                    {noteDetails.title}
                 </div>
                 <div className="notesListType" >
-                    { type === "1" ? "text" : "checkbox" }
+                    {noteDetails.type === "1" ? "text" : "checkbox"}
                 </div>
             </div>
         </div>

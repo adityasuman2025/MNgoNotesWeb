@@ -50,3 +50,18 @@ export async function getUserNotes(userId) {
         return "-10"; //internal server error
     }
 }
+
+export async function getListDataOfANote(notesId) {
+    //sending rqst to api
+    try {
+        const requestAddress = API_URL_ADDRESS + "getListDataOfANote.php";
+        const response = await axios.post(requestAddress, {
+            notes_id: notesId,
+        });
+
+        const data = JSON.stringify(response.data);
+        return data;
+    } catch {
+        return "-10"; //internal server error
+    }
+}

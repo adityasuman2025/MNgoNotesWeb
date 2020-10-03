@@ -7,7 +7,7 @@ import NavBar from "../components/NavBar";
 import SnackBar from "../components/SnackBar";
 
 import { getUserNotes } from "../apis";
-import { getDecryptedCookieValue } from '../utils';
+import { getDecryptedCookieValue, makeEncryptedCookie } from '../utils';
 
 function UserDashboard(props) {
     //hooks variables
@@ -76,6 +76,23 @@ function UserDashboard(props) {
         props.history.push("/create-note");
     }
 
+    //function to handle when any note item is clicked on
+    async function handleNotesListItemClick(item) {
+        if (item.notes_id) {
+            //creating cookie of the notes_id of the selected note and redirecting to the /notes page
+            const notesId = item.notes_id;
+            const mngoNotesSelectedNotesIdCookie = await makeEncryptedCookie("mngoNotesSelectedNotesId", notesId);
+            if (mngoNotesSelectedNotesIdCookie) {
+                props.history.push("/notes");
+                return;
+            } else {
+                makeSnackBar("Something went wrong");
+            }
+        } else {
+            makeSnackBar("Something went wrong");
+        }
+    }
+
     //function to render page content
     function renderPageContent() {
         return (
@@ -91,18 +108,17 @@ function UserDashboard(props) {
                 <br /><br />
 
                 <div className="notesListContainer">
-                {
-                    notesList.map(function(item, idx) {
-                        return(
-                            <NotesListItem
-                                key={idx}
-                                title={item.title}
-                                type={item.type}
-                                // onClick={handleNotesListItemClick}
-                            />
-                        )
-                    })
-                }
+                    {
+                        notesList.map(function(item, idx) {
+                            return(
+                                <NotesListItem
+                                    key={idx}
+                                    noteDetails={item}
+                                    onClick={handleNotesListItemClick}
+                                />
+                            )
+                        })
+                    }
                 </div>
 
                 <div 
