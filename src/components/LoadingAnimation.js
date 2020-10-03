@@ -1,7 +1,7 @@
 
 import React from "react";
 
-function LoadingAnimation(props) {
+export default function LoadingAnimation(props) {
     return props.loading ? (
         <center>
             <img
@@ -12,5 +12,3 @@ function LoadingAnimation(props) {
         </center>
     ) : null;
 }
-
-export default LoadingAnimation;

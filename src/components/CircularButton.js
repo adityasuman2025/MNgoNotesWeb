@@ -1,7 +1,7 @@
 import React from "react";
 import cx from "classnames";
 
-function CircularButton(props) {
+export default function CircularButton(props) {
     return (
         <button
             onClick={props.onClick}
@@ -11,5 +11,3 @@ function CircularButton(props) {
         </button>
     )
 }
-
-export default CircularButton;

@@ -1,6 +1,6 @@
 import React from "react";
 
-function NotesListItem({
+export default function NotesListItem({
     noteDetails,
     onClick,
 }) {
@@ -36,5 +36,3 @@ function NotesListItem({
         </div>
     )
 }
-
-export default NotesListItem;

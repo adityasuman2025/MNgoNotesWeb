@@ -9,7 +9,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 import { Transition } from "../utils";
 
-function ConfirmDialog({
+export default function ConfirmDialog({
     isDialogOpen,
     animate,
     dialogText,
@@ -60,5 +60,3 @@ function ConfirmDialog({
         </Dialog>
     )
 }
-
-export default ConfirmDialog;

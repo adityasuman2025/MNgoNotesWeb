@@ -42,7 +42,8 @@ body {
   .noPadding {
     padding: 0;
   }
-  
+
+
 /*----login/register page-----*/
   .loginPageContent {
     display: flex;
@@ -115,6 +116,7 @@ body {
 
 /*----login/register page-----*/
 
+
 /*-----navbar--------*/
   .navBar {
     border-bottom: 1px solid #3d4e56;
@@ -142,6 +144,7 @@ body {
     /* tint-color: #181915; */
   }
 /*-----navbar--------*/
+
 
 /*----notes list-----*/ 
   .notesListContainer {
@@ -197,6 +200,122 @@ body {
 
 /*----notes list-----*/
 
+
+/*-----notes list data------*/
+.notesHeader {
+  width: 100%;
+  display: flex;
+  align-items: center; /*vertical align*/
+  justify-content: space-between; /*horizontal align*/
+}
+
+.notesTitleContainer {
+  display: flex;
+  align-items: center; /*vertical align*/
+}
+
+.saveNoteImg {
+  height: 30px;
+  margin-right: 10px;
+  cursor: pointer;
+
+  /* tintColor: '#d8d8d8', */
+  filter: invert(100%) sepia(0%) saturate(4848%) hue-rotate(33deg) brightness(115%) contrast(69%);
+}
+
+.notesInputBox {
+  width: 500px;
+  height: 40px;
+
+  padding: 0px;
+  margin: 0px;
+  padding: 0px 5px;
+  color: #fff;
+  font-size: 25px;
+  font-weight: bold;
+
+  background: none;
+  border: none;
+}
+
+.deleteNotesImg {
+  width: 25px;
+  cursor: pointer;
+  
+  /* tintColor: '#1c313a', */
+  filter: invert(17%) sepia(50%) saturate(347%) hue-rotate(152deg) brightness(94%) contrast(99%);
+}
+
+.notesFormContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 97%;
+  margin: auto;
+}
+
+.addNotesListDataItemBtn {
+  cursor: pointer;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  align-self: flex-start;
+}
+
+.addNotesListDataItemBtnIcon {
+  height: 23px;
+  width: 23px;
+
+  /* tintColor:'#d8d8d8', */
+  filter: invert(100%) sepia(0%) saturate(4848%) hue-rotate(33deg) brightness(115%) contrast(69%);
+}
+
+.addNotesListDataItemBtnText {
+  color: #d8d8d8;
+  font-weight: 500;
+}
+
+.notesListDataFields {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 7px;
+  width: 100%;
+}
+
+.notesListDataFieldCheckedIcon{
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  
+  /* tintColor: '#d8d8d8', */
+  filter: invert(100%) sepia(0%) saturate(4848%) hue-rotate(33deg) brightness(115%) contrast(69%);
+}
+
+.notesListDataFieldRemoveIcon {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  
+  /* tintColor: '#1c313a', */
+  filter: invert(15%) sepia(38%) saturate(576%) hue-rotate(152deg) brightness(94%) contrast(92%);
+}
+
+.notesListDataFieldInput {
+  width: 97%;
+  padding: 0px;
+  margin: 0px 5px;  
+  padding: 0px 7px;
+  color: #d8d8d8;
+  font-size: 17px;
+
+  background: none;
+  border: none;
+}
+
+/*-----notes list data------*/
+
+
 /*----others-----*/
   .circularBtnContainer {
     width: 350px;
@@ -246,39 +365,65 @@ body {
   }
 
   
-  /*media screens*/
-    @media screen and (max-width: 800px) {
-      .loginPageContent {
-        width: 90%;
-        margin-top: 100px;
-      }
-    
-      .smallTopMargin {
-        margin-top: 20px;
-      }
-
-      .logoIcon {
-        width: 120px;
-      }
-  
-      .inputBox, .circularBtnContainer {
-        width: 280px;
-      }
-  
-      .notesListContainer {
-        width: 99%;
-      }
-
-      .notesListImg {
-        height: 80px;
-        margin-right: 10px;
-      }
-    
-      .notesListTitleText {
-        font-size: 16px;
-      }
-    
-      .notesListType {
-        font-size: 13px;
-      }
+/*media screens*/
+  @media screen and (max-width: 800px) {
+    .loginPageContent {
+      width: 90%;
+      margin-top: 100px;
     }
+  
+    .smallTopMargin {
+      margin-top: 20px;
+    }
+
+    .logoIcon {
+      width: 120px;
+    }
+
+    .inputBox, .circularBtnContainer {
+      width: 280px;
+    }
+
+    .notesListContainer {
+      width: 97%;
+    }
+
+    .notesListImg {
+      height: 80px;
+      margin-right: 10px;
+    }
+  
+    .notesListTitleText {
+      font-size: 16px;
+    }
+  
+    .notesListType {
+      font-size: 13px;
+    }
+
+    .notesInputBox {
+      width: 400px;
+    }
+
+    .createNewNoteBtn {
+      bottom: 8px;
+      right: 8px;
+      height: 50px;
+      width: 50px;
+    }
+  }
+
+  @media screen and (max-width: 500px) {
+    .notesInputBox {
+      width: 260px;
+      font-size: 21px;
+    }
+
+    .saveNoteImg {
+      height: 25px;
+    }
+    
+    .deleteNotesImg {
+      width: 21px;
+    }
+  }

@@ -3,6 +3,7 @@ import { Redirect } from "react-router-dom";
 
 import LoadingAnimation from "../components/LoadingAnimation";
 import SnackBar from "../components/SnackBar";
+import NotesListDataItem from "../components/NotesListDataItem";
 
 import { getListDataOfANote } from "../apis";
 import { getDecryptedCookieValue } from '../utils';
@@ -13,7 +14,9 @@ export default function ViewNote() {
 
     const [displayLoader, setDisplayLoader] = useState(true);
 
-    const [notesListData, setNotesListData] = useState([])
+    const [notesType, setNotesType] = useState(null);
+    const [notesData, setNotesData] = useState({title: "", hasChanged: false});
+    const [notesListData, setNotesListData] = useState([]);
 
     const [snackBarVisible, setSnackBarVisible] = useState(false);
     const [snackBarMsg, setSnackBarMsg] = useState("");
@@ -25,8 +28,16 @@ export default function ViewNote() {
             //checking if someone is logged or not
             const mngoNotesLoggedUserId = getDecryptedCookieValue("mngoNotesLoggedUserId");
             const mngoNotesSelectedNotesId = getDecryptedCookieValue("mngoNotesSelectedNotesId");
-            if (mngoNotesLoggedUserId && mngoNotesSelectedNotesId) {
-                //fetching user's notes list from api
+            const mngoNotesSelectedNotesTitle = getDecryptedCookieValue("mngoNotesSelectedNotesTitle");
+            const mngoNotesSelectedNotesType = getDecryptedCookieValue("mngoNotesSelectedNotesType");
+            if (mngoNotesLoggedUserId && mngoNotesSelectedNotesId && mngoNotesSelectedNotesTitle && mngoNotesSelectedNotesType) {
+                setNotesData({
+                    "title": mngoNotesSelectedNotesTitle,
+                    "hasChanged": false,
+                });
+                setNotesType(parseInt(mngoNotesSelectedNotesType));
+
+                //fetching user's notes list data from api
                 fetchNotesListData(mngoNotesSelectedNotesId);
             } else {
                 //no one is logged
@@ -39,7 +50,7 @@ export default function ViewNote() {
             makeSnackBar("Invalid Request");
         }
     }, []);
-   
+
     //function to handle when any note item is clicked on
     async function fetchNotesListData(notesId) {
         //sending rqst to api
@@ -58,11 +69,10 @@ export default function ViewNote() {
             }
         } catch {
             makeSnackBar("Something went wrong");
-         }
- 
-         setDisplayLoader(false);
-         //NotesListDataItem
-     }
+        }
+
+        setDisplayLoader(false);
+    }
 
     //function to make a snack-bar
     function makeSnackBar(msg, type) {
@@ -75,6 +85,71 @@ export default function ViewNote() {
     //function to close snack-bar
     function handleSnackBarClose() {
         setSnackBarVisible(false);
+    }
+
+    //function to render page content
+    function renderPageContent() {
+        return (
+            <div className="notesListContainer">
+                <div className="notesHeader" >
+                    <div className="notesTitleContainer">
+                        <img
+                            alt="saveNoteImg"
+                            className="saveNoteImg"
+                            src={require('../img/save2.png')}
+                        />
+
+                        <div className="titleFormContainer">
+                            <input
+                                type="text"
+                                className="notesInputBox"
+                                placeholder= "Title"
+                                value={notesData.title}
+                                onChange={(e) => setNotesData( {title: e.target.value, hasChanged: true} )}
+                            />
+                        </div>
+                    </div>
+
+                    <img
+                        alt="deleteNotesImg"
+                        className="deleteNotesImg"
+                        src={require('../img/delete.png')}
+                    />
+                </div>
+
+                <div className="notesFormContainer" >
+                    {
+                        //if notes type is checkbox then displaying Add Item btn
+                        notesType === 2 ?
+                            <div
+                                className="addNotesListDataItemBtn"
+                                // onPress={() => handleAddBtnClick(-1) }
+                            >
+                                <img
+                                    alt="addItemIcon"
+                                    className="addNotesListDataItemBtnIcon"
+                                    src={require('../img/add1.png')}
+                                />
+                                <span className="addNotesListDataItemBtnText" > Add Item</span>
+                            </div>
+                        : null
+                    }
+
+                    {
+                        //rendering notes data list items
+                        notesListData.map( function(item, idx) {
+                            return (
+                                <NotesListDataItem
+                                    key={idx}
+                                    notesType={notesType}
+                                    notesListData={item}
+                                />
+                            )
+                        })
+                    }
+                </div>
+            </div>
+        )
     }
 
     //component rendering
@@ -95,8 +170,8 @@ export default function ViewNote() {
             {
                 displayLoader ?
                     <LoadingAnimation loading={displayLoader}/>
-                : null
-                    // renderPageContent()
+                :
+                    renderPageContent()
             }
         </>
     )

@@ -7,7 +7,7 @@ function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-function SnackBar(props) {
+export default function SnackBar(props) {
     return (
         <Snackbar
             open={props.open}
@@ -20,5 +20,3 @@ function SnackBar(props) {
         </Snackbar>
     )
 }
-
-export default SnackBar;

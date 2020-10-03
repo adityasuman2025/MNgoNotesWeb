@@ -6,7 +6,7 @@ import ConfirmDialog from "../components/ConfirmDialog";
 import { logout } from "../utils";
 import { PROJECT_NAME } from "../constants";
 
-function NavBar() {
+export default function NavBar() {
     //hooks variable
     const [redirectToLandingPage, setRedirectToLandingPage] = useState(false);
 
@@ -73,5 +73,3 @@ function NavBar() {
         </>
     )
 }
-
-export default NavBar;

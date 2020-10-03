@@ -15,7 +15,7 @@ export default function Home(props) {
 
     const [displayLoader, setDisplayLoader] = useState(true);
 
-    const [notesList, setNotesList] = useState([])
+    const [notesList, setNotesList] = useState([]);
 
     const [snackBarVisible, setSnackBarVisible] = useState(false);
     const [snackBarMsg, setSnackBarMsg] = useState("");
@@ -83,11 +83,16 @@ export default function Home(props) {
 
     //function to handle when any note item is clicked on
     async function handleNotesListItemClick(item) {
-        if (item.notes_id) {
-            //creating cookie of the notes_id of the selected note and redirecting to the /notes page
+        if (item.notes_id && item.title) {
             const notesId = item.notes_id;
+            const notesTitle = item.title;
+            const notesType = item.type;
+
+            //creating cookie of the notes_id of the selected note and redirecting to the /notes page
             const mngoNotesSelectedNotesIdCookie = await makeEncryptedCookie("mngoNotesSelectedNotesId", notesId);
-            if (mngoNotesSelectedNotesIdCookie) {
+            const mngoNotesSelectedNotesTitleCookie = await makeEncryptedCookie("mngoNotesSelectedNotesTitle", notesTitle);
+            const mngoNotesSelectedNotesTypeCookie = await makeEncryptedCookie("mngoNotesSelectedNotesType", notesType);
+            if (mngoNotesSelectedNotesIdCookie && mngoNotesSelectedNotesTitleCookie && mngoNotesSelectedNotesTypeCookie) {
                 props.history.push("/view-note");
                 return;
             } else {
