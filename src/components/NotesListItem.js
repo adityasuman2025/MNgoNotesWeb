@@ -1,5 +1,4 @@
 import React from "react";
-import cx from "classnames";
 
 function NotesListItem({
     title,
@@ -7,18 +6,19 @@ function NotesListItem({
     onClick,
 }) {
     return (
-        <div 
-            className="notesListItem" 
+        <div
+            className="notesListItem"
             onClick={onClick}>
-            <img 
-                className="notesListImg" 
+            <img
+                className="notesListImg"
                 src={
-                        type === 1 ? 
-                            require('../img/notes_icon.png') 
-                        : 
+                        type === 1 ?
+                            require('../img/notes_icon.png')
+                        :
                             require('../img/todos_icon.png')
                     }
               />
+
             <div className="notesListText">
                 <div className="notesListTitleText" >
                     {title}
@@ -26,7 +26,7 @@ function NotesListItem({
                 <div className="notesListType" >
                     { type === 1 ? "text" : "checkbox" }
                 </div>
-            </div>            
+            </div>
         </div>
     )
 }

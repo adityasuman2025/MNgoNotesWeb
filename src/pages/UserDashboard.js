@@ -33,11 +33,12 @@ function UserDashboard(props) {
             <>
                 <NavBar />
                 <br /><br /><br />
-                
+
                 <div className="notesListContainer">
                     <NotesListItem
                         title="to do's to do's to do's to do's to do's to do's to do's to to do's to do's to do's to do's to to do's to do's to do's to do's to 's to do's to do's to do's "
                         type={2}
+                        // onClick={handleNotesListItemClick}
                     />
                 </div>
             </>
