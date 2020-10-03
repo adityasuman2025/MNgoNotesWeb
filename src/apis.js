@@ -87,7 +87,7 @@ export async function deleteANote(userId, notesId) {
         const requestAddress = API_URL_ADDRESS + "deleteANote.php";
         const response = await axios.post(requestAddress, {
             user_id: userId,
-            notes_id: notesId
+            notes_id: notesId,
         });
 
         const data = JSON.stringify(response.data);
@@ -97,3 +97,20 @@ export async function deleteANote(userId, notesId) {
     }
 }
 
+export async function updateNotesListData(userId, notesId, notesDataDb, notesListDataDb) {
+    //sending rqst to api
+    try {
+        const requestAddress = API_URL_ADDRESS + "updateNotesList.php";
+        const response = await axios.post(requestAddress, {
+            user_id: userId,
+            notes_id: notesId,
+            notesData_db: notesDataDb,
+			notesOldList_db: notesListDataDb,
+        });
+
+        const data = JSON.stringify(response.data);
+        return data;
+    } catch {
+        return "-10"; //internal server error
+    }
+}

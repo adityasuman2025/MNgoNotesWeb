@@ -159,6 +159,7 @@ body {
     width: 60%;
     margin: auto;
     margin-top: 20px;
+    margin-bottom: 20px;
   }
 
   .notesListItem {
@@ -169,7 +170,6 @@ body {
 
     border-bottom: .5px solid #1c313a;
     border-radius: 8px;
-    /* box-shadow: 1px 1px 5px #3d4e56; */
     box-shadow: 1px 1px 5px #3d4e56;
     padding: 15px;
     margin: 5px 5px;
@@ -209,9 +209,12 @@ body {
 /*-----notes list data------*/
 .notesHeaderContainer {
   position: fixed;
-  top: 6px;
+  top: 0px;
   left: 0px;
   right: 0px;
+  padding-top: 6px;
+
+  background-color: #455a64;
 }
 
 .notesHeader {
@@ -277,8 +280,8 @@ body {
 }
 
 .addNotesListDataItemBtnIcon {
-  height: 23px;
-  width: 23px;
+  height: 21px;
+  margin-right: 2px;
 
   /* tintColor:'#d8d8d8', */
   filter: invert(100%) sepia(0%) saturate(4848%) hue-rotate(33deg) brightness(115%) contrast(69%);
@@ -321,23 +324,24 @@ body {
   margin: 0px 5px;  
   padding: 0px 7px;
   color: #d8d8d8;
-  font-size: 17px;
+  font-size: 16px;
 
   background: none;
   border: none;
 }
 
 .notesListDataFieldTextArea {
-  width: 97%;
+  background: none;
+  border: none;
+  resize: none;
+
+  width: 100%;
   height: 700px;
   padding: 0px;
   margin: 0px 5px;  
   padding: 0px 7px;
   color: #d8d8d8;
-  font-size: 17px;
-
-  background: none;
-  border: none;
+  font-size: 16.5px;
 }
 
 /*-----notes list data------*/
@@ -412,11 +416,16 @@ body {
     }
 
     .notesHeader {
-      width: 95%;
+      width: 99%;
+      padding: 0px 16px;
+    }
+
+    .notesFormContainer {
+      width: 87%;
     }
 
     .notesListContainer {
-      width: 95%;
+      width: 99%;
     }
 
     .notesListImg {
@@ -447,14 +456,14 @@ body {
   @media screen and (max-width: 500px) {
     .notesInputBox {
       width: 260px;
-      font-size: 21px;
+      font-size: 24px;
     }
 
     .saveNoteImg {
-      height: 25px;
+      height: 26px;
     }
     
     .deleteNotesImg {
-      width: 21px;
+      width: 22px;
     }
   }

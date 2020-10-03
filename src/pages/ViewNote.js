@@ -6,7 +6,7 @@ import SnackBar from "../components/SnackBar";
 import NotesListDataItem from "../components/NotesListDataItem";
 import ConfirmDialog from "../components/ConfirmDialog";
 
-import { getListDataOfANote, deleteNotesListDataItem, deleteANote } from "../apis";
+import { getListDataOfANote, deleteNotesListDataItem, deleteANote, updateNotesListData } from "../apis";
 import { getDecryptedCookieValue } from '../utils';
 
 export default function ViewNote(props) {
@@ -17,13 +17,13 @@ export default function ViewNote(props) {
 
     const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
     const [confirmDialogText, setConfirmDialogText] = useState(false);
-    
+
     const [deleteWhat, setDeleteWhat] = useState(null);
     const [notesListDataItemToDelete, setNotesListDataItemToDelete] = useState(null);
 
     const [notesType, setNotesType] = useState(null);
     const [notesData, setNotesData] = useState({title: "", hasChanged: false});
-   
+
     const [notesListData, setNotesListData] = useState([]);
     const [tempNotesOldList, setTempNotesOldList] = useState([]);
     const [counter, setCounter] = useState(-1);
@@ -31,6 +31,28 @@ export default function ViewNote(props) {
     const [snackBarVisible, setSnackBarVisible] = useState(false);
     const [snackBarMsg, setSnackBarMsg] = useState("");
     const [snackBarType, setSnackBarType] = useState("success");
+
+    //handling back btn press
+    const [isBackButtonClicked, setBackbuttonPress] = useState(false)
+
+    useEffect(() => {
+        window.history.pushState(null, null, window.location.pathname);
+        window.addEventListener('popstate', onBackButtonEvent);
+        return () => {
+            window.removeEventListener('popstate', onBackButtonEvent);
+        }
+    }, []);
+
+    const onBackButtonEvent = (e) => {
+        e.preventDefault();
+        if (!isBackButtonClicked) {
+            //asking user to save his changes
+            setDeleteWhat("backPressHandler");
+
+            setConfirmDialogText("Do you want to save your changes?");
+            setIsConfirmDialogOpen(true);
+        }
+    }
 
     //componentDidMount
     useEffect(() => {
@@ -103,12 +125,12 @@ export default function ViewNote(props) {
     function hanldeCheckBoxClick(idx, rowId, toSet) {
         rowId = parseInt(rowId);
 
-        //marking its checkbox condition  	
+        //marking its checkbox condition
 		var oldJSON = notesListData[idx];
 		oldJSON["is_active"] = toSet;
 		oldJSON["hasChanged"] = true;
 
-	//updating the textInputs according to the latest user input 
+	//updating the textInputs according to the latest user input
 		setTempNotesOldList(notesListData);
 		setTempNotesOldList((prevNotesOldList) => {
 	      return prevNotesOldList.filter(newNotesOldList => parseInt(newNotesOldList.id) !== rowId)
@@ -134,7 +156,7 @@ export default function ViewNote(props) {
 
             setConfirmDialogText("Are you sure to delete this item?");
 			setIsConfirmDialogOpen(true);
-		}		
+		}
     }
 
     //function to delete a notes list data  item
@@ -169,22 +191,6 @@ export default function ViewNote(props) {
         }
     }
 
-    //function to close the confirm dialog box
-    function handleConfirmDialogClose() {
-        setIsConfirmDialogOpen(false);
-    }
-
-    //funtion to confirm the confirm dialog //when yes is pressed
-    function handleConfirmDialogConfirm() {
-        setIsConfirmDialogOpen(false);
-
-        if (deleteWhat === "notesListDataItem") {
-            deleteANotesListDataItem(notesListDataItemToDelete);
-        } else if (deleteWhat === "note") {
-            deleteNote();
-        }
-    }
-
     //function to handle when notes data list input field is changed
     function handleInputFieldChange(idx, rowId, value) {
         rowId = parseInt(rowId);
@@ -192,8 +198,8 @@ export default function ViewNote(props) {
         var oldJSON = notesListData[idx];
 		oldJSON["list_title"] = value;
 		oldJSON["hasChanged"] = true;
-	
-	//updating the textInputs according to the latest user input 
+
+	//updating the textInputs according to the latest user input
 		setTempNotesOldList(notesListData);
 		setTempNotesOldList((prevNotesOldList) => {
 	        return prevNotesOldList.filter(newNotesOldList => parseInt(newNotesOldList.id) !== rowId)
@@ -239,9 +245,125 @@ export default function ViewNote(props) {
         }
     }
 
+    //function to close the confirm dialog box
+    function handleConfirmDialogClose() {
+        setIsConfirmDialogOpen(false);
+
+        //if confirm dialog has appeared for confirm saving change
+        if(deleteWhat === "backPressHandler") {
+            window.history.pushState(null, null, window.location.pathname);
+            setBackbuttonPress(false);
+        }
+    }
+
+    //funtion to confirm the confirm dialog //when yes is pressed
+    function handleConfirmDialogConfirm() {
+        setIsConfirmDialogOpen(false);
+
+        if (deleteWhat === "notesListDataItem") {
+            deleteANotesListDataItem(notesListDataItemToDelete);
+        } else if (deleteWhat === "note") {
+            deleteNote();
+        } else if(deleteWhat === "backPressHandler") {
+            //going back
+            setBackbuttonPress(true);
+            handleSaveNoteClick();
+        }
+    }
+
     //function to handle when save btn is clicked on
     function handleSaveNoteClick() {
-        console.log("saved");
+        if (!displayLoader) {
+            //checking if notes title has changed or not
+            let notesDataDb = notesData;
+
+            let notesTitleChanged = notesData.hasChanged;
+            if (!notesTitleChanged) {
+                notesDataDb = 0;
+            }
+
+            //deciding list datas which is to be sent to server
+            //for old lists checking if some change has occur // for new list simply pushing it
+            let notesListDataDb = [];
+
+            let len = Object.keys(notesListData).length;
+            for (let i = 0; i < len; i++) {
+                let id 				= notesListData[i].id;
+                let hasChanged 		= notesListData[i].hasChanged;
+
+                if (parseInt(id) > 0) {
+                    //if notes list is old
+                    if (hasChanged) {
+                        notesListDataDb.push(notesListData[i]);
+                    }
+                } else {
+                    //if notes list is new
+                    notesListDataDb.push(notesListData[i]);
+                }
+            }
+
+            var listLength = Object.keys(notesListDataDb).length;
+            if (listLength === 0)	{
+                notesListDataDb = 0;
+            }
+
+            //checking is some change has been done in notes data or not
+            if(notesDataDb === 0 && notesListDataDb === 0){
+                //redirecting back to user's home page
+                makeSnackBar("Saved", "success");
+
+                //going back to user's home page after .7s
+                //so that success toast can be visible for some moment
+                setTimeout(function() {
+                    props.history.goBack();
+                }, 700);
+            } else {
+                //some change has occured
+                //sending rqst to api
+                updateANotesListData(notesDataDb, notesListDataDb);
+            }
+		}
+    }
+
+    //function to hadle update notes list data
+    async function updateANotesListData(notesDataDb, notesListDataDb) {
+        const mngoNotesLoggedUserId = getDecryptedCookieValue("mngoNotesLoggedUserId");
+        const mngoNotesSelectedNotesId = getDecryptedCookieValue("mngoNotesSelectedNotesId");
+        if (mngoNotesLoggedUserId && mngoNotesSelectedNotesId) {
+            setDisplayLoader(true);
+
+            //sending rqst to api
+            try {
+                const response = await updateNotesListData(
+                    mngoNotesLoggedUserId,
+                    mngoNotesSelectedNotesId,
+                    JSON.stringify(notesDataDb),
+                    JSON.stringify(notesListDataDb),
+                );
+
+                if (response === "-10") {
+                    makeSnackBar("Internal Server Error");
+                    setDisplayLoader(false);
+                } else if (response === "-1") {
+                    makeSnackBar("Something went wrong");
+                    setDisplayLoader(false);
+                } else if (response === "0") {
+                    makeSnackBar("Fail to delete note");
+                    setDisplayLoader(false);
+                } else {
+                    makeSnackBar("Saved", "success");
+
+                    //going back to user's home page after .7s
+                    //so that success toast can be visible for some moment
+                    setTimeout(function() {
+                        props.history.goBack();
+                    }, 700);
+                }
+            } catch {
+                makeSnackBar("Something went wrong");
+                setDisplayLoader(false);
+            }
+        }
     }
 
     //function to handle when add item btn is clicked on
@@ -276,7 +398,7 @@ export default function ViewNote(props) {
 			emptyJSON["position"] = newPosition;
 			newNotesList.push(emptyJSON);
 		}
-	
+
 	    //looping through the temp notes list to insert new empty json at desired position
 		for (let i = 0; i < len; i++) {
 			let thisArray = tempNotesList[i];
@@ -300,7 +422,7 @@ export default function ViewNote(props) {
 				newNotesList.push(emptyJSON);
 			}
 		}
-		
+
 	    //updating the state
         setNotesListData([]);
 		setNotesListData(newNotesList);
