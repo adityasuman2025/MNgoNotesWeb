@@ -23,16 +23,21 @@ function UserDashboard(props) {
 
     //componentDidMount
     useEffect(() => {
-        //checking if someone is logged or not
-        const mngoNotesLoggedUserId = getDecryptedCookieValue("mngoNotesLoggedUserId");
-        if (!mngoNotesLoggedUserId) {
-            //no one is logged
-            //redirecting to landing page
-            setDisplayLoader(false);
-            setRedirectToLandingPage(true);
-        } else {
-            //fetching user's notes list from api
-            fetchUserNotesList(mngoNotesLoggedUserId);
+        try {
+            //checking if someone is logged or not
+            const mngoNotesLoggedUserId = getDecryptedCookieValue("mngoNotesLoggedUserId");
+            if (mngoNotesLoggedUserId) {
+                //fetching user's notes list from api
+                fetchUserNotesList(mngoNotesLoggedUserId);
+            } else {
+                //no one is logged
+                //redirecting to landing page
+                setDisplayLoader(false);
+                setRedirectToLandingPage(true);
+                return;
+            }
+        } catch {
+            makeSnackBar("Invalid Request");
         }
     }, []);
 
@@ -97,13 +102,6 @@ function UserDashboard(props) {
     function renderPageContent() {
         return (
             <>
-                <SnackBar
-                    open={snackBarVisible}
-                    msg={snackBarMsg}
-                    type={snackBarType}
-                    handleClose={handleSnackBarClose}
-                />
-
                 <NavBar />
                 <br /><br />
 
@@ -142,6 +140,14 @@ function UserDashboard(props) {
                 //redirecting to landing page
                 redirectToLandingPage ? <Redirect to="/" /> : null
             }
+
+            <SnackBar
+                open={snackBarVisible}
+                msg={snackBarMsg}
+                type={snackBarType}
+                handleClose={handleSnackBarClose}
+            />
+
 
             {
                 displayLoader ?
