@@ -42,10 +42,10 @@ export default function RegisterPage(props) {
             //verifying the entered data
             const username      = enteredUsername.trim();
             const email         = enteredEmail.trim();
-            
+
             const password      = enteredPassword.trim();
             const confPassword  = enteredConfPassword.trim();
-      
+
             var passCode        = enteredPassCode.trim();
             var confPassCode    = enteredConfPassCode.trim();
             if (username !== "" && email !== "" && password !== "" && confPassword !== "" && passCode !== "" && confPassCode !== "") {
@@ -54,7 +54,7 @@ export default function RegisterPage(props) {
                     makeSnackBar("Username cannot contain symbol and spaces");
                     return;
                 }
-        
+
                 if (!validateEmail(email)) {
                     setDisplayLoader(false);
                     makeSnackBar("Invalid email id format");
@@ -72,7 +72,7 @@ export default function RegisterPage(props) {
                     makeSnackBar("Pass code do not match");
                     return;
                 }
-            
+
                 if (passCode.length !== 4) {
                     setDisplayLoader(false);
                     makeSnackBar("Pass code must be 4 digits long");
@@ -184,7 +184,7 @@ export default function RegisterPage(props) {
                 </CircularButton>
                 <br />
 
-                <LoadingAnimation loading={displayLoader}/>            
+                <LoadingAnimation loading={displayLoader}/>
             </>
         )
     }
@@ -201,7 +201,7 @@ export default function RegisterPage(props) {
 
             <form
                 className={cx("loginPageContent", "smallTopMargin")}
-                onSubmit={handleRegisterClick} 
+                onSubmit={handleRegisterClick}
             >
                 <img
                     alt="logo img"
@@ -211,17 +211,17 @@ export default function RegisterPage(props) {
                 <div className="logoTitle">
                     {PROJECT_NAME}
                 </div>
-                
+
                 {
-                    !registerSuccess ? 
+                    !registerSuccess ?
                         renderRegistrationForm()
-                    : 
+                    :
                         <div className="successRegistrationText">
                             {"Successfully registered. Please "}
-                            <span 
-                                className="signupButton" 
+                            <span
+                                className="signupButton"
                                 onClick={handleLoginClick}
-                            > 
+                            >
                             Login
                             </span>
                             {" to continue"}

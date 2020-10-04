@@ -174,6 +174,8 @@ body {
 	margin: auto;
 	margin-top: 20px;
 	margin-bottom: 20px;
+
+	/* background-color: rebeccapurple; */
   }
 
   .notesListItem {
@@ -221,145 +223,160 @@ body {
 
 
 /*-----notes list data------*/
-.notesHeaderContainer {
-  position: fixed;
-  top: 0px;
-  left: 0px;
-  right: 0px;
-  padding-top: 6px;
+	.notesHeaderContainer {
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	padding-top: 6px;
 
-  background-color: #455a64;
-}
+	background-color: #455a64;
+	}
 
-.notesHeader {
-  width: 60%;
-  display: flex;
-  align-items: center; /*vertical align*/
-  justify-content: space-between; /*horizontal align*/
-  margin: auto;
-}
+	.notesHeader {
+	width: 60%;
+	display: flex;
+	align-items: center; /*vertical align*/
+	justify-content: space-between; /*horizontal align*/
+	margin: auto;
+	}
 
-.notesTitleContainer {
-  display: flex;
-  align-items: center; /*vertical align*/
-  flex: 1;
-}
+	.notesTitleContainer {
+	display: flex;
+	align-items: center; /*vertical align*/
+	flex: 1;
+	}
 
-.saveNoteImg {
-  height: 30px;
-  margin-right: 10px;
-  cursor: pointer;
+	.saveNoteImg {
+	height: 30px;
+	margin-right: 10px;
+	cursor: pointer;
 
-  /* tintColor: '#d8d8d8', */
-  filter: invert(100%) sepia(0%) saturate(4848%) hue-rotate(33deg) brightness(115%) contrast(69%);
-}
+	/* tintColor: '#d8d8d8', */
+	filter: invert(100%) sepia(0%) saturate(4848%) hue-rotate(33deg) brightness(115%) contrast(69%);
+	}
 
-.notesInputBox {
-  width: 95%;
-  height: 40px;
+	.notesInputBox {
+	width: 95%;
+	height: 40px;
 
-  padding: 0px;
-  margin: 0px;
-  padding: 0px 5px;
-  color: #fff;
-  font-size: 25px;
-  font-weight: bold;
+	padding: 0px;
+	margin: 0px;
+	padding: 0px 5px;
+	color: #fff;
+	font-size: 25px;
+	font-weight: bold;
 
-  background: none;
-  border: none;
-}
+	background: none;
+	border: none;
+	}
 
-.deleteNotesImg {
-  width: 25px;
-  cursor: pointer;
+	.deleteNotesImg {
+	width: 25px;
+	cursor: pointer;
 
-  /* tintColor: '#1c313a', */
-  filter: invert(17%) sepia(50%) saturate(347%) hue-rotate(152deg) brightness(94%) contrast(99%);
-}
+	/* tintColor: '#1c313a', */
+	filter: invert(17%) sepia(50%) saturate(347%) hue-rotate(152deg) brightness(94%) contrast(99%);
+	}
 
-.notesFormContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  width: 97%;
-  margin: auto;
-}
+	.notesFormContainer {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: flex-start;
+		width: 97%;
+		margin: auto;
+	}
 
-.addNotesListDataItemBtn {
-  cursor: pointer;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  align-self: flex-start;
-}
+	.addNotesListDataItemBtn {
+	cursor: pointer;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	align-self: flex-start;
+	}
 
-.addNotesListDataItemBtnIcon {
-  height: 21px;
-  margin-right: 2px;
+	.addNotesListDataItemBtnIcon {
+	height: 21px;
+	margin-right: 2px;
 
-  /* tintColor:'#d8d8d8', */
-  filter: invert(100%) sepia(0%) saturate(4848%) hue-rotate(33deg) brightness(115%) contrast(69%);
-}
+	/* tintColor:'#d8d8d8', */
+	filter: invert(100%) sepia(0%) saturate(4848%) hue-rotate(33deg) brightness(115%) contrast(69%);
+	}
 
-.addNotesListDataItemBtnText {
-  color: #d8d8d8;
-  font-weight: 500;
-}
+	.addNotesListDataItemBtnText {
+	color: #d8d8d8;
+	font-weight: 500;
+	}
 
-.notesListDataFields {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 7px;
-  width: 100%;
-}
+	.notesListDataFields {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-top: 7px;
+	width: 100%;
+	}
 
-.notesListDataFieldCheckedIcon{
-  width: 20px;
-  height: 20px;
-  cursor: pointer;
+	.notesListDataFieldCheckedIcon{
+	width: 20px;
+	height: 20px;
+	cursor: pointer;
 
-  /* tintColor: '#d8d8d8', */
-  filter: invert(100%) sepia(0%) saturate(4848%) hue-rotate(33deg) brightness(115%) contrast(69%);
-}
+	/* tintColor: '#d8d8d8', */
+	filter: invert(100%) sepia(0%) saturate(4848%) hue-rotate(33deg) brightness(115%) contrast(69%);
+	}
 
-.notesListDataFieldRemoveIcon {
-  width: 16px;
-  height: 16px;
-  cursor: pointer;
+	.notesListDataFieldRemoveIcon {
+	width: 16px;
+	height: 16px;
+	cursor: pointer;
 
-  /* tintColor: '#1c313a', */
-  filter: invert(15%) sepia(38%) saturate(576%) hue-rotate(152deg) brightness(94%) contrast(92%);
-}
+	/* tintColor: '#1c313a', */
+	filter: invert(15%) sepia(38%) saturate(576%) hue-rotate(152deg) brightness(94%) contrast(92%);
+	}
 
-.notesListDataFieldInput {
-  width: 97%;
-  padding: 0px;
-  margin: 0px 5px;
-  padding: 0px 7px;
-  color: #d8d8d8;
-  font-size: 16px;
+	.notesListDataFieldInput {
+	width: 97%;
+	padding: 0px;
+	margin: 0px 5px;
+	padding: 0px 7px;
+	color: #d8d8d8;
+	font-size: 16px;
 
-  background: none;
-  border: none;
-}
+	background: none;
+	border: none;
+	}
 
-.notesListDataFieldTextArea {
-  background: none;
-  border: none;
-  resize: none;
+	.notesListDataFieldTextArea {
+	background: none;
+	border: none;
+	resize: none;
 
-  width: 100%;
-  height: 700px;
-  padding: 0px;
-  margin: 0px 5px;
-  padding: 0px 7px;
-  color: #d8d8d8;
-  font-size: 16.5px;
-}
+	width: 100%;
+	height: 700px;
+	padding: 0px;
+	margin: 0px 5px;
+	padding: 0px 7px;
+	color: #d8d8d8;
+	font-size: 16.5px;
+	}
 
 /*-----notes list data------*/
 
+
+/*------create note page-----*/
+	.pickerBox {
+		width: 50%;
+		height: 25px;
+
+		padding: 0px;
+		margin: 0px;
+		color:#d8d8d8;
+		padding: 0px 15px;
+		margin-top: 5px;
+
+		background: none;
+		border: none;
+	}
 
 /*----others-----*/
   .circularBtnContainer {
@@ -391,6 +408,8 @@ body {
 
 	border-radius: 100px;
 	background-color: #181915;
+
+	z-index: 1000;
   }
 
   .createNewNoteImg {

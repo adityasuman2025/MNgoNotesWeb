@@ -16,7 +16,7 @@ export default function LoginPage(props) {
     const [isContentVisible, setIsContentVisible] = useState(false);
 
     const [displayLoader, setDisplayLoader] = useState(true);
-    
+
     const [enteredUsername, setEnteredUsername] = useState("");
     const [enteredPassword, setEnteredPassword] = useState("");
 
@@ -32,7 +32,7 @@ export default function LoginPage(props) {
             //redirect to user's home page
             setRedirectToUserHome(true);
         }
-        
+
         setDisplayLoader(false);
         setIsContentVisible(true);
     }, []);
@@ -102,7 +102,7 @@ export default function LoginPage(props) {
         return (
             <form
                 className="loginPageContent"
-                onSubmit={handleLoginClick} 
+                onSubmit={handleLoginClick}
             >
                 <img
                     alt="logo img"
@@ -137,20 +137,20 @@ export default function LoginPage(props) {
                 <br />
 
                 <LoadingAnimation loading={displayLoader} />
-                
+
                 <br /><br /><br />
                 <div className="signupText">
                     {"Don't have an account yet? "}
-                    <span 
-                        className="signupButton" 
+                    <span
+                        className="signupButton"
                         onClick={handleSignUpClick}
-                    > 
+                    >
                     Signup
                     </span>
                 </div>
                 <br />
 
-                <a 
+                <a
                     className="androidAppContainer"
                     href="http://mngo.in/mngo_notes.apk"
                     download={true}
@@ -163,7 +163,6 @@ export default function LoginPage(props) {
                      Android App
                 </a>
                 <br />
-                
             </form>
         )
     }

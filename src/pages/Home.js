@@ -124,14 +124,14 @@ export default function Home(props) {
                     }
                 </div>
 
-                <div 
-                    className="createNewNoteBtn" 
+                <div
+                    className="createNewNoteBtn"
                     onClick={hanldeCreateNewNoteBtnClick}
                 >
                     <img
                         alt="createNewNoteImg"
                         src={require('../img/add1.png')}
-                        className="createNewNoteImg" 
+                        className="createNewNoteImg"
                     />
                 </div>
             </>
