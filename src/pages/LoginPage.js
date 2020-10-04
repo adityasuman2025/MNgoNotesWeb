@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 
 import CircularButton from "../components/CircularButton";
 import LoadingAnimation from "../components/LoadingAnimation";
@@ -148,6 +148,22 @@ export default function LoginPage(props) {
                     Signup
                     </span>
                 </div>
+                <br />
+
+                <a 
+                    className="androidAppContainer"
+                    href="http://mngo.in/mngo_notes.apk"
+                    download={true}
+                >
+                    <img
+                        alt="androidLogo"
+                        className="androidLogoImg"
+                        src={require("../img/android.png")}
+                    />
+                     Android App
+                </a>
+                <br />
+                
             </form>
         )
     }

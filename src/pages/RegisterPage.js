@@ -166,7 +166,6 @@ export default function RegisterPage(props) {
                     type="password"
                     placeholder="Pass Code"
                     maxLength={ 4 }
-                    // inputmode="numeric"
                     value={enteredPassCode}
                     onChange={(e) => setEnteredPassCode(e.target.value)}
                 />
@@ -176,7 +175,6 @@ export default function RegisterPage(props) {
                     type="password"
                     placeholder="Confirm Pass Code"
                     maxLength={ 4 }
-                    // inputmode="numeric"
                     value={enteredConfPassCode}
                     onChange={(e) => setEnteredConfPassCode(e.target.value)}
                 />

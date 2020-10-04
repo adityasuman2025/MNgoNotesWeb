@@ -119,6 +119,20 @@ body {
 	font-size: 16px;
   }
 
+  .androidAppContainer, .androidAppContainer:hover {
+	cursor: pointer;
+	text-decoration: none;
+	color: #ffffff;
+	background-color: #1c313a;
+	padding: 10px;
+	border-radius: 5px;
+  }
+
+  .androidLogoImg {
+	width: 30px;
+	margin-right: 5px;
+  }
+
 /*----login/register page-----*/
 
 
@@ -373,6 +387,7 @@ body {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	cursor: pointer;
 
 	border-radius: 100px;
 	background-color: #181915;
