@@ -5,7 +5,7 @@ import NotesListDataItem from "../components/NotesListDataItem";
 import LoadingAnimation from "../components/LoadingAnimation";
 import SnackBar from "../components/SnackBar";
 
-import { getDecryptedCookieValue, makeEncryptedCookie } from '../utils';
+import { getDecryptedCookieValue } from '../utils';
 
 export default function CreateNote() {
     //hooks variables
@@ -14,7 +14,7 @@ export default function CreateNote() {
     const [displayLoader, setDisplayLoader] = useState(true);
 
     const [notesData, setNotesData] = useState({title: "", type: 1});
-    const [notesListData, setNotesListData] = useState([{position: 100000, list_title: "", is_active: 1}]);
+    const [notesListData, setNotesListData] = useState([{position: 100000, title: "", is_active: 1}]);
     const [tempNotesListData, setTempNotesListData] = useState([]);
 
     const [snackBarVisible, setSnackBarVisible] = useState(false);
@@ -53,6 +53,63 @@ export default function CreateNote() {
         setSnackBarVisible(false);
     }
 
+    //function to handle when add item is clicked on
+    //on clicking on add btn
+	function handleAddBtnClick(idx) {
+	    // creating a new empty json object
+		let emptyJSON = {};
+		emptyJSON["position"] = "";
+		emptyJSON["title"] = "";
+		emptyJSON["is_active"] = 1;
+
+	    //storing the noteslist	data in a temp array
+        let tempNotesList = [...notesListData];
+        let len = Object.keys(tempNotesList).length;
+
+        let newNotesList = [];
+
+	    //if to be added at beginning
+		if (idx === -1) {
+            let nextPosition = tempNotesList[0]["position"];
+			if(len === 0) {
+                //if list is empty
+                nextPosition = 100000;
+            }
+
+			let newPosition = parseInt((parseInt(0) + parseInt(nextPosition))/2);
+
+			emptyJSON["position"] = newPosition;
+            newNotesList.push(emptyJSON);
+		}
+
+	    //looping through the temp notes list to insert new empty json at desired position
+		for (let i = 0; i < len; i++) {
+			let thisArray = tempNotesList[i];
+			newNotesList.push(thisArray);
+
+			if (i === idx) {
+                // inserting the new empty json at desired position
+				if (i === len - 1) {
+                    //if last element
+					let newPosition = parseInt(parseInt(thisArray["position"]) + parseInt(100000));
+					emptyJSON["position"] = newPosition;
+				} else {
+                    //if any between elements
+					let thisPosition = thisArray["position"];
+					let nextPosition = tempNotesList[i+1]["position"];
+
+					let newPosition = parseInt((parseInt(thisPosition) + parseInt(nextPosition))/2);
+					emptyJSON["position"] = newPosition;
+				}
+				newNotesList.push(emptyJSON);
+			}
+		}
+
+	    // updating the state
+		setNotesListData([]);
+		setNotesListData(newNotesList);
+    }
+    
     //function to render page content
     function renderPageContent() {
         return (
@@ -71,6 +128,7 @@ export default function CreateNote() {
                                 type="text"
                                 className="notesInputBox"
                                 placeholder= "Title"
+                                autoCapitalize="words"
                                 value={notesData.title}
                                 onChange={(e) => setNotesData({
                                     title: e.target.value,
@@ -100,7 +158,7 @@ export default function CreateNote() {
                             notesData.type === 2 ?
                                 <div
                                     className="addNotesListDataItemBtn"
-                                    // onClick={() => handleAddBtnClick(-1)}
+                                    onClick={() => handleAddBtnClick(-1)}
                                 >
                                     <img
                                         alt="addItemIcon"
@@ -120,6 +178,7 @@ export default function CreateNote() {
                                         key={idx}
                                         idx={idx}
                                         notesType={notesData.type}
+                                        page={"CreateNote"}
                                         notesListData={item}
                                         // onCheckBoxClick={hanldeCheckBoxClick}
                                         // onRemoveClick={handleRemoveClick}

@@ -493,6 +493,7 @@ export default function ViewNote(props) {
                                 type="text"
                                 className="notesInputBox"
                                 placeholder= "Title"
+                                autoCapitalize="words"
                                 value={notesData.title}
                                 onChange={(e) => setNotesData( {title: e.target.value, hasChanged: true} )}
                             />

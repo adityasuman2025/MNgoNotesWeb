@@ -4,6 +4,7 @@ import classNames from "classnames";
 export default function NotesListDataItem({
     idx,
     notesType,
+    page,
     notesListData,
     onCheckBoxClick,
     onRemoveClick,
@@ -12,7 +13,7 @@ export default function NotesListDataItem({
 }) {
     const rowId = parseInt(notesListData.id);
     const isActive = parseInt(notesListData.is_active);
-    const title = notesListData.list_title.toString();
+    const title = (notesListData.list_title || notesListData.title).toString();
     var toSet = isActive === 1 ? 2: 1;
 
     //component rendering
@@ -57,6 +58,11 @@ export default function NotesListDataItem({
                         //         true
                         //     : false
                         // }
+                        autoFocus={
+                            page === "CreateNote" && idx === 0 ?
+                                true
+                            : false
+                        }
                     />
                 :
                     <textarea
@@ -65,7 +71,11 @@ export default function NotesListDataItem({
                         placeholder="type text"
                         value={title}
                         onChange={(e) => onInputFieldChange(idx, rowId, e.target.value)}
-                        // autoFocus //to auto focus on creation of its new element
+                        autoFocus={
+                            page === "CreateNote" ?
+                                true
+                            : false
+                        }
                     />
             }
            
