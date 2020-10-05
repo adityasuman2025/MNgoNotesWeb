@@ -365,16 +365,21 @@ export default function ViewNote(props) {
     }
 
     //function to handle when save btn is clicked on
-    async function handleSaveNoteClick() {
+    async function handleSaveNoteClick(action) {
         if (!displayLoader) {
             //checking is some change has been done in notes data or not
             const hasChanged = await checkIfNotesDataIsChanged();
             if (hasChanged === false){
                 //no any change has occured
-                //redirecting back to user's home page
-                // props.history.goBack();
-                setRedirectToUserHome(true);
-                return;
+                //checking if saving using shortcut key
+                if (action === "shortcutKey") {
+                    makeSnackBar("Nothing to save", "info");
+                } else {
+                    //redirecting back to user's home page
+                    // props.history.goBack();
+                    setRedirectToUserHome(true);
+                    return;
+                }
             } else {
                 //some changes has occured
                 try {
@@ -383,7 +388,7 @@ export default function ViewNote(props) {
 
                     //sending rqst to api
                     if (notesDataDb || notesListDataDb) {
-                        updateANotesListData(notesDataDb, notesListDataDb);
+                        updateANotesListData(notesDataDb, notesListDataDb, action);
                     }
                 } catch {
                     makeSnackBar("Something went wrong");
@@ -441,7 +446,7 @@ export default function ViewNote(props) {
     }
 
     //function to handle update notes list data
-    async function updateANotesListData(notesDataDb, notesListDataDb) {
+    async function updateANotesListData(notesDataDb, notesListDataDb, action) {
         const mngoNotesLoggedUserId = getDecryptedCookieValue("mngoNotesLoggedUserId");
         const mngoNotesSelectedNotesId = getDecryptedCookieValue("mngoNotesSelectedNotesId");
         if (mngoNotesLoggedUserId && mngoNotesSelectedNotesId) {
@@ -468,13 +473,20 @@ export default function ViewNote(props) {
                 } else {
                     makeSnackBar("Saved", "success");
 
-                    //going back to user's home page after .7s
-                    //so that success toast can be visible for some moment
-                    setTimeout(function() {
-                        // props.history.goBack();
-                        setRedirectToUserHome(true);
-                        return;
-                    }, 700);
+                    //checking if saving using shortcut key
+                    if (action === "shortcutKey") {
+                        setTimeout(function() {
+                            window.location.reload();
+                        }, 500);
+                    } else {
+                        //going back to user's home page after .7s
+                        //so that success toast can be visible for some moment
+                        setTimeout(function() {
+                            // props.history.goBack();
+                            setRedirectToUserHome(true);
+                            return;
+                        }, 700);
+                    }
                 }
             } catch {
                 makeSnackBar("Something went wrong");
@@ -562,7 +574,7 @@ export default function ViewNote(props) {
     //function to handle when "ctrl + s" is pressed
     function handleShortcutKeyPress() {
         makeSnackBar("Saving...", "info");
-        handleSaveNoteClick();
+        handleSaveNoteClick("shortcutKey");
     }
 
     //component rendering
