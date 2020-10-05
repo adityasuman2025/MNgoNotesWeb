@@ -13,8 +13,13 @@ export default function NotesListDataItem({
 }) {
     const rowId = parseInt(notesListData.id);
     const isActive = parseInt(notesListData.is_active);
-    const title = (notesListData.list_title || notesListData.title).toString();
     const toSet = isActive === 1 ? 2: 1;
+
+    let title = notesListData.list_title ? notesListData.list_title : notesListData.title;
+    if (!title) {
+        //if title is undefined or null then setting it to empty string ("")
+        title = "";
+    }
 
     //component rendering
     return (
@@ -87,7 +92,7 @@ export default function NotesListDataItem({
                         alt="removeNotesListDataIcon"
                         className={"notesListDataFieldRemoveIcon"}
                         src={require('../img/cross2.png')}
-                        onClick={() => onRemoveClick(rowId)}
+                        onClick={() => onRemoveClick(idx, rowId)}
                     />
                 : null
             }

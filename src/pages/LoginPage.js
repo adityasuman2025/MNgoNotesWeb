@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Redirect, Link } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 
 import CircularButton from "../components/CircularButton";
 import LoadingAnimation from "../components/LoadingAnimation";

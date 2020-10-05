@@ -5,11 +5,13 @@ import NotesListDataItem from "../components/NotesListDataItem";
 import LoadingAnimation from "../components/LoadingAnimation";
 import SnackBar from "../components/SnackBar";
 
+import { addUserNotes } from "../apis";
 import { getDecryptedCookieValue } from '../utils';
 
-export default function CreateNote() {
+export default function CreateNote(props) {
     //hooks variables
     const [redirectToLandingPage, setRedirectToLandingPage] = useState(false);
+    const [redirectToUserHome, setRedirectToUserHome] = useState(false);
 
     const [displayLoader, setDisplayLoader] = useState(true);
 
@@ -54,7 +56,6 @@ export default function CreateNote() {
     }
 
     //function to handle when add item is clicked on
-    //on clicking on add btn
 	function handleAddBtnClick(idx) {
 	    // creating a new empty json object
 		let emptyJSON = {};
@@ -110,34 +111,11 @@ export default function CreateNote() {
 		setNotesListData(newNotesList);
     }
 
-    //function to handle when typed in notes list data field
-    function handleInputFieldChange(idx, rowId, val) {
-	    //getting the old data
-		let oldJSON = notesListData;
-		let oldJsonForThatKey = oldJSON[idx];
-
-	    //update the old data	
-        let newJSONForThatKey = {
-            "position": oldJsonForThatKey.position, 
-            "title": val, 
-            "is_active": oldJsonForThatKey.is_active
-        };        
-		oldJSON[idx] = newJSONForThatKey;
-
-        //updating the textInputs according to the latest user input
-		setTempNotesListData(notesListData);
-		setTempNotesListData((prevNotesOldList) => {
-	        return prevNotesOldList.filter(newNotesOldList => parseInt(newNotesOldList.id) !== rowId)
-	    });
-	    //i don't know how its happening, but its really happening.
-        //that textinput remains at the same place and we can alwo type there freely
-	}
-    
     //function to hanlde when checkbox is cliked on
     function hanldeCheckBoxClick(idx, rowId, toSet) {
         //getting the old data
 		let oldJSON = notesListData;
-		let oldJsonForThatKey = oldJSON[idx];		
+		let oldJsonForThatKey = oldJSON[idx];
 
 	    //update the old data
 		let newJSONForThatKey = {
@@ -145,7 +123,7 @@ export default function CreateNote() {
             "title": oldJsonForThatKey.title,
             "is_active": toSet
         };
-		oldJSON[idx] = newJSONForThatKey;				
+		oldJSON[idx] = newJSONForThatKey;
 
 	    //set the state with new updated data
 		setTempNotesListData(notesListData);
@@ -154,6 +132,111 @@ export default function CreateNote() {
 		});
         // //i don't know how its happening, but its really happening.
         //that textinput remains at the same place and we can also type there freely
+    }
+
+    //function to handle when remove btn is clicked on for any list data input field
+    function handleRemoveClick(idx, rowId) {
+        //removing that list val from data
+		let oldJSON = notesListData;
+		if (idx > -1) {
+		  	oldJSON.splice(idx, 1);
+		}
+
+        // updating the state
+        setTempNotesListData(notesListData);
+        setTempNotesListData((prevtemNotestFields) => {
+	        return prevtemNotestFields.filter(newInputFields => newInputFields.position !== idx)
+        });
+        //i don't know how its happening, but its really happening.
+	    //that textinput remains at the same place and we can also type there freely
+    }
+
+    //function to handle when typed in notes list data field
+    function handleInputFieldChange(idx, rowId, val) {
+        //getting the old data
+        let oldJSON = notesListData;
+        let oldJsonForThatKey = oldJSON[idx];
+
+        //update the old data
+        let newJSONForThatKey = {
+            "position": oldJsonForThatKey.position,
+            "title": val,
+            "is_active": oldJsonForThatKey.is_active
+        };
+        oldJSON[idx] = newJSONForThatKey;
+
+        //updating the textInputs according to the latest user input
+        setTempNotesListData(notesListData);
+        setTempNotesListData((prevNotesOldList) => {
+            return prevNotesOldList.filter(newNotesOldList => parseInt(newNotesOldList.id) !== rowId)
+        });
+        //i don't know how its happening, but its really happening.
+        //that textinput remains at the same place and we can alwo type there freely
+    }
+
+    //function to hadle when enter is pressed in any input field
+    function handleSubmitInputField(e, idx) {
+        e.preventDefault();
+
+        if (notesData.type === 2) {
+            //if type is checkbox
+            handleAddBtnClick(idx);
+        }
+    }
+
+    //function yo handle when save btn is clicked on
+    async function handleSaveNoteClick() {
+        if (!displayLoader) {
+            const title = notesData.title;
+            const type = notesData.type;
+            
+            if (title !== "" && type !== "") {
+                const mngoNotesLoggedUserId = getDecryptedCookieValue("mngoNotesLoggedUserId");
+                if (mngoNotesLoggedUserId) {
+                    setDisplayLoader(true);
+
+                    //sending rqst to api
+                    try {
+                        const response = await addUserNotes(
+                            mngoNotesLoggedUserId,
+                            JSON.stringify(notesData),
+                            JSON.stringify(notesListData),
+                        );
+
+                        if (response === "-10") {
+                            makeSnackBar("Internal Server Error");
+                            setDisplayLoader(false);
+                        } else if (response === "-1") {
+                            makeSnackBar("Something went wrong");
+                            setDisplayLoader(false);
+                        } else if (response === "0") {
+                            makeSnackBar("Fail to delete note");
+                            setDisplayLoader(false);
+                        } else if (response === "-2") {
+                            makeSnackBar("Fail to save notes list data");
+                            setDisplayLoader(false);
+						} else if (response === "-3") {
+                            makeSnackBar("Fail to save note");
+                            setDisplayLoader(false);
+						} else {
+                            makeSnackBar("Saved", "success");
+
+                            //going back to user's home page after .7s
+                            //so that success toast can be visible for some moment
+                            setTimeout(function() {
+                                // props.history.goBack();
+                                setRedirectToUserHome(true);
+                            }, 700);
+                        }
+                    } catch {
+                        makeSnackBar("Something went wrong");
+                        setDisplayLoader(false);
+                    }
+                }
+            } else {
+                makeSnackBar("Title or Type can't be empty");
+            }
+		}
     }
 
     //function to render page content
@@ -167,7 +250,7 @@ export default function CreateNote() {
                                 alt="saveNoteImg"
                                 className="saveNoteImg"
                                 src={require('../img/save2.png')}
-                                // onClick={handleSaveNoteClick}
+                                onClick={handleSaveNoteClick}
                             />
 
                             <input
@@ -227,9 +310,9 @@ export default function CreateNote() {
                                         page={"CreateNote"}
                                         notesListData={item}
                                         onCheckBoxClick={hanldeCheckBoxClick}
-                                        // onRemoveClick={handleRemoveClick}
+                                        onRemoveClick={handleRemoveClick}
                                         onInputFieldChange={handleInputFieldChange}
-                                        // onSubmitInputField={handleSubmitInputField}
+                                        onSubmitInputField={handleSubmitInputField}
                                     />
                                 )
                             })
@@ -246,6 +329,11 @@ export default function CreateNote() {
             {
                 //redirecting to landing page
                 redirectToLandingPage ? <Redirect to="/" /> : null
+            }
+
+            {
+                //redirecting to user's home page
+                redirectToUserHome ? <Redirect to="/home" /> : null
             }
 
             <SnackBar

@@ -114,3 +114,20 @@ export async function updateNotesListData(userId, notesId, notesDataDb, notesLis
         return "-10"; //internal server error
     }
 }
+
+export async function addUserNotes(userId, notesData, notesListData) {
+    //sending rqst to api
+    try {
+        const requestAddress = API_URL_ADDRESS + "addUserNotesInDB.php";
+        const response = await axios.post(requestAddress, {
+            user_id: userId,
+            notesData: notesData,
+            notesList: notesListData,
+        });
+
+        const data = JSON.stringify(response.data);
+        return data;
+    } catch {
+        return "-10"; //internal server error
+    }
+}

@@ -12,6 +12,7 @@ import { getDecryptedCookieValue } from '../utils';
 export default function ViewNote(props) {
     //hooks variables
     const [redirectToLandingPage, setRedirectToLandingPage] = useState(false);
+    const [redirectToUserHome, setRedirectToUserHome] = useState(false);
 
     const [displayLoader, setDisplayLoader] = useState(true);
 
@@ -135,6 +136,70 @@ export default function ViewNote(props) {
         setSnackBarVisible(false);
     }
 
+    //function to handle when add item btn is clicked on
+	function handleAddBtnClick(idx) {
+        idx = parseInt(idx);
+
+	    //creating a new empty json object
+		let emptyJSON = {};
+		emptyJSON["id"] = counter;
+		emptyJSON["position"] = "";
+		emptyJSON["list_title"] = "";
+		emptyJSON["type"] = notesType;
+		emptyJSON["is_active"] = 1;
+		emptyJSON["hasChanged"] = true;
+
+	    //storing the noteslist	data in a temp array
+        let tempNotesList = [...notesListData];
+        let len = Object.keys(tempNotesList).length;
+
+		let newNotesList = [];
+
+	    //if to be added at beginning
+		if (idx === -1) {
+            let nextPosition = tempNotesList[0]["position"];
+			if (len === 0) {
+                //if list is empty
+                nextPosition = 100000;
+            }
+
+			let newPosition = parseInt((parseInt(0) + parseInt(nextPosition))/2);
+
+			emptyJSON["position"] = newPosition;
+			newNotesList.push(emptyJSON);
+		}
+
+	    //looping through the temp notes list to insert new empty json at desired position
+		for (let i = 0; i < len; i++) {
+			let thisArray = tempNotesList[i];
+			newNotesList.push(thisArray);
+
+			if(i === idx) {
+                // inserting the new empty json at desired position
+				if(i === len - 1) {
+                    //if last element
+					let newPosition = parseInt(parseInt(thisArray["position"]) + parseInt(100000));
+					emptyJSON["position"] = newPosition;
+				} else {
+                    //if any between elements
+					let thisPosition = thisArray["position"];
+					let nextPosition = tempNotesList[i+1]["position"];
+
+					let newPosition = parseInt((parseInt(thisPosition) + parseInt(nextPosition))/2);
+					emptyJSON["position"] = newPosition;
+				}
+
+				newNotesList.push(emptyJSON);
+			}
+		}
+
+	    //updating the state
+        setNotesListData([]);
+		setNotesListData(newNotesList);
+
+		setCounter(counter-1);
+	}
+
     //function to handle when checkbox icon is clicked
     function hanldeCheckBoxClick(idx, rowId, toSet) {
         rowId = parseInt(rowId);
@@ -155,7 +220,7 @@ export default function ViewNote(props) {
     }
 
     //function to handle when remove icon is clicked
-    function handleRemoveClick(rowId) {
+    function handleRemoveClick(idx, rowId) {
         //if that textinput is newly added
         rowId = parseInt(rowId);
         if (rowId < 0) {
@@ -222,6 +287,16 @@ export default function ViewNote(props) {
 		//that textinput remains at the same place and we can alwo type there freely
     }
 
+    //function to hadle when enter is pressed in any input field
+    function handleSubmitInputField(e, idx) {
+        e.preventDefault();
+
+        if (notesType === 2) {
+            //if type is checkbox
+			handleAddBtnClick(idx);
+		}
+    }
+
     //function to handle when delete note btn is pressed
     function handleDeleteNoteClick() {
         setDeleteWhat("note");
@@ -249,7 +324,8 @@ export default function ViewNote(props) {
                 } else if (response === "0") {
                     makeSnackBar("Fail to delete note");
                 } else {
-                    props.history.goBack(); //going back to user's home page
+                    // props.history.goBack(); //going back to user's home page
+                    setRedirectToUserHome(true);
                 }
             } catch {
                 makeSnackBar("Something went wrong");
@@ -294,7 +370,8 @@ export default function ViewNote(props) {
             if (hasChanged === false){
                 //no any change has occured
                 //redirecting back to user's home page
-                props.history.goBack();
+                // props.history.goBack();
+                setRedirectToUserHome(true);
             } else {
                 //some changes has occured
                 try {
@@ -383,7 +460,7 @@ export default function ViewNote(props) {
                     makeSnackBar("Something went wrong");
                     setDisplayLoader(false);
                 } else if (response === "0") {
-                    makeSnackBar("Fail to delete note");
+                    makeSnackBar("Fail to save note");
                     setDisplayLoader(false);
                 } else {
                     makeSnackBar("Saved", "success");
@@ -391,7 +468,8 @@ export default function ViewNote(props) {
                     //going back to user's home page after .7s
                     //so that success toast can be visible for some moment
                     setTimeout(function() {
-                        props.history.goBack();
+                        // props.history.goBack();
+                        setRedirectToUserHome(true);
                     }, 700);
                 }
             } catch {
@@ -399,80 +477,6 @@ export default function ViewNote(props) {
                 setDisplayLoader(false);
             }
         }
-    }
-
-    //function to handle when add item btn is clicked on
-	function handleAddBtnClick(idx) {
-        idx = parseInt(idx);
-
-	    //creating a new empty json object
-		let emptyJSON = {};
-		emptyJSON["id"] = counter;
-		emptyJSON["position"] = "";
-		emptyJSON["list_title"] = "";
-		emptyJSON["type"] = notesType;
-		emptyJSON["is_active"] = 1;
-		emptyJSON["hasChanged"] = true;
-
-	    //storing the noteslist	data in a temp array
-        let tempNotesList = [...notesListData];
-        let len = Object.keys(tempNotesList).length;
-
-		let newNotesList = [];
-
-	    //if to be added at beginning
-		if (idx === -1) {
-            let nextPosition = tempNotesList[0]["position"];
-			if (len === 0) {
-                //if list is empty
-                nextPosition = 100000;
-            }
-
-			let newPosition = parseInt((parseInt(0) + parseInt(nextPosition))/2);
-
-			emptyJSON["position"] = newPosition;
-			newNotesList.push(emptyJSON);
-		}
-
-	    //looping through the temp notes list to insert new empty json at desired position
-		for (let i = 0; i < len; i++) {
-			let thisArray = tempNotesList[i];
-			newNotesList.push(thisArray);
-
-			if(i === idx) {
-                // inserting the new empty json at desired position
-				if(i === len - 1) {
-                    //if last element
-					let newPosition = parseInt(parseInt(thisArray["position"]) + parseInt(100000));
-					emptyJSON["position"] = newPosition;
-				} else {
-                    //if any between elements
-					let thisPosition = thisArray["position"];
-					let nextPosition = tempNotesList[i+1]["position"];
-
-					let newPosition = parseInt((parseInt(thisPosition) + parseInt(nextPosition))/2);
-					emptyJSON["position"] = newPosition;
-				}
-
-				newNotesList.push(emptyJSON);
-			}
-		}
-
-	    //updating the state
-        setNotesListData([]);
-		setNotesListData(newNotesList);
-
-		setCounter(counter-1);
-	}
-
-    //function to hadle when enter is pressed in any input field
-    function handleSubmitInputField(e, idx) {
-        e.preventDefault();
-
-        if (notesType === 2) {
-            //if type is checkbox
-			handleAddBtnClick(idx);
-		}
     }
 
     //function to render page content
@@ -557,6 +561,11 @@ export default function ViewNote(props) {
             {
                 //redirecting to landing page
                 redirectToLandingPage ? <Redirect to="/" /> : null
+            }
+
+            {
+                //redirecting to user's home page
+                redirectToUserHome ? <Redirect to="/home" /> : null
             }
 
             <SnackBar
