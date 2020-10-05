@@ -17,9 +17,11 @@ export default function LandingPage() {
         if (mngoNotesLoggedUserId) {
             //redirect to user's home page
             setRedirectToUsersHome(true);
+            return;
         } else {
             //redirect to login page
             setRedirectToLoginPage(true);
+            return;
         }
     }, []);
 

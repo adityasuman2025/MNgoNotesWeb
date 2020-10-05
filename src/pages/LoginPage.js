@@ -31,6 +31,7 @@ export default function LoginPage(props) {
         if (mngoNotesLoggedUserId) {
             //redirect to user's home page
             setRedirectToUserHome(true);
+            return;
         }
 
         setDisplayLoader(false);

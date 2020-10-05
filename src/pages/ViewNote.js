@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
+import Hotkeys from 'react-hot-keys';
 
 import LoadingAnimation from "../components/LoadingAnimation";
 import SnackBar from "../components/SnackBar";
@@ -326,6 +327,7 @@ export default function ViewNote(props) {
                 } else {
                     // props.history.goBack(); //going back to user's home page
                     setRedirectToUserHome(true);
+                    return;
                 }
             } catch {
                 makeSnackBar("Something went wrong");
@@ -372,6 +374,7 @@ export default function ViewNote(props) {
                 //redirecting back to user's home page
                 // props.history.goBack();
                 setRedirectToUserHome(true);
+                return;
             } else {
                 //some changes has occured
                 try {
@@ -470,6 +473,7 @@ export default function ViewNote(props) {
                     setTimeout(function() {
                         // props.history.goBack();
                         setRedirectToUserHome(true);
+                        return;
                     }, 700);
                 }
             } catch {
@@ -555,9 +559,22 @@ export default function ViewNote(props) {
         )
     }
 
+    //function to handle when "ctrl + s" is pressed
+    function handleShortcutKeyPress() {
+        makeSnackBar("Saving...", "info");
+        handleSaveNoteClick();
+    }
+
     //component rendering
     return (
-        <>
+        <Hotkeys 
+            keyName="ctrl+s,control+s,⌘+s,ctrl+⇪+s,control+⇪+s,⌘+⇪+s" 
+            onKeyDown={handleShortcutKeyPress}
+            // onKeyUp={onKeyUp}
+            filter={(event) => {
+                return true; //to enable shortcut key inside input, textarea and select too
+            }}
+        >
             {
                 //redirecting to landing page
                 redirectToLandingPage ? <Redirect to="/" /> : null
@@ -588,6 +605,6 @@ export default function ViewNote(props) {
                 :
                     renderPageContent()
             }
-        </>
+        </Hotkeys>
     )
 }

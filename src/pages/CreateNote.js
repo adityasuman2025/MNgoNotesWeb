@@ -227,8 +227,8 @@ export default function CreateNote(props) {
                             setTimeout(function() {
                                 // props.history.goBack();
                                 setRedirectToUserHome(true);
+                                return;
                             }, 700);
-                            return;
                         }
                     } catch {
                         makeSnackBar("Something went wrong");
