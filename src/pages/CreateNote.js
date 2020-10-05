@@ -109,7 +109,53 @@ export default function CreateNote() {
 		setNotesListData([]);
 		setNotesListData(newNotesList);
     }
+
+    //function to handle when typed in notes list data field
+    function handleInputFieldChange(idx, rowId, val) {
+	    //getting the old data
+		let oldJSON = notesListData;
+		let oldJsonForThatKey = oldJSON[idx];
+
+	    //update the old data	
+        let newJSONForThatKey = {
+            "position": oldJsonForThatKey.position, 
+            "title": val, 
+            "is_active": oldJsonForThatKey.is_active
+        };        
+		oldJSON[idx] = newJSONForThatKey;
+
+        //updating the textInputs according to the latest user input
+		setTempNotesListData(notesListData);
+		setTempNotesListData((prevNotesOldList) => {
+	        return prevNotesOldList.filter(newNotesOldList => parseInt(newNotesOldList.id) !== rowId)
+	    });
+	    //i don't know how its happening, but its really happening.
+        //that textinput remains at the same place and we can alwo type there freely
+	}
     
+    //function to hanlde when checkbox is cliked on
+    function hanldeCheckBoxClick(idx, rowId, toSet) {
+        //getting the old data
+		let oldJSON = notesListData;
+		let oldJsonForThatKey = oldJSON[idx];		
+
+	    //update the old data
+		let newJSONForThatKey = {
+            "position": oldJsonForThatKey.position,
+            "title": oldJsonForThatKey.title,
+            "is_active": toSet
+        };
+		oldJSON[idx] = newJSONForThatKey;				
+
+	    //set the state with new updated data
+		setTempNotesListData(notesListData);
+		setTempNotesListData((prevtemNotestFields) => {
+			return prevtemNotestFields.filter(newInputFields => newInputFields.position !== idx)
+		});
+        // //i don't know how its happening, but its really happening.
+        //that textinput remains at the same place and we can also type there freely
+    }
+
     //function to render page content
     function renderPageContent() {
         return (
@@ -180,9 +226,9 @@ export default function CreateNote() {
                                         notesType={notesData.type}
                                         page={"CreateNote"}
                                         notesListData={item}
-                                        // onCheckBoxClick={hanldeCheckBoxClick}
+                                        onCheckBoxClick={hanldeCheckBoxClick}
                                         // onRemoveClick={handleRemoveClick}
-                                        // onInputFieldChange={handleInputFieldChange}
+                                        onInputFieldChange={handleInputFieldChange}
                                         // onSubmitInputField={handleSubmitInputField}
                                     />
                                 )

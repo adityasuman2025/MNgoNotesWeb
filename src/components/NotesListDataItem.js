@@ -14,7 +14,7 @@ export default function NotesListDataItem({
     const rowId = parseInt(notesListData.id);
     const isActive = parseInt(notesListData.is_active);
     const title = (notesListData.list_title || notesListData.title).toString();
-    var toSet = isActive === 1 ? 2: 1;
+    const toSet = isActive === 1 ? 2: 1;
 
     //component rendering
     return (
