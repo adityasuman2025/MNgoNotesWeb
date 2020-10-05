@@ -20,7 +20,7 @@ export default function ConfirmDialog({
     //component rendering
     return (
         <Dialog
-            open={isDialogOpen} 
+            open={isDialogOpen}
             onClose={onClose}
             TransitionComponent={
                 animate ? Transition: undefined
@@ -42,16 +42,16 @@ export default function ConfirmDialog({
             }
 
             <DialogActions>
-                <Button  
-                    variant="outlined" 
-                    color="primary" 
-                    onClick={onConfirm} 
+                <Button
+                    variant="outlined"
+                    color="secondary"
+                    onClick={onConfirm}
                 >
                     Yes
                 </Button>
-                <Button 
-                    variant="outlined" 
-                    color="secondary"
+                <Button
+                    variant="outlined"
+                    color="primary"
                     onClick={onClose}
                 >
                     No
