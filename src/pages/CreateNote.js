@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
+import Hotkeys from 'react-hot-keys';
 
 import NotesListDataItem from "../components/NotesListDataItem";
 import LoadingAnimation from "../components/LoadingAnimation";
@@ -227,6 +228,7 @@ export default function CreateNote(props) {
                                 // props.history.goBack();
                                 setRedirectToUserHome(true);
                             }, 700);
+                            return;
                         }
                     } catch {
                         makeSnackBar("Something went wrong");
@@ -323,9 +325,22 @@ export default function CreateNote(props) {
         )
     }
 
+    //function to handle when "ctrl + s" is pressed
+    function onKeyDown() {
+        makeSnackBar("Saving...", "info");
+        handleSaveNoteClick();
+    }
+
     //component rendering
     return (
-        <>
+        <Hotkeys 
+            keyName="ctrl+s,control+s,⌘+s,ctrl+⇪+s,control+⇪+s,⌘+⇪+s" 
+            onKeyDown={onKeyDown}
+            // onKeyUp={onKeyUp}
+            filter={(event) => {
+                return true; //to enable shortcut key inside input, textarea and select too
+            }}
+        >
             {
                 //redirecting to landing page
                 redirectToLandingPage ? <Redirect to="/" /> : null
@@ -350,6 +365,6 @@ export default function CreateNote(props) {
                 :
                     renderPageContent()
             }
-        </>
+        </Hotkeys>
     )
 }
