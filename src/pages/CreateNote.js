@@ -71,10 +71,10 @@ export default function CreateNote(props) {
 
 	    //if to be added at beginning
 		if (idx === -1) {
-            let nextPosition = tempNotesList[0]["position"];
-			if(len === 0) {
-                //if list is empty
-                nextPosition = 100000;
+            let nextPosition = 100000; //if list is empty
+			if (len !== 0) {
+                //if list is not empty
+                nextPosition = tempNotesList[0]["position"];
             }
 
 			let newPosition = parseInt((parseInt(0) + parseInt(nextPosition))/2);
