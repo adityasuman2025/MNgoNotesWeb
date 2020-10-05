@@ -326,7 +326,7 @@ export default function CreateNote(props) {
     }
 
     //function to handle when "ctrl + s" is pressed
-    function onKeyDown() {
+    function handleShortcutKeyPress() {
         makeSnackBar("Saving...", "info");
         handleSaveNoteClick();
     }
@@ -335,7 +335,7 @@ export default function CreateNote(props) {
     return (
         <Hotkeys 
             keyName="ctrl+s,control+s,⌘+s,ctrl+⇪+s,control+⇪+s,⌘+⇪+s" 
-            onKeyDown={onKeyDown}
+            onKeyDown={handleShortcutKeyPress}
             // onKeyUp={onKeyUp}
             filter={(event) => {
                 return true; //to enable shortcut key inside input, textarea and select too
