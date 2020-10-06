@@ -8,7 +8,7 @@ import NotesListDataItem from "../components/NotesListDataItem";
 import ConfirmDialog from "../components/ConfirmDialog";
 
 import { getListDataOfANote, deleteNotesListDataItem, deleteANote, updateNotesListData } from "../apis";
-import { getDecryptedCookieValue } from '../utils';
+import { getDecryptedCookieValue, makeEncryptedCookie } from '../utils';
 
 export default function ViewNote(props) {
     //hooks variables
@@ -475,9 +475,14 @@ export default function ViewNote(props) {
 
                     //checking if saving using shortcut key
                     if (action === "shortcutKey") {
-                        setTimeout(function() {
-                            window.location.reload();
-                        }, 500);
+                        //making cookie of the updated title of the selected note
+                        const mngoNotesSelectedNotesTitleCookie = await makeEncryptedCookie("mngoNotesSelectedNotesTitle", notesData.title);
+                        if (mngoNotesSelectedNotesTitleCookie) {
+                            //reloading the page after .5s
+                            setTimeout(function() {
+                                window.location.reload();
+                            }, 500);
+                        }
                     } else {
                         //going back to user's home page after .7s
                         //so that success toast can be visible for some moment
