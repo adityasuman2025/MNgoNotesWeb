@@ -447,8 +447,8 @@ export default function ViewNote(props) {
 
     //function to handle update notes list data
     async function updateANotesListData(notesDataDb, notesListDataDb, action) {
-        const mngoNotesLoggedUserId = getDecryptedCookieValue("mngoNotesLoggedUserId");
-        const mngoNotesSelectedNotesId = getDecryptedCookieValue("mngoNotesSelectedNotesId");
+        const mngoNotesLoggedUserId = await getDecryptedCookieValue("mngoNotesLoggedUserId");
+        const mngoNotesSelectedNotesId = await getDecryptedCookieValue("mngoNotesSelectedNotesId");
         if (mngoNotesLoggedUserId && mngoNotesSelectedNotesId) {
             setDisplayLoader(true);
 
@@ -572,15 +572,17 @@ export default function ViewNote(props) {
     }
 
     //function to handle when "ctrl + s" is pressed
-    function handleShortcutKeyPress() {
+    function handleShortcutKeyPress(keyName, e, handle) {
+        e.preventDefault(); //prevent default action of that shortcut key
+
         makeSnackBar("Saving...", "info");
         handleSaveNoteClick("shortcutKey");
     }
 
     //component rendering
     return (
-        <Hotkeys 
-            keyName="ctrl+s,control+s,⌘+s,ctrl+⇪+s,control+⇪+s,⌘+⇪+s" 
+        <Hotkeys
+            keyName="ctrl+s,control+s,⌘+s,ctrl+⇪+s,control+⇪+s,⌘+⇪+s"
             onKeyDown={handleShortcutKeyPress}
             // onKeyUp={onKeyUp}
             filter={(event) => {

@@ -190,9 +190,9 @@ export default function CreateNote(props) {
         if (!displayLoader) {
             const title = notesData.title;
             const type = notesData.type;
-            
+
             if (title !== "" && type !== "") {
-                const mngoNotesLoggedUserId = getDecryptedCookieValue("mngoNotesLoggedUserId");
+                const mngoNotesLoggedUserId = await getDecryptedCookieValue("mngoNotesLoggedUserId");
                 if (mngoNotesLoggedUserId) {
                     setDisplayLoader(true);
 
@@ -326,15 +326,17 @@ export default function CreateNote(props) {
     }
 
     //function to handle when "ctrl + s" is pressed
-    function handleShortcutKeyPress() {
+    function handleShortcutKeyPress(keyName, e, handle) {
+        e.preventDefault(); //prevent default action of that shortcut key
+
         makeSnackBar("Saving...", "info");
         handleSaveNoteClick();
     }
 
     //component rendering
     return (
-        <Hotkeys 
-            keyName="ctrl+s,control+s,⌘+s,ctrl+⇪+s,control+⇪+s,⌘+⇪+s" 
+        <Hotkeys
+            keyName="ctrl+s,control+s,⌘+s,ctrl+⇪+s,control+⇪+s,⌘+⇪+s"
             onKeyDown={handleShortcutKeyPress}
             // onKeyUp={onKeyUp}
             filter={(event) => {
