@@ -57,22 +57,19 @@ export default function LoginPage(props) {
             if (username !== "" && password !== "") {
                 //sending rqst to api
                 try {
-                    const response = await VerifyLogin(username,  password);
-                    if (response === "-10") {
-                        makeSnackBar("Internal Server Error");
-                    } else if (response === "-1") {
-                        makeSnackBar("Something went wrong");
-                    } else if (response === "0") {
-                        makeSnackBar("Login credentials is not correct");
-                    } else {
+                    const response = await VerifyLogin(username, password);
+                    if (response.statusCode === 200) {
+                        const data = response.data;
                         //setting cookie and redirecting to user's home page
-                        const mngoNotesLoggedUserIdCookie = await makeEncryptedCookie("mngoNotesLoggedUserId", response);
+                        const mngoNotesLoggedUserIdCookie = await makeEncryptedCookie("mngoNotesLoggedUserId", data.id);
                         if (mngoNotesLoggedUserIdCookie) {
                             setRedirectToUserHome(true);
                             return;
                         } else {
                             makeSnackBar("Something went wrong");
                         }
+                    } else {
+                        makeSnackBar(response.msg);
                     }
                 } catch {
                     makeSnackBar("Something went wrong");
@@ -146,7 +143,7 @@ export default function LoginPage(props) {
                         className="signupButton"
                         onClick={handleSignUpClick}
                     >
-                    Signup
+                        Signup
                     </span>
                 </div>
                 <br />
@@ -168,7 +165,7 @@ export default function LoginPage(props) {
         )
     }
 
-//component rendering
+    //component rendering
     return (
         <>
             {
@@ -186,7 +183,7 @@ export default function LoginPage(props) {
             {
                 isContentVisible ?
                     renderPageContent()
-                :
+                    :
                     <LoadingAnimation loading={displayLoader} />
             }
         </>

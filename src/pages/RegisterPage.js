@@ -16,6 +16,7 @@ export default function RegisterPage(props) {
     const [registerSuccess, setRegisterSuccess] = useState(false);
 
     const [enteredUsername, setEnteredUsername] = useState("");
+    const [enteredName, setEnteredName] = useState("");
     const [enteredEmail, setEnteredEmail] = useState("");
     const [enteredPassword, setEnteredPassword] = useState("");
     const [enteredConfPassword, setEnteredConfPassword] = useState("");
@@ -40,15 +41,16 @@ export default function RegisterPage(props) {
             setDisplayLoader(true);
 
             //verifying the entered data
-            const username      = enteredUsername.trim();
-            const email         = enteredEmail.trim();
+            const username = enteredUsername.trim();
+            const name = enteredName.trim();
+            const email = enteredEmail.trim();
 
-            const password      = enteredPassword.trim();
-            const confPassword  = enteredConfPassword.trim();
+            const password = enteredPassword.trim();
+            const confPassword = enteredConfPassword.trim();
 
-            var passCode        = enteredPassCode.trim();
-            var confPassCode    = enteredConfPassCode.trim();
-            if (username !== "" && email !== "" && password !== "" && confPassword !== "" && passCode !== "" && confPassCode !== "") {
+            var passCode = enteredPassCode.trim();
+            var confPassCode = enteredConfPassCode.trim();
+            if (username !== "" && name != "" && email !== "" && password !== "" && confPassword !== "" && passCode !== "" && confPassCode !== "") {
                 if (!validateUsername(username)) {
                     setDisplayLoader(false);
                     makeSnackBar("Username cannot contain symbol and spaces");
@@ -87,18 +89,13 @@ export default function RegisterPage(props) {
 
                 //sending rqst to api
                 try {
-                    const response = await registerNewUser(username, email, password, passCode);
-                    if (response === "-10") {
-                        makeSnackBar("Internal Server Error");
-                    } else if (response === "1") {
+                    const response = await registerNewUser(username, name, email, password, passCode);
+
+                    if (response.statusCode === 200) {
                         makeSnackBar("Sucessfully registered. Please Login to continue", "success");
                         setRegisterSuccess(true);
-                    } else if(response === "0") {
-                        makeSnackBar("Failed to register user");
-                    } else if(response === "-2") {
-                        makeSnackBar("This email or username is already registered");
                     } else {
-                        makeSnackBar("Unknown error");
+                        makeSnackBar(response.msg);
                     }
                 } catch {
                     makeSnackBar("Something went wrong");
@@ -140,6 +137,15 @@ export default function RegisterPage(props) {
                 <input
                     className="inputBox"
                     type="text"
+                    placeholder="Name"
+                    value={enteredName}
+                    autoFocus
+                    onChange={(e) => setEnteredName(e.target.value)}
+                />
+
+                <input
+                    className="inputBox"
+                    type="text"
                     placeholder="Email"
                     value={enteredEmail}
                     onChange={(e) => setEnteredEmail(e.target.value)}
@@ -165,7 +171,7 @@ export default function RegisterPage(props) {
                     className="inputBox"
                     type="password"
                     placeholder="Pass Code"
-                    maxLength={ 4 }
+                    maxLength={4}
                     value={enteredPassCode}
                     onChange={(e) => setEnteredPassCode(e.target.value)}
                 />
@@ -174,7 +180,7 @@ export default function RegisterPage(props) {
                     className="inputBox"
                     type="password"
                     placeholder="Confirm Pass Code"
-                    maxLength={ 4 }
+                    maxLength={4}
                     value={enteredConfPassCode}
                     onChange={(e) => setEnteredConfPassCode(e.target.value)}
                 />
@@ -184,7 +190,7 @@ export default function RegisterPage(props) {
                 </CircularButton>
                 <br />
 
-                <LoadingAnimation loading={displayLoader}/>
+                <LoadingAnimation loading={displayLoader} />
             </>
         )
     }
@@ -215,14 +221,14 @@ export default function RegisterPage(props) {
                 {
                     !registerSuccess ?
                         renderRegistrationForm()
-                    :
+                        :
                         <div className="successRegistrationText">
                             {"Successfully registered. Please "}
                             <span
                                 className="signupButton"
                                 onClick={handleLoginClick}
                             >
-                            Login
+                                Login
                             </span>
                             {" to continue"}
                         </div>

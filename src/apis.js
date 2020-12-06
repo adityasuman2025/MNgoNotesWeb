@@ -1,35 +1,37 @@
 import axios from "axios";
 
-import { API_URL_ADDRESS } from "./constants"
+import { AUTH_API_URL_ADDRESS, API_URL_ADDRESS } from "./constants"
 
 export async function VerifyLogin(username, password) {
     //sending rqst to api
     try {
-        const requestAddress = API_URL_ADDRESS + "verifyLogin.php";
+        const requestAddress = AUTH_API_URL_ADDRESS + "verify_user.php";
         const response = await axios.post(requestAddress, {
             username: username,
             password: password,
         });
 
-        const data = (response.data).toString();
+        const data = (response.data);
         return data;
     } catch {
         return "-10"; //internal server error
     }
 }
 
-export async function registerNewUser(username, email, password, passcode) {
+export async function registerNewUser(username, name, email, password, passcode) {
     //sending rqst to api
     try {
-        const requestAddress = API_URL_ADDRESS + "registerNewUser.php";
+        const requestAddress = AUTH_API_URL_ADDRESS + "register_user.php";
         const response = await axios.post(requestAddress, {
-            username: username,
-            email: email,
-            password: password,
-            passcode: passcode,
+            username,
+            name,
+            email,
+            password,
+            passcode,
+            registeringFor: "NotesApp",
         });
 
-        const data = (response.data).toString();
+        const data = (response.data);
         return data;
     } catch {
         return "-10"; //internal server error
@@ -105,7 +107,7 @@ export async function updateNotesListData(userId, notesId, notesDataDb, notesLis
             user_id: userId,
             notes_id: notesId,
             notesData_db: notesDataDb,
-			notesOldList_db: notesListDataDb,
+            notesOldList_db: notesListDataDb,
         });
 
         const data = JSON.stringify(response.data);
