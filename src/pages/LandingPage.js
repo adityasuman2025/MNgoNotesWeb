@@ -3,7 +3,7 @@ import { Redirect } from "react-router-dom";
 
 import LoadingAnimation from "../components/LoadingAnimation";
 
-import { getDecryptedCookieValue } from '../utils';
+import { getCookieValue } from '../utils';
 
 export default function LandingPage() {
     //hooks variables
@@ -13,8 +13,8 @@ export default function LandingPage() {
     //componentDidMount
     useEffect(() => {
         //checking if someone is logged or not
-        const mngoNotesLoggedUserId = getDecryptedCookieValue("mngoNotesLoggedUserId");
-        if (mngoNotesLoggedUserId) {
+        const mngoNotesLoggedUserToken = getCookieValue("mngoNotesLoggedUserToken");
+        if (mngoNotesLoggedUserToken) {
             //redirect to user's home page
             setRedirectToUsersHome(true);
             return;
@@ -43,7 +43,7 @@ export default function LandingPage() {
                 Welcome to MNgo Notes! Please wait...
             </center>
             <br />
-            <LoadingAnimation loading={true}/>
+            <LoadingAnimation loading={true} />
         </>
     )
 }

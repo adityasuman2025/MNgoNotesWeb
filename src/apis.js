@@ -65,68 +65,65 @@ export async function getListDataOfANote(logged_user_token, encrypted_notes_id) 
     }
 }
 
-export async function deleteNotesListDataItem(rowId) {
-    //sending rqst to api
+export async function deleteNotesListDataItem(logged_user_token, note_list_id) {
     try {
-        const requestAddress = API_URL_ADDRESS + "deleteNotesListFromDB.php";
+        const requestAddress = API_URL_ADDRESS + "delete_note_list_data_item.php";
         const response = await axios.post(requestAddress, {
-            row_id: rowId,
+            logged_user_token,
+            note_list_id
         });
 
-        const data = (response.data).toString();
+        const data = (response.data);
         return data;
     } catch {
-        return "-10"; //internal server error
+        return { msg: "API Connection Failed" };
     }
 }
 
-export async function deleteANote(userId, notesId) {
-    //sending rqst to api
+export async function deleteANote(logged_user_token, encrypted_notes_id) {
     try {
-        const requestAddress = API_URL_ADDRESS + "deleteANote.php";
+        const requestAddress = API_URL_ADDRESS + "delete_note.php";
         const response = await axios.post(requestAddress, {
-            user_id: userId,
-            notes_id: notesId,
+            logged_user_token,
+            encrypted_notes_id
         });
 
-        const data = JSON.stringify(response.data);
+        const data = (response.data);
         return data;
     } catch {
-        return "-10"; //internal server error
+        return { msg: "API Connection Failed" };
     }
 }
 
-export async function updateNotesListData(userId, notesId, notesDataDb, notesListDataDb) {
-    //sending rqst to api
+export async function updateNotesListData(logged_user_token, encrypted_notes_id, notesData_db, notesOldList_db) {
     try {
-        const requestAddress = API_URL_ADDRESS + "updateNotesList.php";
+        const requestAddress = API_URL_ADDRESS + "update_note.php";
         const response = await axios.post(requestAddress, {
-            user_id: userId,
-            notes_id: notesId,
-            notesData_db: notesDataDb,
-            notesOldList_db: notesListDataDb,
+            logged_user_token,
+            encrypted_notes_id,
+            notesData_db,
+            notesOldList_db
         });
 
-        const data = JSON.stringify(response.data);
+        const data = (response.data);
         return data;
     } catch {
-        return "-10"; //internal server error
+        return { msg: "API Connection Failed" };
     }
 }
 
-export async function addUserNotes(userId, notesData, notesListData) {
-    //sending rqst to api
+export async function addUserNotes(logged_user_token, notesData, notesList) {
     try {
-        const requestAddress = API_URL_ADDRESS + "addUserNotesInDB.php";
+        const requestAddress = API_URL_ADDRESS + "create_note.php";
         const response = await axios.post(requestAddress, {
-            user_id: userId,
-            notesData: notesData,
-            notesList: notesListData,
+            logged_user_token,
+            notesData,
+            notesList
         });
 
-        const data = JSON.stringify(response.data);
+        const data = (response.data);
         return data;
     } catch {
-        return "-10"; //internal server error
+        return { msg: "API Connection Failed" };
     }
 }

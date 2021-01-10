@@ -7,7 +7,7 @@ COOKIE_EXPIRATION_TYM.setTime(COOKIE_EXPIRATION_TYM.getTime() + (COOKIE_EXPIRATI
 export const COOKIE_EXPIRATION_TIME = COOKIE_EXPIRATION_TYM;
 
 //auth variables
-// export const API_URL_ADDRESS = "https://mngo.in/notes_api/";
+// export const API_URL_ADDRESS = "https://mngo.in/notes_api2/";
 // export const AUTH_API_URL_ADDRESS = "https://mngo.in/auth_api/";
 
 export const API_URL_ADDRESS = "http://localhost/MNgo/notes_api2/";
@@ -15,6 +15,5 @@ export const AUTH_API_URL_ADDRESS = "http://localhost/MNgo/auth_api/";
 
 //general variables
 export const PROJECT_NAME = "MNgo Notes";
-export const ENCRYPTION_KEY = "mngo_notes_is_lub";
 
 export const MONTH_LIST = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];

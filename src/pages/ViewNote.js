@@ -8,7 +8,7 @@ import NotesListDataItem from "../components/NotesListDataItem";
 import ConfirmDialog from "../components/ConfirmDialog";
 
 import { getListDataOfANote, deleteNotesListDataItem, deleteANote, updateNotesListData } from "../apis";
-import { getCookieValue, getDecryptedCookieValue, makeEncryptedCookie } from '../utils';
+import { getCookieValue } from '../utils';
 
 export default function ViewNote({
     match: {
@@ -244,25 +244,13 @@ export default function ViewNote({
             setDisplayLoader(true);
 
             //sending rqst to api
-            try {
-                const response = await deleteNotesListDataItem(rowId);
-                if (response === "-10") {
-                    makeSnackBar("Internal Server Error");
-                } else if (response === "-1") {
-                    makeSnackBar("Something went wrong");
-                } else if (response === "0") {
-                    makeSnackBar("Fail to delete notes list item");
-                } else if (response === "1") {
-                    // await window.location.reload();
-                    //removing that notes list data item
-                    setNotesListData((prevNotesOldList) => {
-                        return prevNotesOldList.filter(newNotesOldList => newNotesOldList.id != rowId); // !== is not working
-                    });
-                } else {
-                    makeSnackBar("Unknown error");
-                }
-            } catch {
-                makeSnackBar("Something went wrong");
+            const response = await deleteNotesListDataItem(getCookieValue("mngoNotesLoggedUserToken"), rowId);
+            if (response.statusCode === 200) {
+                setNotesListData((prevNotesOldList) => {
+                    return prevNotesOldList.filter(newNotesOldList => newNotesOldList.id != rowId); // !== is not working
+                });
+            } else {
+                makeSnackBar(response.msg);
             }
 
             setDisplayLoader(false);
@@ -306,33 +294,19 @@ export default function ViewNote({
 
     //function to delete a note
     async function deleteNote() {
-        const mngoNotesLoggedUserId = getDecryptedCookieValue("mngoNotesLoggedUserId");
-        const mngoNotesSelectedNotesId = getDecryptedCookieValue("mngoNotesSelectedNotesId");
-        if (mngoNotesLoggedUserId && mngoNotesSelectedNotesId) {
-            setDisplayLoader(true);
+        setDisplayLoader(true);
 
-            //sending rqst to api
-            try {
-                const response = await deleteANote(mngoNotesLoggedUserId, mngoNotesSelectedNotesId);
-                if (response === "-10") {
-                    makeSnackBar("Internal Server Error");
-                } else if (response === "-1") {
-                    makeSnackBar("Something went wrong");
-                } else if (response === "-2") {
-                    makeSnackBar("Fail to get updated data");
-                } else if (response === "0") {
-                    makeSnackBar("Fail to delete note");
-                } else {
-                    // props.history.goBack(); //going back to user's home page
-                    setRedirectToUserHome(true);
-                    return;
-                }
-            } catch {
-                makeSnackBar("Something went wrong");
-            }
-
-            setDisplayLoader(false);
+        //sending rqst to api
+        const response = await deleteANote(getCookieValue("mngoNotesLoggedUserToken"), encryptedNotesId);
+        if (response.statusCode === 200) {
+            // props.history.goBack(); //going back to user's home page
+            setRedirectToUserHome(true);
+            return;
+        } else {
+            makeSnackBar(response.msg);
         }
+
+        setDisplayLoader(false);
     }
 
     //function to close the confirm dialog box
@@ -445,57 +419,40 @@ export default function ViewNote({
 
     //function to handle update notes list data
     async function updateANotesListData(notesDataDb, notesListDataDb, action) {
-        const mngoNotesLoggedUserId = await getDecryptedCookieValue("mngoNotesLoggedUserId");
-        const mngoNotesSelectedNotesId = await getDecryptedCookieValue("mngoNotesSelectedNotesId");
-        if (mngoNotesLoggedUserId && mngoNotesSelectedNotesId) {
-            setDisplayLoader(true);
-
-            //sending rqst to api
-            try {
-                const response = await updateNotesListData(
-                    mngoNotesLoggedUserId,
-                    mngoNotesSelectedNotesId,
-                    JSON.stringify(notesDataDb),
-                    JSON.stringify(notesListDataDb),
-                );
-
-                if (response === "-10") {
-                    makeSnackBar("Internal Server Error");
-                    setDisplayLoader(false);
-                } else if (response === "-1") {
-                    makeSnackBar("Something went wrong");
-                    setDisplayLoader(false);
-                } else if (response === "0") {
-                    makeSnackBar("Fail to save note");
-                    setDisplayLoader(false);
-                } else {
-                    makeSnackBar("Saved", "success");
-
-                    //checking if saving using shortcut key
-                    if (action === "shortcutKey") {
-                        //making cookie of the updated title of the selected note
-                        const mngoNotesSelectedNotesTitleCookie = await makeEncryptedCookie("mngoNotesSelectedNotesTitle", notesData.title);
-                        if (mngoNotesSelectedNotesTitleCookie) {
-                            //reloading the page after .5s
-                            setTimeout(function() {
-                                window.location.reload();
-                            }, 500);
-                        }
-                    } else {
-                        //going back to user's home page after .7s
-                        //so that success toast can be visible for some moment
-                        setTimeout(function() {
-                            // props.history.goBack();
-                            setRedirectToUserHome(true);
-                            return;
-                        }, 700);
-                    }
-                }
-            } catch {
-                makeSnackBar("Something went wrong");
-                setDisplayLoader(false);
+        //sending rqst to api
+        const response = await updateNotesListData(
+            getCookieValue("mngoNotesLoggedUserToken"),
+            encryptedNotesId,
+            JSON.stringify(notesDataDb),
+            JSON.stringify(notesListDataDb),
+        );
+        if (response.statusCode === 200) {
+            //checking if saving using shortcut key
+            if (action === "shortcutKey") {
+                setTimeout(function() {
+                    window.location.reload();
+                }, 500);
+            } else {
+                //going back to user's home page after .7s
+                //so that success toast can be visible for some time
+                setTimeout(function() {
+                    // props.history.goBack();
+                    setRedirectToUserHome(true);
+                    return;
+                }, 700);
             }
+        } else {
+            makeSnackBar(response.msg);
+            setDisplayLoader(false);
         }
+    }
+
+    //function to handle when "ctrl + s" is pressed
+    function handleShortcutKeyPress(keyName, e, handle) {
+        e.preventDefault(); //prevent default action of that shortcut key
+
+        makeSnackBar("Saving...", "info");
+        handleSaveNoteClick("shortcutKey");
     }
 
     //function to render page content
@@ -572,14 +529,6 @@ export default function ViewNote({
                 </div>
             </>
         )
-    }
-
-    //function to handle when "ctrl + s" is pressed
-    function handleShortcutKeyPress(keyName, e, handle) {
-        e.preventDefault(); //prevent default action of that shortcut key
-
-        makeSnackBar("Saving...", "info");
-        handleSaveNoteClick("shortcutKey");
     }
 
     //component rendering

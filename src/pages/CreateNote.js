@@ -7,7 +7,7 @@ import LoadingAnimation from "../components/LoadingAnimation";
 import SnackBar from "../components/SnackBar";
 
 import { addUserNotes } from "../apis";
-import { getCookieValue, getDecryptedCookieValue } from '../utils';
+import { getCookieValue } from '../utils';
 
 export default function CreateNote(props) {
     //hooks variables
@@ -192,53 +192,37 @@ export default function CreateNote(props) {
             const type = notesData.type;
 
             if (title !== "" && type !== "") {
-                const mngoNotesLoggedUserId = await getDecryptedCookieValue("mngoNotesLoggedUserId");
-                if (mngoNotesLoggedUserId) {
-                    setDisplayLoader(true);
+                //sending rqst to api
+                const response = await addUserNotes(
+                    getCookieValue("mngoNotesLoggedUserToken"),
+                    JSON.stringify(notesData),
+                    JSON.stringify(notesListData),
+                );
+                if (response.statusCode === 200) {
+                    makeSnackBar("Saved", "success");
 
-                    //sending rqst to api
-                    try {
-                        const response = await addUserNotes(
-                            mngoNotesLoggedUserId,
-                            JSON.stringify(notesData),
-                            JSON.stringify(notesListData),
-                        );
-
-                        if (response === "-10") {
-                            makeSnackBar("Internal Server Error");
-                            setDisplayLoader(false);
-                        } else if (response === "-1") {
-                            makeSnackBar("Something went wrong");
-                            setDisplayLoader(false);
-                        } else if (response === "0") {
-                            makeSnackBar("Fail to delete note");
-                            setDisplayLoader(false);
-                        } else if (response === "-2") {
-                            makeSnackBar("Fail to save notes list data");
-                            setDisplayLoader(false);
-                        } else if (response === "-3") {
-                            makeSnackBar("Fail to save note");
-                            setDisplayLoader(false);
-                        } else {
-                            makeSnackBar("Saved", "success");
-
-                            //going back to user's home page after .7s
-                            //so that success toast can be visible for some moment
-                            setTimeout(function() {
-                                // props.history.goBack();
-                                setRedirectToUserHome(true);
-                                return;
-                            }, 700);
-                        }
-                    } catch {
-                        makeSnackBar("Something went wrong");
-                        setDisplayLoader(false);
-                    }
+                    //going back to user's home page after .7s
+                    //so that success toast can be visible for some moment
+                    setTimeout(function() {
+                        // props.history.goBack();
+                        setRedirectToUserHome(true);
+                        return;
+                    }, 700);
+                } else {
+                    makeSnackBar(response.msg);
                 }
             } else {
                 makeSnackBar("Title or Type can't be empty");
             }
         }
+    }
+
+    //function to handle when "ctrl + s" is pressed
+    function handleShortcutKeyPress(keyName, e, handle) {
+        e.preventDefault(); //prevent default action of that shortcut key
+
+        makeSnackBar("Saving...", "info");
+        handleSaveNoteClick();
     }
 
     //function to render page content
@@ -323,14 +307,6 @@ export default function CreateNote(props) {
                 </div>
             </>
         )
-    }
-
-    //function to handle when "ctrl + s" is pressed
-    function handleShortcutKeyPress(keyName, e, handle) {
-        e.preventDefault(); //prevent default action of that shortcut key
-
-        makeSnackBar("Saving...", "info");
-        handleSaveNoteClick();
     }
 
     //component rendering

@@ -1,43 +1,14 @@
 import React from 'react';
 import Cookies from "universal-cookie";
-import CryptoJS from "crypto-js";
 import Slide from '@material-ui/core/Slide';
 
-import { ENCRYPTION_KEY, COOKIE_EXPIRATION_TIME } from "./constants";
+import { COOKIE_EXPIRATION_TIME } from "./constants";
 const cookies = new Cookies();
 
 //animation for apperance of dialog box
 export const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
-
-//function to get a cookie value, decrypt it and return real value
-export function getDecryptedCookieValue(cookie_name) {
-    let value = null;
-    try {
-        const cookieValue = cookies.get(cookie_name);
-        if (cookieValue) {
-            const decrypted = CryptoJS.AES.decrypt(cookieValue, ENCRYPTION_KEY);
-            value = CryptoJS.enc.Utf8.stringify(decrypted);
-        }
-    } catch {
-        value = null;
-    }
-
-    return value;
-};
-
-//function to set cookie after encrypting the value
-export function makeEncryptedCookie(key, value) {
-    try {
-        const encryptedValue = CryptoJS.AES.encrypt(value, ENCRYPTION_KEY).toString();
-        cookies.set(key, encryptedValue, { path: "/", expires: COOKIE_EXPIRATION_TIME, });
-
-        return true;
-    } catch {
-        return false;
-    }
-};
 
 //function to get cookie value
 export function getCookieValue(cookie_name) {
