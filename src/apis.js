@@ -37,7 +37,6 @@ export async function registerNewUser(username, name, email, password, passcode)
 }
 
 export async function getUserNotes(logged_user_token) {
-    //sending rqst to api
     try {
         const requestAddress = API_URL_ADDRESS + "get_user_notes.php";
         const response = await axios.post(requestAddress, {
@@ -52,7 +51,6 @@ export async function getUserNotes(logged_user_token) {
 }
 
 export async function getListDataOfANote(logged_user_token, encrypted_notes_id) {
-    //sending rqst to api
     try {
         const requestAddress = API_URL_ADDRESS + "get_note_list_data.php";
         const response = await axios.post(requestAddress, {
