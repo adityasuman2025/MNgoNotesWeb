@@ -17,7 +17,6 @@ export default function NotesListDataItem({
     const inputRef = useRef(null);
     useEffect(() => {
         if (positionToFocus === position) {
-            console.log("isFocused", true);
             inputRef.current && inputRef.current.focus();
         }
     }, [notesType, positionToFocus, position]);
