@@ -36,7 +36,7 @@ export default function ViewNote({
     const [tempNotesOldList, setTempNotesOldList] = useState([]);
     const [counter, setCounter] = useState(-1);
 
-    const [inputFieldPositionToFocusOn, setInputFieldPositionToFocusOn] = useState(0);
+    const [inputFieldPositionToFocusOn, setInputFieldPositionToFocusOn] = useState(-1);
 
     const [snackBarVisible, setSnackBarVisible] = useState(false);
     const [snackBarMsg, setSnackBarMsg] = useState("");
