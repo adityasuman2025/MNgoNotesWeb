@@ -192,6 +192,7 @@ export default function CreateNote(props) {
             const type = notesData.type;
 
             if (title !== "" && type !== "") {
+                setDisplayLoader(true);
                 //sending rqst to api
                 const response = await addUserNotes(
                     getCookieValue("mngoNotesLoggedUserToken"),
@@ -210,6 +211,7 @@ export default function CreateNote(props) {
                     }, 700);
                 } else {
                     makeSnackBar(response.msg);
+                    setDisplayLoader(false);
                 }
             } else {
                 makeSnackBar("Title or Type can't be empty");

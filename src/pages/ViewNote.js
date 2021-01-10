@@ -360,6 +360,7 @@ export default function ViewNote({
 
                     //sending rqst to api
                     if (notesDataDb || notesListDataDb) {
+                        setDisplayLoader(true);
                         updateANotesListData(notesDataDb, notesListDataDb, action);
                     }
                 } catch {
