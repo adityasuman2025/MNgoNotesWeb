@@ -17,8 +17,10 @@ export default function CreateNote(props) {
     const [displayLoader, setDisplayLoader] = useState(true);
 
     const [notesData, setNotesData] = useState({ title: "", type: 1 });
-    const [notesListData, setNotesListData] = useState([{ position: 100000, title: "", is_active: 1 }]);
+    const [notesListData, setNotesListData] = useState([{ position: 100000, list_title: "", is_active: 1 }]);
     const [tempNotesListData, setTempNotesListData] = useState([]);
+
+    const [inputFieldPositionToFocusOn, setInputFieldPositionToFocusOn] = useState(100000);
 
     const [snackBarVisible, setSnackBarVisible] = useState(false);
     const [snackBarMsg, setSnackBarMsg] = useState("");
@@ -61,7 +63,7 @@ export default function CreateNote(props) {
         // creating a new empty json object
         let emptyJSON = {};
         emptyJSON["position"] = "";
-        emptyJSON["title"] = "";
+        emptyJSON["list_title"] = "";
         emptyJSON["is_active"] = 1;
 
         //storing the noteslist	data in a temp array
@@ -69,7 +71,7 @@ export default function CreateNote(props) {
         let len = Object.keys(tempNotesList).length;
 
         let newNotesList = [];
-
+        let newPosition = 100000;
         //if to be added at beginning
         if (idx === -1) {
             let nextPosition = 100000; //if list is empty
@@ -78,7 +80,7 @@ export default function CreateNote(props) {
                 nextPosition = tempNotesList[0]["position"];
             }
 
-            let newPosition = parseInt((parseInt(0) + parseInt(nextPosition)) / 2);
+            newPosition = parseInt((parseInt(0) + parseInt(nextPosition)) / 2);
 
             emptyJSON["position"] = newPosition;
             newNotesList.push(emptyJSON);
@@ -93,14 +95,14 @@ export default function CreateNote(props) {
                 // inserting the new empty json at desired position
                 if (i === len - 1) {
                     //if last element
-                    let newPosition = parseInt(parseInt(thisArray["position"]) + parseInt(100000));
+                    newPosition = parseInt(parseInt(thisArray["position"]) + parseInt(100000));
                     emptyJSON["position"] = newPosition;
                 } else {
                     //if any between elements
                     let thisPosition = thisArray["position"];
                     let nextPosition = tempNotesList[i + 1]["position"];
 
-                    let newPosition = parseInt((parseInt(thisPosition) + parseInt(nextPosition)) / 2);
+                    newPosition = parseInt((parseInt(thisPosition) + parseInt(nextPosition)) / 2);
                     emptyJSON["position"] = newPosition;
                 }
                 newNotesList.push(emptyJSON);
@@ -108,6 +110,7 @@ export default function CreateNote(props) {
         }
 
         // updating the state
+        setInputFieldPositionToFocusOn(newPosition);
         setNotesListData([]);
         setNotesListData(newNotesList);
     }
@@ -121,7 +124,7 @@ export default function CreateNote(props) {
         //update the old data
         let newJSONForThatKey = {
             "position": oldJsonForThatKey.position,
-            "title": oldJsonForThatKey.title,
+            "list_title": oldJsonForThatKey.list_title,
             "is_active": toSet
         };
         oldJSON[idx] = newJSONForThatKey;
@@ -161,7 +164,7 @@ export default function CreateNote(props) {
         //update the old data
         let newJSONForThatKey = {
             "position": oldJsonForThatKey.position,
-            "title": val,
+            "list_title": val,
             "is_active": oldJsonForThatKey.is_active
         };
         oldJSON[idx] = newJSONForThatKey;
@@ -295,8 +298,11 @@ export default function CreateNote(props) {
                                         key={idx}
                                         idx={idx}
                                         notesType={notesData.type}
-                                        page={"CreateNote"}
-                                        notesListData={item}
+                                        positionToFocus={inputFieldPositionToFocusOn}
+                                        rowId={parseInt(item.id)}
+                                        isActive={parseInt(item.is_active)}
+                                        position={parseInt(item.position)}
+                                        title={item.list_title}
                                         onCheckBoxClick={hanldeCheckBoxClick}
                                         onRemoveClick={handleRemoveClick}
                                         onInputFieldChange={handleInputFieldChange}

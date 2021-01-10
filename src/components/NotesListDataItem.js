@@ -1,89 +1,67 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import classNames from "classnames";
 
 export default function NotesListDataItem({
     idx,
     notesType,
-    page,
-    notesListData,
+    positionToFocus,
+    rowId,
+    isActive,
+    position,
+    title = "",
     onCheckBoxClick,
     onRemoveClick,
     onInputFieldChange,
     onSubmitInputField,
 }) {
-    const rowId = parseInt(notesListData.id);
-    const isActive = parseInt(notesListData.is_active);
-    const toSet = isActive === 1 ? 2: 1;
+    const inputRef = useRef(null);
+    useEffect(() => {
+        if (positionToFocus === position) {
+            console.log("isFocused", true);
+            inputRef.current && inputRef.current.focus();
+        }
+    }, [notesType, positionToFocus, position]);
 
-    let title = notesListData.list_title ? notesListData.list_title : notesListData.title;
-    if (!title) {
-        //if title is undefined or null then setting it to empty string ("")
-        title = "";
-    }
+    const toSet = isActive === 1 ? 2 : 1;
 
-    //component rendering
     return (
-        <form 
-            className="notesListDataFields" 
+        <form
+            className="notesListDataFields"
             onSubmit={(e) => onSubmitInputField(e, idx)}
         >
             {
-            //if notes type is checkbox then showing checkbox icon
+                //if notes type is checkbox then showing checkbox icon
                 notesType === 2 ?
                     <img
                         alt="checkBoxIcon"
                         className="notesListDataFieldCheckedIcon"
-                        src={
-                            isActive === 1 ?
-                                require('../img/unchecked.png')
-                            :
-                                require('../img/checked.png')
-                        }
+                        src={isActive === 1 ? require('../img/unchecked.png') : require('../img/checked.png')}
                         onClick={() => onCheckBoxClick(idx, rowId, toSet)}
                     />
-                : null
+                    : null
             }
 
             {
                 //if notes type is checkbox then showing checkbox icon
-                notesType === 2 ? 
+                notesType === 2 ?
                     <input
+                        ref={inputRef}
                         type="text"
-                        className={
-                            classNames(
-                                "notesListDataFieldInput",
-                                { checked: isActive === 2 },
-                            )
-                        }
+                        className={classNames("notesListDataFieldInput", { checked: isActive === 2 })}
                         placeholder="type text"
                         value={title}
                         onChange={(e) => onInputFieldChange(idx, rowId, e.target.value)}
-                        // autoFocus={
-                        //     rowId < 0 ?
-                        //         true
-                        //     : false
-                        // }
-                        autoFocus={
-                            page === "CreateNote" && idx === 0 ?
-                                true
-                            : false
-                        }
                     />
-                :
+                    :
                     <textarea
+                        ref={inputRef}
                         type="text"
                         className="notesListDataFieldTextArea"
                         placeholder="type text"
                         value={title}
                         onChange={(e) => onInputFieldChange(idx, rowId, e.target.value)}
-                        autoFocus={
-                            page === "CreateNote" ?
-                                true
-                            : false
-                        }
                     />
             }
-           
 
             {
                 //if notes type is checkbox then showing remove icon
@@ -94,7 +72,7 @@ export default function NotesListDataItem({
                         src={require('../img/cross2.png')}
                         onClick={() => onRemoveClick(idx, rowId)}
                     />
-                : null
+                    : null
             }
         </form>
     )

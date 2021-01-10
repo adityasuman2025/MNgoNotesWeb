@@ -36,6 +36,8 @@ export default function ViewNote({
     const [tempNotesOldList, setTempNotesOldList] = useState([]);
     const [counter, setCounter] = useState(-1);
 
+    const [inputFieldPositionToFocusOn, setInputFieldPositionToFocusOn] = useState(0);
+
     const [snackBarVisible, setSnackBarVisible] = useState(false);
     const [snackBarMsg, setSnackBarMsg] = useState("");
     const [snackBarType, setSnackBarType] = useState("success");
@@ -153,7 +155,7 @@ export default function ViewNote({
         let len = Object.keys(tempNotesList).length;
 
         let newNotesList = [];
-
+        let newPosition;
         //if to be added at beginning
         if (idx === -1) {
             let nextPosition = 100000; //if list is empty
@@ -162,7 +164,7 @@ export default function ViewNote({
                 nextPosition = tempNotesList[0]["position"];
             }
 
-            let newPosition = parseInt((parseInt(0) + parseInt(nextPosition)) / 2);
+            newPosition = parseInt((parseInt(0) + parseInt(nextPosition)) / 2);
 
             emptyJSON["position"] = newPosition;
             newNotesList.push(emptyJSON);
@@ -177,14 +179,14 @@ export default function ViewNote({
                 // inserting the new empty json at desired position
                 if (i === len - 1) {
                     //if last element
-                    let newPosition = parseInt(parseInt(thisArray["position"]) + parseInt(100000));
+                    newPosition = parseInt(parseInt(thisArray["position"]) + parseInt(100000));
                     emptyJSON["position"] = newPosition;
                 } else {
                     //if any between elements
                     let thisPosition = thisArray["position"];
                     let nextPosition = tempNotesList[i + 1]["position"];
 
-                    let newPosition = parseInt((parseInt(thisPosition) + parseInt(nextPosition)) / 2);
+                    newPosition = parseInt((parseInt(thisPosition) + parseInt(nextPosition)) / 2);
                     emptyJSON["position"] = newPosition;
                 }
 
@@ -193,6 +195,7 @@ export default function ViewNote({
         }
 
         //updating the state
+        setInputFieldPositionToFocusOn(newPosition);
         setNotesListData([]);
         setNotesListData(newNotesList);
 
@@ -517,7 +520,11 @@ export default function ViewNote({
                                         key={idx}
                                         idx={idx}
                                         notesType={notesType}
-                                        notesListData={item}
+                                        positionToFocus={inputFieldPositionToFocusOn}
+                                        rowId={parseInt(item.id)}
+                                        isActive={parseInt(item.is_active)}
+                                        position={parseInt(item.position)}
+                                        title={item.list_title}
                                         onCheckBoxClick={hanldeCheckBoxClick}
                                         onRemoveClick={handleRemoveClick}
                                         onInputFieldChange={handleInputFieldChange}

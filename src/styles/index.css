@@ -238,6 +238,7 @@
         top: 0px;
         left: 0px;
         right: 0px;
+        z-index: 1;
         padding-top: 6px;
 
         background-color: #455a64;
