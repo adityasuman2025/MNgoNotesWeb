@@ -7,7 +7,7 @@ import LoadingAnimation from "../components/LoadingAnimation";
 import SnackBar from "../components/SnackBar";
 
 import { addUserNotes } from "../apis";
-import { getDecryptedCookieValue } from '../utils';
+import { getCookieValue, getDecryptedCookieValue } from '../utils';
 
 export default function CreateNote(props) {
     //hooks variables
@@ -16,8 +16,8 @@ export default function CreateNote(props) {
 
     const [displayLoader, setDisplayLoader] = useState(true);
 
-    const [notesData, setNotesData] = useState({title: "", type: 1});
-    const [notesListData, setNotesListData] = useState([{position: 100000, title: "", is_active: 1}]);
+    const [notesData, setNotesData] = useState({ title: "", type: 1 });
+    const [notesListData, setNotesListData] = useState([{ position: 100000, title: "", is_active: 1 }]);
     const [tempNotesListData, setTempNotesListData] = useState([]);
 
     const [snackBarVisible, setSnackBarVisible] = useState(false);
@@ -28,8 +28,8 @@ export default function CreateNote(props) {
     useEffect(() => {
         try {
             //checking if someone is logged or not
-            const mngoNotesLoggedUserId = getDecryptedCookieValue("mngoNotesLoggedUserId");
-            if (mngoNotesLoggedUserId) {
+            const mngoNotesLoggedUserToken = getCookieValue("mngoNotesLoggedUserToken");
+            if (mngoNotesLoggedUserToken) {
                 setDisplayLoader(false);
             } else {
                 //no one is logged
@@ -57,80 +57,80 @@ export default function CreateNote(props) {
     }
 
     //function to handle when add item is clicked on
-	function handleAddBtnClick(idx) {
-	    // creating a new empty json object
-		let emptyJSON = {};
-		emptyJSON["position"] = "";
-		emptyJSON["title"] = "";
-		emptyJSON["is_active"] = 1;
+    function handleAddBtnClick(idx) {
+        // creating a new empty json object
+        let emptyJSON = {};
+        emptyJSON["position"] = "";
+        emptyJSON["title"] = "";
+        emptyJSON["is_active"] = 1;
 
-	    //storing the noteslist	data in a temp array
+        //storing the noteslist	data in a temp array
         let tempNotesList = [...notesListData];
         let len = Object.keys(tempNotesList).length;
 
         let newNotesList = [];
 
-	    //if to be added at beginning
-		if (idx === -1) {
+        //if to be added at beginning
+        if (idx === -1) {
             let nextPosition = 100000; //if list is empty
-			if (len !== 0) {
+            if (len !== 0) {
                 //if list is not empty
                 nextPosition = tempNotesList[0]["position"];
             }
 
-			let newPosition = parseInt((parseInt(0) + parseInt(nextPosition))/2);
+            let newPosition = parseInt((parseInt(0) + parseInt(nextPosition)) / 2);
 
-			emptyJSON["position"] = newPosition;
+            emptyJSON["position"] = newPosition;
             newNotesList.push(emptyJSON);
-		}
+        }
 
-	    //looping through the temp notes list to insert new empty json at desired position
-		for (let i = 0; i < len; i++) {
-			let thisArray = tempNotesList[i];
-			newNotesList.push(thisArray);
+        //looping through the temp notes list to insert new empty json at desired position
+        for (let i = 0; i < len; i++) {
+            let thisArray = tempNotesList[i];
+            newNotesList.push(thisArray);
 
-			if (i === idx) {
+            if (i === idx) {
                 // inserting the new empty json at desired position
-				if (i === len - 1) {
+                if (i === len - 1) {
                     //if last element
-					let newPosition = parseInt(parseInt(thisArray["position"]) + parseInt(100000));
-					emptyJSON["position"] = newPosition;
-				} else {
+                    let newPosition = parseInt(parseInt(thisArray["position"]) + parseInt(100000));
+                    emptyJSON["position"] = newPosition;
+                } else {
                     //if any between elements
-					let thisPosition = thisArray["position"];
-					let nextPosition = tempNotesList[i+1]["position"];
+                    let thisPosition = thisArray["position"];
+                    let nextPosition = tempNotesList[i + 1]["position"];
 
-					let newPosition = parseInt((parseInt(thisPosition) + parseInt(nextPosition))/2);
-					emptyJSON["position"] = newPosition;
-				}
-				newNotesList.push(emptyJSON);
-			}
-		}
+                    let newPosition = parseInt((parseInt(thisPosition) + parseInt(nextPosition)) / 2);
+                    emptyJSON["position"] = newPosition;
+                }
+                newNotesList.push(emptyJSON);
+            }
+        }
 
-	    // updating the state
-		setNotesListData([]);
-		setNotesListData(newNotesList);
+        // updating the state
+        setNotesListData([]);
+        setNotesListData(newNotesList);
     }
 
     //function to hanlde when checkbox is cliked on
     function hanldeCheckBoxClick(idx, rowId, toSet) {
         //getting the old data
-		let oldJSON = notesListData;
-		let oldJsonForThatKey = oldJSON[idx];
+        let oldJSON = notesListData;
+        let oldJsonForThatKey = oldJSON[idx];
 
-	    //update the old data
-		let newJSONForThatKey = {
+        //update the old data
+        let newJSONForThatKey = {
             "position": oldJsonForThatKey.position,
             "title": oldJsonForThatKey.title,
             "is_active": toSet
         };
-		oldJSON[idx] = newJSONForThatKey;
+        oldJSON[idx] = newJSONForThatKey;
 
-	    //set the state with new updated data
-		setTempNotesListData(notesListData);
-		setTempNotesListData((prevtemNotestFields) => {
-			return prevtemNotestFields.filter(newInputFields => newInputFields.position !== idx)
-		});
+        //set the state with new updated data
+        setTempNotesListData(notesListData);
+        setTempNotesListData((prevtemNotestFields) => {
+            return prevtemNotestFields.filter(newInputFields => newInputFields.position !== idx)
+        });
         // //i don't know how its happening, but its really happening.
         //that textinput remains at the same place and we can also type there freely
     }
@@ -138,18 +138,18 @@ export default function CreateNote(props) {
     //function to handle when remove btn is clicked on for any list data input field
     function handleRemoveClick(idx, rowId) {
         //removing that list val from data
-		let oldJSON = notesListData;
-		if (idx > -1) {
-		  	oldJSON.splice(idx, 1);
-		}
+        let oldJSON = notesListData;
+        if (idx > -1) {
+            oldJSON.splice(idx, 1);
+        }
 
         // updating the state
         setTempNotesListData(notesListData);
         setTempNotesListData((prevtemNotestFields) => {
-	        return prevtemNotestFields.filter(newInputFields => newInputFields.position !== idx)
+            return prevtemNotestFields.filter(newInputFields => newInputFields.position !== idx)
         });
         //i don't know how its happening, but its really happening.
-	    //that textinput remains at the same place and we can also type there freely
+        //that textinput remains at the same place and we can also type there freely
     }
 
     //function to handle when typed in notes list data field
@@ -216,10 +216,10 @@ export default function CreateNote(props) {
                         } else if (response === "-2") {
                             makeSnackBar("Fail to save notes list data");
                             setDisplayLoader(false);
-						} else if (response === "-3") {
+                        } else if (response === "-3") {
                             makeSnackBar("Fail to save note");
                             setDisplayLoader(false);
-						} else {
+                        } else {
                             makeSnackBar("Saved", "success");
 
                             //going back to user's home page after .7s
@@ -238,14 +238,14 @@ export default function CreateNote(props) {
             } else {
                 makeSnackBar("Title or Type can't be empty");
             }
-		}
+        }
     }
 
     //function to render page content
     function renderPageContent() {
         return (
             <>
-				<div className="notesHeaderContainer">
+                <div className="notesHeaderContainer">
                     <div className="notesHeader" >
                         <div className="notesTitleContainer">
                             <img
@@ -258,7 +258,7 @@ export default function CreateNote(props) {
                             <input
                                 type="text"
                                 className="notesInputBox"
-                                placeholder= "Title"
+                                placeholder="Title"
                                 autoCapitalize="words"
                                 value={notesData.title}
                                 onChange={(e) => setNotesData({
@@ -298,12 +298,12 @@ export default function CreateNote(props) {
                                     />
                                     <span className="addNotesListDataItemBtnText" > Add Item</span>
                                 </div>
-                            : null
+                                : null
                         }
 
                         {
                             //rendering notes data list items
-                            notesListData.map( function(item, idx) {
+                            notesListData.map(function(item, idx) {
                                 return (
                                     <NotesListDataItem
                                         key={idx}
@@ -321,7 +321,7 @@ export default function CreateNote(props) {
                         }
                     </div>
                 </div>
-		    </>
+            </>
         )
     }
 
@@ -363,8 +363,8 @@ export default function CreateNote(props) {
 
             {
                 displayLoader ?
-                    <LoadingAnimation loading={displayLoader}/>
-                :
+                    <LoadingAnimation loading={displayLoader} />
+                    :
                     renderPageContent()
             }
         </Hotkeys>

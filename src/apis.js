@@ -3,7 +3,6 @@ import axios from "axios";
 import { AUTH_API_URL_ADDRESS, API_URL_ADDRESS } from "./constants"
 
 export async function VerifyLogin(username, password) {
-    //sending rqst to api
     try {
         const requestAddress = AUTH_API_URL_ADDRESS + "verify_user.php";
         const response = await axios.post(requestAddress, {
@@ -14,12 +13,11 @@ export async function VerifyLogin(username, password) {
         const data = (response.data);
         return data;
     } catch {
-        return "-10"; //internal server error
+        return { msg: "API Connection Failed" };
     }
 }
 
 export async function registerNewUser(username, name, email, password, passcode) {
-    //sending rqst to api
     try {
         const requestAddress = AUTH_API_URL_ADDRESS + "register_user.php";
         const response = await axios.post(requestAddress, {
@@ -34,37 +32,38 @@ export async function registerNewUser(username, name, email, password, passcode)
         const data = (response.data);
         return data;
     } catch {
-        return "-10"; //internal server error
+        return { msg: "API Connection Failed" };
     }
 }
 
-export async function getUserNotes(userId) {
+export async function getUserNotes(logged_user_token) {
     //sending rqst to api
     try {
-        const requestAddress = API_URL_ADDRESS + "getUserNotes.php";
+        const requestAddress = API_URL_ADDRESS + "get_user_notes.php";
         const response = await axios.post(requestAddress, {
-            user_id: userId,
+            logged_user_token
         });
 
-        const data = JSON.stringify(response.data);
+        const data = (response.data);
         return data;
     } catch {
-        return "-10"; //internal server error
+        return { msg: "API Connection Failed" };
     }
 }
 
-export async function getListDataOfANote(notesId) {
+export async function getListDataOfANote(logged_user_token, encrypted_notes_id) {
     //sending rqst to api
     try {
-        const requestAddress = API_URL_ADDRESS + "getListDataOfANote.php";
+        const requestAddress = API_URL_ADDRESS + "get_note_list_data.php";
         const response = await axios.post(requestAddress, {
-            notes_id: notesId,
+            logged_user_token,
+            encrypted_notes_id,
         });
 
-        const data = JSON.stringify(response.data);
+        const data = (response.data);
         return data;
     } catch {
-        return "-10"; //internal server error
+        return { msg: "API Connection Failed" };
     }
 }
 

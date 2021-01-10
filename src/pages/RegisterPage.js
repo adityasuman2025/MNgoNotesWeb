@@ -88,17 +88,12 @@ export default function RegisterPage(props) {
                 }
 
                 //sending rqst to api
-                try {
-                    const response = await registerNewUser(username, name, email, password, passCode);
-
-                    if (response.statusCode === 200) {
-                        makeSnackBar("Sucessfully registered. Please Login to continue", "success");
-                        setRegisterSuccess(true);
-                    } else {
-                        makeSnackBar(response.msg);
-                    }
-                } catch {
-                    makeSnackBar("Something went wrong");
+                const response = await registerNewUser(username, name, email, password, passCode);
+                if (response.statusCode === 200) {
+                    makeSnackBar("Sucessfully registered. Please Login to continue", "success");
+                    setRegisterSuccess(true);
+                } else {
+                    makeSnackBar(response.msg);
                 }
             } else {
                 makeSnackBar("Please fill all details");

@@ -46,30 +46,23 @@ export default function NavBar() {
                 onConfirm={handleConfirmDialogConfirm}
             />
 
-            <nav className="navbar navbar-expand-md navbar-dark fixed-top navBar">
-                <div className="container-fluid">
-                    <div className="navbar-header">
-                        <div id="navbar-brand" className="navbar-brand">
-                            <img
-                                className="navLogoImg"
-                                alt="logo"
-                                src={require("../img/logo.png")}
-                            />
-                            <span className="navTitle">{PROJECT_NAME}</span>
-                        </div>
-                    </div>
-                    <div 
-                        className="nav navbar-nav navbar-right"
-                        onClick={handleLogoutClick}
-                    >
-                        <img
-                            className="logOutImg"
-                            alt="logOutImg"
-                            src={require("../img/logout.png")}
-                        />
-                    </div>
+            <div className="navBar">
+                <div className="navBarBrand">
+                    <img
+                        className="navLogoImg"
+                        alt="logo"
+                        src={require("../img/logo.png")}
+                    />
+                    <span className="navTitle">{PROJECT_NAME}</span>
                 </div>
-            </nav>
+
+                <img
+                    className="logOutImg"
+                    alt="logOutImg"
+                    src={require("../img/logout.png")}
+                    onClick={handleLogoutClick}
+                />
+            </div>
         </>
     )
 }

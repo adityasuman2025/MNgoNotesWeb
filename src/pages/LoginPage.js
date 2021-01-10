@@ -6,7 +6,7 @@ import LoadingAnimation from "../components/LoadingAnimation";
 import SnackBar from "../components/SnackBar";
 
 import { VerifyLogin } from "../apis";
-import { makeEncryptedCookie, getDecryptedCookieValue } from "../utils";
+import { makeCookie, getCookieValue } from "../utils";
 import { PROJECT_NAME } from '../constants';
 
 export default function LoginPage(props) {
@@ -27,8 +27,8 @@ export default function LoginPage(props) {
     //componentDidMount
     useEffect(() => {
         //checking if someone is already logged in
-        const mngoNotesLoggedUserId = getDecryptedCookieValue("mngoNotesLoggedUserId");
-        if (mngoNotesLoggedUserId) {
+        const mngoNotesLoggedUserToken = getCookieValue("mngoNotesLoggedUserToken");
+        if (mngoNotesLoggedUserToken) {
             //redirect to user's home page
             setRedirectToUserHome(true);
             return;
@@ -56,23 +56,23 @@ export default function LoginPage(props) {
             const password = enteredPassword.trim();
             if (username !== "" && password !== "") {
                 //sending rqst to api
-                try {
-                    const response = await VerifyLogin(username, password);
-                    if (response.statusCode === 200) {
-                        const data = response.data;
+                const response = await VerifyLogin(username, password);
+                if (response.statusCode === 200) {
+                    const token = response.token;
+                    if (token) {
                         //setting cookie and redirecting to user's home page
-                        const mngoNotesLoggedUserIdCookie = await makeEncryptedCookie("mngoNotesLoggedUserId", data.id);
-                        if (mngoNotesLoggedUserIdCookie) {
+                        const mngoNotesLoggedUserTokenCookie = await makeCookie("mngoNotesLoggedUserToken", token);
+                        if (mngoNotesLoggedUserTokenCookie) {
                             setRedirectToUserHome(true);
                             return;
                         } else {
                             makeSnackBar("Something went wrong");
                         }
                     } else {
-                        makeSnackBar(response.msg);
+                        makeSnackBar("Something went wrong");
                     }
-                } catch {
-                    makeSnackBar("Something went wrong");
+                } else {
+                    makeSnackBar(response.msg);
                 }
             } else {
                 makeSnackBar("Please fill all details");

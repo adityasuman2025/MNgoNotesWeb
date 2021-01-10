@@ -8,9 +8,15 @@ import NotesListDataItem from "../components/NotesListDataItem";
 import ConfirmDialog from "../components/ConfirmDialog";
 
 import { getListDataOfANote, deleteNotesListDataItem, deleteANote, updateNotesListData } from "../apis";
-import { getDecryptedCookieValue, makeEncryptedCookie } from '../utils';
+import { getCookieValue, getDecryptedCookieValue, makeEncryptedCookie } from '../utils';
 
-export default function ViewNote(props) {
+export default function ViewNote({
+    match: {
+        params: {
+            encrypted_notes_id: encryptedNotesId,
+        } = {}
+    } = {}
+}) {
     //hooks variables
     const [redirectToLandingPage, setRedirectToLandingPage] = useState(false);
     const [redirectToUserHome, setRedirectToUserHome] = useState(false);
@@ -24,7 +30,7 @@ export default function ViewNote(props) {
     const [notesListDataItemToDelete, setNotesListDataItemToDelete] = useState(null);
 
     const [notesType, setNotesType] = useState(null);
-    const [notesData, setNotesData] = useState({title: "", hasChanged: false});
+    const [notesData, setNotesData] = useState({ title: "", hasChanged: false });
 
     const [notesListData, setNotesListData] = useState([]);
     const [tempNotesOldList, setTempNotesOldList] = useState([]);
@@ -74,19 +80,10 @@ export default function ViewNote(props) {
     useEffect(() => {
         try {
             //checking if someone is logged or not
-            const mngoNotesLoggedUserId = getDecryptedCookieValue("mngoNotesLoggedUserId");
-            const mngoNotesSelectedNotesId = getDecryptedCookieValue("mngoNotesSelectedNotesId");
-            const mngoNotesSelectedNotesTitle = getDecryptedCookieValue("mngoNotesSelectedNotesTitle");
-            const mngoNotesSelectedNotesType = getDecryptedCookieValue("mngoNotesSelectedNotesType");
-            if (mngoNotesLoggedUserId && mngoNotesSelectedNotesId && mngoNotesSelectedNotesTitle && mngoNotesSelectedNotesType) {
-                setNotesData({
-                    "title": mngoNotesSelectedNotesTitle,
-                    "hasChanged": false,
-                });
-                setNotesType(parseInt(mngoNotesSelectedNotesType));
-
+            const mngoNotesLoggedUserToken = getCookieValue("mngoNotesLoggedUserToken");
+            if (encryptedNotesId && mngoNotesLoggedUserToken) {
                 //fetching user's notes list data from api
-                fetchNotesListData(mngoNotesSelectedNotesId);
+                fetchNotesListData(mngoNotesLoggedUserToken, encryptedNotesId);
             } else {
                 //no one is logged
                 //redirecting to landing page
@@ -100,25 +97,26 @@ export default function ViewNote(props) {
     }, []);
 
     //function to handle when any note item is clicked on
-    async function fetchNotesListData(notesId) {
+    async function fetchNotesListData(loggedUserToken, encryptedNotesId) {
         //sending rqst to api
-        try {
-            const response = await getListDataOfANote(notesId);
-            if (response === "-10") {
-                makeSnackBar("Internal Server Error");
-            } else if (response === "-1") {
-                makeSnackBar("Something went wrong");
-            } else if (response === "0") {
-                makeSnackBar("Failed to fetch notes list data");
-            } else if (response === "[]") {
-                //if that note does not exist or has not list data items
-                // makeSnackBar("Invalid Request");
+        const response = await getListDataOfANote(loggedUserToken, encryptedNotesId);
+        if (response.statusCode === 200) {
+            const data = response.data;
+            if (data) {
+                const title = data.title;
+                const type = data.type;
+                const notesList = data.notes_list || [];
+                setNotesData({
+                    "title": title,
+                    "hasChanged": false,
+                });
+                setNotesType(parseInt(type));
+                setNotesListData(notesList);
             } else {
-                const jsonResponse = JSON.parse(response);
-                setNotesListData(jsonResponse);
+                makeSnackBar("Something went wrong");
             }
-        } catch {
-            makeSnackBar("Something went wrong");
+        } else {
+            makeSnackBar(response.msg);
         }
 
         setDisplayLoader(false);
@@ -138,86 +136,86 @@ export default function ViewNote(props) {
     }
 
     //function to handle when add item btn is clicked on
-	function handleAddBtnClick(idx) {
+    function handleAddBtnClick(idx) {
         idx = parseInt(idx);
 
-	    //creating a new empty json object
-		let emptyJSON = {};
-		emptyJSON["id"] = counter;
-		emptyJSON["position"] = "";
-		emptyJSON["list_title"] = "";
-		emptyJSON["type"] = notesType;
-		emptyJSON["is_active"] = 1;
-		emptyJSON["hasChanged"] = true;
+        //creating a new empty json object
+        let emptyJSON = {};
+        emptyJSON["id"] = counter;
+        emptyJSON["position"] = "";
+        emptyJSON["list_title"] = "";
+        emptyJSON["type"] = notesType;
+        emptyJSON["is_active"] = 1;
+        emptyJSON["hasChanged"] = true;
 
-	    //storing the noteslist	data in a temp array
+        //storing the noteslist	data in a temp array
         let tempNotesList = [...notesListData];
         let len = Object.keys(tempNotesList).length;
 
-		let newNotesList = [];
+        let newNotesList = [];
 
-	    //if to be added at beginning
-		if (idx === -1) {
+        //if to be added at beginning
+        if (idx === -1) {
             let nextPosition = 100000; //if list is empty
-			if (len !== 0) {
+            if (len !== 0) {
                 //if list is not empty
                 nextPosition = tempNotesList[0]["position"];
             }
 
-			let newPosition = parseInt((parseInt(0) + parseInt(nextPosition))/2);
+            let newPosition = parseInt((parseInt(0) + parseInt(nextPosition)) / 2);
 
-			emptyJSON["position"] = newPosition;
-			newNotesList.push(emptyJSON);
-		}
+            emptyJSON["position"] = newPosition;
+            newNotesList.push(emptyJSON);
+        }
 
-	    //looping through the temp notes list to insert new empty json at desired position
-		for (let i = 0; i < len; i++) {
-			let thisArray = tempNotesList[i];
-			newNotesList.push(thisArray);
+        //looping through the temp notes list to insert new empty json at desired position
+        for (let i = 0; i < len; i++) {
+            let thisArray = tempNotesList[i];
+            newNotesList.push(thisArray);
 
-			if(i === idx) {
+            if (i === idx) {
                 // inserting the new empty json at desired position
-				if(i === len - 1) {
+                if (i === len - 1) {
                     //if last element
-					let newPosition = parseInt(parseInt(thisArray["position"]) + parseInt(100000));
-					emptyJSON["position"] = newPosition;
-				} else {
+                    let newPosition = parseInt(parseInt(thisArray["position"]) + parseInt(100000));
+                    emptyJSON["position"] = newPosition;
+                } else {
                     //if any between elements
-					let thisPosition = thisArray["position"];
-					let nextPosition = tempNotesList[i+1]["position"];
+                    let thisPosition = thisArray["position"];
+                    let nextPosition = tempNotesList[i + 1]["position"];
 
-					let newPosition = parseInt((parseInt(thisPosition) + parseInt(nextPosition))/2);
-					emptyJSON["position"] = newPosition;
-				}
+                    let newPosition = parseInt((parseInt(thisPosition) + parseInt(nextPosition)) / 2);
+                    emptyJSON["position"] = newPosition;
+                }
 
-				newNotesList.push(emptyJSON);
-			}
-		}
+                newNotesList.push(emptyJSON);
+            }
+        }
 
-	    //updating the state
+        //updating the state
         setNotesListData([]);
-		setNotesListData(newNotesList);
+        setNotesListData(newNotesList);
 
-		setCounter(counter-1);
-	}
+        setCounter(counter - 1);
+    }
 
     //function to handle when checkbox icon is clicked
     function hanldeCheckBoxClick(idx, rowId, toSet) {
         rowId = parseInt(rowId);
 
         //marking its checkbox condition
-		var oldJSON = notesListData[idx];
-		oldJSON["is_active"] = toSet;
-		oldJSON["hasChanged"] = true;
+        var oldJSON = notesListData[idx];
+        oldJSON["is_active"] = toSet;
+        oldJSON["hasChanged"] = true;
 
-	//updating the textInputs according to the latest user input
-		setTempNotesOldList(notesListData);
-		setTempNotesOldList((prevNotesOldList) => {
-	      return prevNotesOldList.filter(newNotesOldList => parseInt(newNotesOldList.id) !== rowId)
-	    });
+        //updating the textInputs according to the latest user input
+        setTempNotesOldList(notesListData);
+        setTempNotesOldList((prevNotesOldList) => {
+            return prevNotesOldList.filter(newNotesOldList => parseInt(newNotesOldList.id) !== rowId)
+        });
 
-	    //i don't know how its happening, but its really happening.
-		//that textinput remains at the same place and we can alwo type there freely
+        //i don't know how its happening, but its really happening.
+        //that textinput remains at the same place and we can alwo type there freely
     }
 
     //function to handle when remove icon is clicked
@@ -225,18 +223,18 @@ export default function ViewNote(props) {
         //if that textinput is newly added
         rowId = parseInt(rowId);
         if (rowId < 0) {
-		    //removing that textInput
-			setNotesListData((prevNotesOldList) => {
-		        return prevNotesOldList.filter(newNotesOldList => newNotesOldList.id !== rowId);
-		    });
-		} else {
+            //removing that textInput
+            setNotesListData((prevNotesOldList) => {
+                return prevNotesOldList.filter(newNotesOldList => newNotesOldList.id !== rowId);
+            });
+        } else {
             //if that textinput is old fetched from database
             setNotesListDataItemToDelete(rowId);
             setDeleteWhat("notesListDataItem");
 
             setConfirmDialogText("Are you sure to delete this item?");
-			setIsConfirmDialogOpen(true);
-		}
+            setIsConfirmDialogOpen(true);
+        }
     }
 
     //function to delete a notes list data  item
@@ -257,7 +255,7 @@ export default function ViewNote(props) {
                 } else if (response === "1") {
                     // await window.location.reload();
                     //removing that notes list data item
-                    setNotesListData((prevNotesOldList) =>  {
+                    setNotesListData((prevNotesOldList) => {
                         return prevNotesOldList.filter(newNotesOldList => newNotesOldList.id != rowId); // !== is not working
                     });
                 } else {
@@ -276,16 +274,16 @@ export default function ViewNote(props) {
         rowId = parseInt(rowId);
 
         var oldJSON = notesListData[idx];
-		oldJSON["list_title"] = value;
-		oldJSON["hasChanged"] = true;
+        oldJSON["list_title"] = value;
+        oldJSON["hasChanged"] = true;
 
-	//updating the textInputs according to the latest user input
-		setTempNotesOldList(notesListData);
-		setTempNotesOldList((prevNotesOldList) => {
-	        return prevNotesOldList.filter(newNotesOldList => parseInt(newNotesOldList.id) !== rowId)
-	    });
-	    //i don't know how its happening, but its really happening.
-		//that textinput remains at the same place and we can alwo type there freely
+        //updating the textInputs according to the latest user input
+        setTempNotesOldList(notesListData);
+        setTempNotesOldList((prevNotesOldList) => {
+            return prevNotesOldList.filter(newNotesOldList => parseInt(newNotesOldList.id) !== rowId)
+        });
+        //i don't know how its happening, but its really happening.
+        //that textinput remains at the same place and we can alwo type there freely
     }
 
     //function to hadle when enter is pressed in any input field
@@ -294,8 +292,8 @@ export default function ViewNote(props) {
 
         if (notesType === 2) {
             //if type is checkbox
-			handleAddBtnClick(idx);
-		}
+            handleAddBtnClick(idx);
+        }
     }
 
     //function to handle when delete note btn is pressed
@@ -342,7 +340,7 @@ export default function ViewNote(props) {
         setIsConfirmDialogOpen(false);
 
         //if confirm dialog has appeared for confirm saving change
-        if(deleteWhat === "backPressHandler") {
+        if (deleteWhat === "backPressHandler") {
             window.history.pushState(null, null, window.location.pathname);
             setBackbuttonPress(false);
         }
@@ -356,7 +354,7 @@ export default function ViewNote(props) {
             deleteANotesListDataItem(notesListDataItemToDelete);
         } else if (deleteWhat === "note") {
             deleteNote();
-        } else if(deleteWhat === "backPressHandler") {
+        } else if (deleteWhat === "backPressHandler") {
             //if confirm dialog has appeared for confirm saving change
             //going back
             setBackbuttonPress(true);
@@ -369,7 +367,7 @@ export default function ViewNote(props) {
         if (!displayLoader) {
             //checking is some change has been done in notes data or not
             const hasChanged = await checkIfNotesDataIsChanged();
-            if (hasChanged === false){
+            if (hasChanged === false) {
                 //no any change has occured
                 //checking if saving using shortcut key
                 if (action === "shortcutKey") {
@@ -394,7 +392,7 @@ export default function ViewNote(props) {
                     makeSnackBar("Something went wrong");
                 }
             }
-		}
+        }
     }
 
     //function to check is changes in notes data has taken place
@@ -413,8 +411,8 @@ export default function ViewNote(props) {
 
         let len = Object.keys(notesListData).length;
         for (let i = 0; i < len; i++) {
-            let id 				= notesListData[i].id;
-            let hasChanged 		= notesListData[i].hasChanged;
+            let id = notesListData[i].id;
+            let hasChanged = notesListData[i].hasChanged;
 
             if (parseInt(id) > 0) {
                 //if notes list is old
@@ -428,12 +426,12 @@ export default function ViewNote(props) {
         }
 
         var listLength = Object.keys(notesListDataDb).length;
-        if (listLength === 0)	{
+        if (listLength === 0) {
             notesListDataDb = 0;
         }
 
         //checking is some change has been done in notes data or not
-        if(notesDataDb === 0 && notesListDataDb === 0){
+        if (notesDataDb === 0 && notesListDataDb === 0) {
             //no any change is done by user
             return false;
         } else {
@@ -517,10 +515,10 @@ export default function ViewNote(props) {
                             <input
                                 type="text"
                                 className="notesInputBox"
-                                placeholder= "Title"
+                                placeholder="Title"
                                 autoCapitalize="words"
                                 value={notesData.title}
-                                onChange={(e) => setNotesData( {title: e.target.value, hasChanged: true} )}
+                                onChange={(e) => setNotesData({ title: e.target.value, hasChanged: true })}
                             />
                         </div>
 
@@ -550,12 +548,12 @@ export default function ViewNote(props) {
                                     />
                                     <span className="addNotesListDataItemBtnText" > Add Item</span>
                                 </div>
-                            : null
+                                : null
                         }
 
                         {
                             //rendering notes data list items
-                            notesListData.map( function(item, idx) {
+                            notesListData.map(function(item, idx) {
                                 return (
                                     <NotesListDataItem
                                         key={idx}
@@ -620,8 +618,8 @@ export default function ViewNote(props) {
 
             {
                 displayLoader ?
-                    <LoadingAnimation loading={displayLoader}/>
-                :
+                    <LoadingAnimation loading={displayLoader} />
+                    :
                     renderPageContent()
             }
         </Hotkeys>

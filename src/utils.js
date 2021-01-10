@@ -39,6 +39,32 @@ export function makeEncryptedCookie(key, value) {
     }
 };
 
+//function to get cookie value
+export function getCookieValue(cookie_name) {
+    let value = null;
+    try {
+        const cookieValue = cookies.get(cookie_name);
+        if (cookieValue) {
+            value = cookieValue;
+        }
+    } catch {
+        value = null;
+    }
+
+    return value;
+};
+
+//function to set cookie 
+export function makeCookie(key, value) {
+    try {
+        cookies.set(key, value, { path: "/", expires: COOKIE_EXPIRATION_TIME, });
+
+        return true;
+    } catch {
+        return false;
+    }
+};
+
 //function to validate name, contact no and email
 export function validateUsername(name) {
     var re = /^[a-zA-Z0-9_]*$/;
@@ -57,5 +83,5 @@ export function validateContactNo(number) {
 
 //function to logout
 export async function logout() {
-    await cookies.remove("mngoNotesLoggedUserId", { path: "/", expires: COOKIE_EXPIRATION_TIME });
+    await cookies.remove("mngoNotesLoggedUserToken", { path: "/", expires: COOKIE_EXPIRATION_TIME });
 };

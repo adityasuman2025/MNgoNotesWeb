@@ -7,7 +7,7 @@ import NavBar from "../components/NavBar";
 import SnackBar from "../components/SnackBar";
 
 import { getUserNotes } from "../apis";
-import { getDecryptedCookieValue, makeEncryptedCookie } from '../utils';
+import { getCookieValue } from '../utils';
 
 export default function Home(props) {
     //hooks variables
@@ -25,10 +25,10 @@ export default function Home(props) {
     useEffect(() => {
         try {
             //checking if someone is logged or not
-            const mngoNotesLoggedUserId = getDecryptedCookieValue("mngoNotesLoggedUserId");
-            if (mngoNotesLoggedUserId) {
+            const mngoNotesLoggedUserToken = getCookieValue("mngoNotesLoggedUserToken");
+            if (mngoNotesLoggedUserToken) {
                 //fetching user's notes list from api
-                fetchUserNotesList(mngoNotesLoggedUserId);
+                fetchUserNotesList(mngoNotesLoggedUserToken);
             } else {
                 //no one is logged
                 //redirecting to landing page
@@ -42,22 +42,18 @@ export default function Home(props) {
     }, []);
 
     //function to fetch user's notes list from api
-    async function fetchUserNotesList(userId) {
+    async function fetchUserNotesList(loggedUserToken) {
         //sending rqst to api
-        try {
-            const response = await getUserNotes(userId);
-            if (response === "-10") {
-                makeSnackBar("Internal Server Error");
-            } else if (response === "-1") {
-                makeSnackBar("Something went wrong");
-            } else if (response === "0") {
-                makeSnackBar("Failed to fetch user's notes list");
+        const response = await getUserNotes(loggedUserToken);
+        if (response.statusCode === 200) {
+            const data = response.data;
+            if (data) {
+                setNotesList(data);
             } else {
-                const jsonResponse = JSON.parse(response);
-                setNotesList(jsonResponse);
+                makeSnackBar("Something went wrong");
             }
-        } catch {
-            makeSnackBar("Something went wrong");
+        } else {
+            makeSnackBar(response.msg);
         }
 
         setDisplayLoader(false);
@@ -83,21 +79,10 @@ export default function Home(props) {
 
     //function to handle when any note item is clicked on
     async function handleNotesListItemClick(item) {
-        if (item.notes_id && item.title) {
-            const notesId = item.notes_id;
-            const notesTitle = item.title;
-            const notesType = item.type;
-
-            //creating cookie of the notes_id of the selected note and redirecting to the /notes page
-            const mngoNotesSelectedNotesIdCookie = await makeEncryptedCookie("mngoNotesSelectedNotesId", notesId);
-            const mngoNotesSelectedNotesTitleCookie = await makeEncryptedCookie("mngoNotesSelectedNotesTitle", notesTitle);
-            const mngoNotesSelectedNotesTypeCookie = await makeEncryptedCookie("mngoNotesSelectedNotesType", notesType);
-            if (mngoNotesSelectedNotesIdCookie && mngoNotesSelectedNotesTitleCookie && mngoNotesSelectedNotesTypeCookie) {
-                props.history.push("/view-note");
-                return;
-            } else {
-                makeSnackBar("Something went wrong");
-            }
+        if (item.encrypted_notes_id) {
+            const encrypted_notes_id = item.encrypted_notes_id;
+            props.history.push("/view-note/" + encrypted_notes_id);
+            return;
         } else {
             makeSnackBar("Something went wrong");
         }
@@ -113,7 +98,7 @@ export default function Home(props) {
                 <div className="notesListContainer">
                     {
                         notesList.map(function(item, idx) {
-                            return(
+                            return (
                                 <NotesListItem
                                     key={idx}
                                     noteDetails={item}
@@ -156,8 +141,8 @@ export default function Home(props) {
 
             {
                 displayLoader ?
-                    <LoadingAnimation loading={displayLoader}/>
-                :
+                    <LoadingAnimation loading={displayLoader} />
+                    :
                     renderPageContent()
             }
         </>

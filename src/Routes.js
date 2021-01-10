@@ -19,10 +19,10 @@ const Routes = () => (
             <Route exact path="/register" component={RegisterPage} />
 
             <Route exact path="/home" component={Home} />
-            <Route exact path="/view-note" component={ViewNote} />
-            <Route exact path="/create-note" component={CreateNote} />            
+            <Route exact path="/view-note/:encrypted_notes_id" component={ViewNote} />
+            <Route exact path="/create-note" component={CreateNote} />
 
-            <Route path="*" component={ NotFound } />
+            <Route path="*" component={NotFound} />
         </Switch>
     </BrowserRouter>
 );
