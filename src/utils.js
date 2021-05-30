@@ -2,7 +2,7 @@ import React from 'react';
 import Cookies from "universal-cookie";
 import Slide from '@material-ui/core/Slide';
 
-import { COOKIE_EXPIRATION_TIME } from "./constants";
+import { COOKIE_EXPIRATION_TIME, AUTH_API_URL_ADDRESS, API_URL_ADDRESS, API_FAILED_ERROR } from "./constants";
 const cookies = new Cookies();
 
 //animation for apperance of dialog box
@@ -51,6 +51,20 @@ export function validateContactNo(number) {
     var re = /^[0-9]*$/;
     return re.test(number);
 };
+
+export async function sendRequestToAPI(endpoint, body, isAuth) {
+    try {
+        const requestAddress = (isAuth ? AUTH_API_URL_ADDRESS : API_URL_ADDRESS) + endpoint;
+        const response = await fetch(requestAddress, {
+            method: "post",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+        });
+        return await response.json();
+    } catch {
+        return API_FAILED_ERROR;
+    }
+}
 
 //function to logout
 export async function logout() {
