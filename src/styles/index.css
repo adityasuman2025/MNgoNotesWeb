@@ -120,6 +120,8 @@
     }
 
     .androidAppContainer, .androidAppContainer:hover {
+        display: flex;
+        align-items: center;
         cursor: pointer;
         text-decoration: none;
         color: #ffffff;
@@ -130,7 +132,7 @@
 
     .androidLogoImg {
         width: 30px;
-        margin-right: 5px;
+        margin-right: 8px;
     }
 /*----login/register page-----*/
 
