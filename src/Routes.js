@@ -1,14 +1,5 @@
 import React, { Suspense, lazy } from 'react';
-// import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-
-// import LandingPage from './pages/LandingPage';
-// import LoginPage from './pages/LoginPage';
-// import RegisterPage from './pages/RegisterPage';
-// import Home from './pages/Home';
-// import ViewNote from './pages/ViewNote';
-// import CreateNote from './pages/CreateNote';
-// import NotFound from './pages/NotFound';
 
 //lazy loading split the main bundle into many parts
 import LoadingAnimation from "./components/LoadingAnimation";

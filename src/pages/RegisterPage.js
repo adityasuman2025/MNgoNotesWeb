@@ -134,7 +134,6 @@ export default function RegisterPage(props) {
                     type="text"
                     placeholder="Name"
                     value={enteredName}
-                    autoFocus
                     onChange={(e) => setEnteredName(e.target.value)}
                 />
 
@@ -180,9 +179,7 @@ export default function RegisterPage(props) {
                     onChange={(e) => setEnteredConfPassCode(e.target.value)}
                 />
 
-                <CircularButton >
-                    <span className="buttonText">Register</span>
-                </CircularButton>
+                <CircularButton><span className="buttonText">Register</span></CircularButton>
                 <br />
 
                 <LoadingAnimation loading={displayLoader} />
@@ -200,32 +197,18 @@ export default function RegisterPage(props) {
                 handleClose={handleSnackBarClose}
             />
 
-            <form
-                className={cx("loginPageContent", "smallTopMargin")}
-                onSubmit={handleRegisterClick}
-            >
-                <img
-                    alt="logo img"
-                    className="logoIcon"
-                    src={require("../img/logo.png")}
-                />
-                <div className="logoTitle">
-                    {PROJECT_NAME}
-                </div>
+            <form className={cx("loginPageContent", "smallTopMargin")} onSubmit={handleRegisterClick} >
+                <img alt="logo img" className="logoIcon" src={require("../img/logo.png")} />
+                <div className="logoTitle">{PROJECT_NAME}</div>
 
                 {
                     !registerSuccess ?
                         renderRegistrationForm()
                         :
                         <div className="successRegistrationText">
-                            {"Successfully registered. Please "}
-                            <span
-                                className="signupButton"
-                                onClick={handleLoginClick}
-                            >
-                                Login
-                            </span>
-                            {" to continue"}
+                            Successfully registered. Please
+                            <span className="signupButton" onClick={handleLoginClick}> Login </span>
+                            to continue
                         </div>
                 }
             </form>

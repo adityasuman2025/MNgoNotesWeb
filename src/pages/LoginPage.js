@@ -7,7 +7,7 @@ import SnackBar from "../components/SnackBar";
 
 import { VerifyLogin } from "../apis";
 import { makeCookie, getCookieValue } from "../utils";
-import { PROJECT_NAME } from '../constants';
+import { PROJECT_NAME, ANDROID_APP_LINK } from '../constants';
 
 export default function LoginPage(props) {
     //hooks variables
@@ -98,19 +98,9 @@ export default function LoginPage(props) {
     //function to render page contenr
     function renderPageContent() {
         return (
-            <form
-                className="loginPageContent"
-                onSubmit={handleLoginClick}
-            >
-                <img
-                    alt="logo img"
-                    className="logoIcon"
-                    src={require("../img/logo.png")}
-                />
-                <div className="logoTitle">
-                    {PROJECT_NAME}
-                </div>
-                {/* <br /> */}
+            <form className="loginPageContent" onSubmit={handleLoginClick} >
+                <img alt="logo img" className="logoIcon" src={require("../img/logo.png")} />
+                <div className="logoTitle">{PROJECT_NAME}</div>
 
                 <input
                     className="inputBox"
@@ -129,38 +119,26 @@ export default function LoginPage(props) {
                     onChange={(e) => setEnteredPassword(e.target.value)}
                 />
 
-                <CircularButton >
-                    <span className="buttonText">Login</span>
-                </CircularButton>
+                <CircularButton ><span className="buttonText">Login</span></CircularButton>
                 <br />
 
                 <LoadingAnimation loading={displayLoader} />
 
                 <br /><br /><br />
                 <div className="signupText">
-                    {"Don't have an account yet? "}
-                    <span
-                        className="signupButton"
-                        onClick={handleSignUpClick}
-                    >
-                        Signup
-                    </span>
+                    Don't have an account yet?
+                    <span className="signupButton" onClick={handleSignUpClick}> Signup</span>
                 </div>
                 <br />
 
-                <a
-                    className="androidAppContainer"
-                    href="http://mngo.in/mngo_notes.apk"
-                    download={true}
-                >
-                    <img
-                        alt="androidLogo"
-                        className="androidLogoImg"
-                        src={require("../img/android.png")}
-                    />
-                     Android App
-                </a>
-                <br />
+                {
+                    ANDROID_APP_LINK ?
+                        <a className="androidAppContainer" href={ANDROID_APP_LINK} download={true}>
+                            <img alt="androidLogo" className="androidLogoImg" src={require("../img/android.png")} />
+                            Android App
+                        </a>
+                        : null
+                }
             </form>
         )
     }

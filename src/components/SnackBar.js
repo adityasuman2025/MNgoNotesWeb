@@ -1,22 +1,42 @@
-import React from "react";
+import React, { useEffect } from "react";
+import cx from "classnames";
 
-import Snackbar from "@material-ui/core/Snackbar";
-import MuiAlert from "@material-ui/lab/Alert";
+/* eslint-disable react-hooks/exhaustive-deps */
+export default function SnackBar({
+    open,
+    duration = 5000,
+    type = "error",
+    msg,
+    boxclassName,
+    textclassName,
+    handleClose,
+}) {
+    useEffect(() => {
+        setTimeout(function() {
+            console.log("hiding snack bar in " + (duration / 1000) + " s");
+            handleClose();
+        }, duration);
+    }, [msg])
 
-function Alert(props) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
+    function renderTypeStyle(type) {
+        if (type === "error") {
+            return "errorBox";
+        } else if (type === "success") {
+            return "successBox";
+        } else if (type === "info") {
+            return "infoBox";
+        }
 
-export default function SnackBar(props) {
+        return "";
+    }
+
     return (
-        <Snackbar
-            open={props.open}
-            autoHideDuration={6000}
-            onClose={props.handleClose}
-        >
-            <Alert onClose={props.handleClose} severity={props.type || "error"}>
-                {props.msg}
-            </Alert>
-        </Snackbar>
+        open ?
+            <div className="snackBarContainer">
+                <div className={cx("snackBarContent", renderTypeStyle(type), boxclassName)}>
+                    <span className={cx("snackBarText", textclassName)}>{msg}</span>
+                </div>
+            </div>
+            : null
     )
 }

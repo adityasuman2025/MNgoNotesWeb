@@ -13,5 +13,6 @@ export const AUTH_API_URL_ADDRESS = "https://mngo.in/auth_api/";
 //general variables
 export const PROJECT_NAME = "MNgo Notes";
 export const API_FAILED_ERROR = { msg: "API Connection Failed" };
+export const ANDROID_APP_LINK = "";
 
 export const MONTH_LIST = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
