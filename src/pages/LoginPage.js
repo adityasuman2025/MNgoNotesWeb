@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Redirect } from "react-router-dom";
+import { authApis, utils, SnackBar, LoadingAnimation } from "mngo-project-tools";
+import { usersRef } from "../firebaseConfig";
+import { PROJECT_NAME, ANDROID_APP_LINK, ENCRYPTION_KEY, LOGGED_USER_TOKEN_COOKIE_NAME, COOKIE_EXPIRATION_TIME } from '../constants';
 
 import CircularButton from "../components/CircularButton";
-import LoadingAnimation from "../components/LoadingAnimation";
-import SnackBar from "../components/SnackBar";
-
-import { VerifyLogin } from "../apis";
-import { makeCookie, getCookieValue } from "../utils";
-import { PROJECT_NAME, ANDROID_APP_LINK } from '../constants';
 
 export default function LoginPage(props) {
     //hooks variables
@@ -27,8 +24,7 @@ export default function LoginPage(props) {
     //componentDidMount
     useEffect(() => {
         //checking if someone is already logged in
-        const mngoNotesLoggedUserToken = getCookieValue("mngoNotesLoggedUserToken");
-        if (mngoNotesLoggedUserToken) {
+        if (utils.getCookieValue(LOGGED_USER_TOKEN_COOKIE_NAME)) {
             //redirect to user's home page
             setRedirectToUserHome(true);
             return;
@@ -56,13 +52,12 @@ export default function LoginPage(props) {
             const password = enteredPassword.trim();
             if (username !== "" && password !== "") {
                 //sending rqst to api
-                const response = await VerifyLogin(username, password);
+                const response = await authApis.verifyLogin(usersRef, username, password, ENCRYPTION_KEY);
                 if (response.statusCode === 200) {
                     const token = response.token;
                     if (token) {
                         //setting cookie and redirecting to user's home page
-                        const mngoNotesLoggedUserTokenCookie = await makeCookie("mngoNotesLoggedUserToken", token);
-                        if (mngoNotesLoggedUserTokenCookie) {
+                        if (await utils.makeCookie(LOGGED_USER_TOKEN_COOKIE_NAME, token, COOKIE_EXPIRATION_TIME)) {
                             setRedirectToUserHome(true);
                             return;
                         } else {

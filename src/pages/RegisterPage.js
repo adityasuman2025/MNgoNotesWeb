@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
 import cx from "classnames";
+import { authApis, utils, SnackBar, LoadingAnimation } from "mngo-project-tools";
+import { usersRef } from "../firebaseConfig";
+import { PROJECT_NAME, ENCRYPTION_KEY } from '../constants';
 
 import CircularButton from "../components/CircularButton";
-import LoadingAnimation from "../components/LoadingAnimation";
-import SnackBar from "../components/SnackBar";
-
-import { registerNewUser } from "../apis";
-import { validateUsername, validateEmail, validateContactNo } from "../utils";
-import { PROJECT_NAME } from '../constants';
 
 export default function RegisterPage(props) {
     //hooks variables
@@ -51,13 +48,13 @@ export default function RegisterPage(props) {
             var passCode = enteredPassCode.trim();
             var confPassCode = enteredConfPassCode.trim();
             if (username !== "" && name != "" && email !== "" && password !== "" && confPassword !== "" && passCode !== "" && confPassCode !== "") {
-                if (!validateUsername(username)) {
+                if (!utils.validateUsername(username)) {
                     setDisplayLoader(false);
                     makeSnackBar("Username cannot contain symbol and spaces");
                     return;
                 }
 
-                if (!validateEmail(email)) {
+                if (!utils.validateEmail(email)) {
                     setDisplayLoader(false);
                     makeSnackBar("Invalid email id format");
                     return;
@@ -81,14 +78,14 @@ export default function RegisterPage(props) {
                     return;
                 }
 
-                if (!validateContactNo(passCode)) {
+                if (!utils.validateNumber(passCode)) {
                     setDisplayLoader(false);
                     makeSnackBar("Pass code must be numeric");
                     return;
                 }
 
                 //sending rqst to api
-                const response = await registerNewUser(username, name, email, password, passCode);
+                const response = await authApis.registerNewUser(usersRef, username, name, email, password, passCode, ENCRYPTION_KEY);
                 if (response.statusCode === 200) {
                     makeSnackBar("Sucessfully registered. Please Login to continue", "success");
                     setRegisterSuccess(true);

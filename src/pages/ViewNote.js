@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import Hotkeys from 'react-hot-keys';
+import { utils, SnackBar, LoadingAnimation } from "mngo-project-tools";
 
-import LoadingAnimation from "../components/LoadingAnimation";
-import SnackBar from "../components/SnackBar";
 import NotesListDataItem from "../components/NotesListDataItem";
 import ConfirmDialog from "../components/ConfirmDialog";
 
 import { getListDataOfANote, deleteNotesListDataItem, deleteANote, updateNotesListData } from "../apis";
-import { getCookieValue } from '../utils';
+import { LOGGED_USER_TOKEN_COOKIE_NAME } from '../constants';
 
 export default function ViewNote({
     match: {
@@ -82,7 +81,7 @@ export default function ViewNote({
     useEffect(() => {
         try {
             //checking if someone is logged or not
-            const mngoNotesLoggedUserToken = getCookieValue("mngoNotesLoggedUserToken");
+            const mngoNotesLoggedUserToken = utils.getCookieValue(LOGGED_USER_TOKEN_COOKIE_NAME);
             if (encryptedNotesId && mngoNotesLoggedUserToken) {
                 //fetching user's notes list data from api
                 fetchNotesListData(mngoNotesLoggedUserToken, encryptedNotesId);
@@ -247,7 +246,7 @@ export default function ViewNote({
             setDisplayLoader(true);
 
             //sending rqst to api
-            const response = await deleteNotesListDataItem(getCookieValue("mngoNotesLoggedUserToken"), rowId);
+            const response = await deleteNotesListDataItem(utils.getCookieValue(LOGGED_USER_TOKEN_COOKIE_NAME), rowId);
             if (response.statusCode === 200) {
                 setNotesListData((prevNotesOldList) => {
                     return prevNotesOldList.filter(newNotesOldList => newNotesOldList.id != rowId); // !== is not working
@@ -300,7 +299,7 @@ export default function ViewNote({
         setDisplayLoader(true);
 
         //sending rqst to api
-        const response = await deleteANote(getCookieValue("mngoNotesLoggedUserToken"), encryptedNotesId);
+        const response = await deleteANote(utils.getCookieValue(LOGGED_USER_TOKEN_COOKIE_NAME), encryptedNotesId);
         if (response.statusCode === 200) {
             // props.history.goBack(); //going back to user's home page
             setRedirectToUserHome(true);
@@ -425,7 +424,7 @@ export default function ViewNote({
     async function updateANotesListData(notesDataDb, notesListDataDb, action) {
         //sending rqst to api
         const response = await updateNotesListData(
-            getCookieValue("mngoNotesLoggedUserToken"),
+            utils.getCookieValue(LOGGED_USER_TOKEN_COOKIE_NAME),
             encryptedNotesId,
             JSON.stringify(notesDataDb),
             JSON.stringify(notesListDataDb),

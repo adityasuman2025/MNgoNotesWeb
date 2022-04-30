@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
-
-import LoadingAnimation from "../components/LoadingAnimation";
-
-import { getCookieValue } from '../utils';
+import { utils, LoadingAnimation } from "mngo-project-tools";
+import { LOGGED_USER_TOKEN_COOKIE_NAME } from '../constants';
 
 export default function LandingPage() {
     //hooks variables
@@ -13,8 +11,7 @@ export default function LandingPage() {
     //componentDidMount
     useEffect(() => {
         //checking if someone is logged or not
-        const mngoNotesLoggedUserToken = getCookieValue("mngoNotesLoggedUserToken");
-        if (mngoNotesLoggedUserToken) {
+        if (utils.getCookieValue(LOGGED_USER_TOKEN_COOKIE_NAME)) {
             //redirect to user's home page
             setRedirectToUsersHome(true);
             return;
@@ -39,9 +36,7 @@ export default function LandingPage() {
             }
 
             <br /><br />
-            <center>
-                Welcome to MNgo Notes! Please wait...
-            </center>
+            <center>Welcome to MNgo Notes! Please wait...</center>
             <br />
             <LoadingAnimation loading={true} />
         </>

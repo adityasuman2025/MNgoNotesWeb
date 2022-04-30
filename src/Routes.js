@@ -1,9 +1,8 @@
 import React, { Suspense, lazy } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { LoadingAnimation } from "mngo-project-tools";
 
 //lazy loading split the main bundle into many parts
-import LoadingAnimation from "./components/LoadingAnimation";
-
 const LandingPage = lazy(() => import('./pages/LandingPage'));
 const LoginPage = lazy(() => import('./pages/LoginPage'));
 const RegisterPage = lazy(() => import('./pages/RegisterPage'));

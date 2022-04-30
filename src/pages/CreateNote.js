@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import Hotkeys from 'react-hot-keys';
+import { utils, SnackBar, LoadingAnimation } from "mngo-project-tools";
 
 import NotesListDataItem from "../components/NotesListDataItem";
-import LoadingAnimation from "../components/LoadingAnimation";
-import SnackBar from "../components/SnackBar";
 
 import { addUserNotes } from "../apis";
-import { getCookieValue } from '../utils';
+import { LOGGED_USER_TOKEN_COOKIE_NAME } from '../constants';
 
 export default function CreateNote(props) {
     //hooks variables
@@ -30,8 +29,7 @@ export default function CreateNote(props) {
     useEffect(() => {
         try {
             //checking if someone is logged or not
-            const mngoNotesLoggedUserToken = getCookieValue("mngoNotesLoggedUserToken");
-            if (mngoNotesLoggedUserToken) {
+            if (utils.getCookieValue(LOGGED_USER_TOKEN_COOKIE_NAME)) {
                 setDisplayLoader(false);
             } else {
                 //no one is logged
@@ -198,7 +196,7 @@ export default function CreateNote(props) {
                 setDisplayLoader(true);
                 //sending rqst to api
                 const response = await addUserNotes(
-                    getCookieValue("mngoNotesLoggedUserToken"),
+                    utils.getCookieValue(LOGGED_USER_TOKEN_COOKIE_NAME),
                     JSON.stringify(notesData),
                     JSON.stringify(notesListData),
                 );

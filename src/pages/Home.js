@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
+import { utils, SnackBar, LoadingAnimation } from "mngo-project-tools";
 
-import LoadingAnimation from "../components/LoadingAnimation";
 import NotesListItem from "../components/NotesListItem";
 import NavBar from "../components/NavBar";
-import SnackBar from "../components/SnackBar";
 
 import { getUserNotes } from "../apis";
-import { getCookieValue } from '../utils';
+import { LOGGED_USER_TOKEN_COOKIE_NAME } from '../constants';
 
 export default function Home(props) {
     //hooks variables
@@ -25,7 +24,7 @@ export default function Home(props) {
     useEffect(() => {
         try {
             //checking if someone is logged or not
-            const mngoNotesLoggedUserToken = getCookieValue("mngoNotesLoggedUserToken");
+            const mngoNotesLoggedUserToken = utils.getCookieValue(LOGGED_USER_TOKEN_COOKIE_NAME);
             if (mngoNotesLoggedUserToken) {
                 //fetching user's notes list from api
                 fetchUserNotesList(mngoNotesLoggedUserToken);

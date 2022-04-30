@@ -1,21 +1,17 @@
-import { sendRequestToAPI } from "./utils"
+import { AUTH_API_URL_ADDRESS, API_URL_ADDRESS, API_FAILED_ERROR } from "./constants";
 
-export async function VerifyLogin(username, password) {
-    return await sendRequestToAPI("verify_user.php", {
-        username: username,
-        password: password,
-    }, true);
-}
-
-export async function registerNewUser(username, name, email, password, passcode) {
-    return await sendRequestToAPI("register_user.php", {
-        username,
-        name,
-        email,
-        password,
-        passcode,
-        registeringFor: "NotesApp",
-    }, true);
+async function sendRequestToAPI(endpoint, body, isAuth) {
+    try {
+        const requestAddress = (isAuth ? AUTH_API_URL_ADDRESS : API_URL_ADDRESS) + endpoint;
+        const response = await fetch(requestAddress, {
+            method: "post",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+        });
+        return await response.json();
+    } catch {
+        return API_FAILED_ERROR;
+    }
 }
 
 export async function getUserNotes(logged_user_token) {
