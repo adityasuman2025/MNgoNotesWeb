@@ -2,11 +2,10 @@ import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import Hotkeys from 'react-hot-keys';
 import { utils, SnackBar, LoadingAnimation } from "mngo-project-tools";
-
-import NotesListDataItem from "../components/NotesListDataItem";
-
 import { addUserNotes } from "../apis";
 import { LOGGED_USER_TOKEN_COOKIE_NAME } from '../constants';
+
+import NotesListDataItem from "../components/NotesListDataItem";
 
 export default function CreateNote(props) {
     //hooks variables
