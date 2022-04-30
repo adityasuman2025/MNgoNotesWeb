@@ -10,7 +10,6 @@ export const IS_PASS_CODE_REQUIRED = process.env.REACT_APP_IS_PASS_CODE_REQUIRED
 
 //auth variables
 export const API_URL_ADDRESS = "https://mngo.in/notes_api2/";
-export const AUTH_API_URL_ADDRESS = "https://mngo.in/auth_api/";
 
 //general variables
 export const PROJECT_NAME = "MNgo Notes";

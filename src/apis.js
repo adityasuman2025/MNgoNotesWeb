@@ -1,8 +1,8 @@
-import { AUTH_API_URL_ADDRESS, API_URL_ADDRESS, API_FAILED_ERROR } from "./constants";
+import { API_URL_ADDRESS, API_FAILED_ERROR } from "./constants";
 
 async function sendRequestToAPI(endpoint, body, isAuth) {
     try {
-        const requestAddress = (isAuth ? AUTH_API_URL_ADDRESS : API_URL_ADDRESS) + endpoint;
+        const requestAddress = API_URL_ADDRESS + endpoint;
         const response = await fetch(requestAddress, {
             method: "post",
             headers: { 'Content-Type': 'application/json' },
