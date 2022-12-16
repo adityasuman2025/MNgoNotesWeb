@@ -1,10 +1,11 @@
 import React from "react";
+import { utils } from "mngo-project-toolss";
 
 export default function CircularButton(props) {
     return (
         <button
             onClick={props.onClick}
-            className={["circularBtnContainer", props.className].join(" ")}
+            className={utils.cx("circularBtnContainer", props.className)}
         >
             {props.children}
         </button>

@@ -46,7 +46,7 @@ export default function RegisterPage(props) {
 
             var passCode = enteredPassCode.trim();
             var confPassCode = enteredConfPassCode.trim();
-            if (username !== "" && name != "" && email !== "" && password !== "" && confPassword !== "" && passCode !== "" && confPassCode !== "") {
+            if (username !== "" && name !== "" && email !== "" && password !== "" && confPassword !== "" && passCode !== "" && confPassCode !== "") {
                 if (!utils.validateUsername(username)) {
                     setDisplayLoader(false);
                     makeSnackBar("Username cannot contain symbol and spaces");
@@ -193,7 +193,7 @@ export default function RegisterPage(props) {
                 handleClose={handleSnackBarClose}
             />
 
-            <form className={["loginPageContent", "smallTopMargin"].join(" ")} onSubmit={handleRegisterClick} >
+            <form className={utils.cx("loginPageContent", "smallTopMargin")} onSubmit={handleRegisterClick} >
                 <img alt="logo img" className="logoIcon" src={require("../img/logo.png")} />
                 <div className="logoTitle">{PROJECT_NAME}</div>
 

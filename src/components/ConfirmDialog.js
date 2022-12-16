@@ -1,4 +1,5 @@
 import React from "react";
+import { utils } from "mngo-project-toolss";
 
 export default function ConfirmDialog({
     className,
@@ -15,7 +16,7 @@ export default function ConfirmDialog({
                     <>
                         <div className="dialogBackGrnd" onClick={onClose}></div>
 
-                        <div className={["dialog", className].join(" ")}>
+                        <div className={utils.cx("dialog", className)}>
                             <div className="dialogHeader">
                                 <div>{dialogText}</div>
                                 <div className="dialogCloseBtn" onClick={onClose}>x</div>

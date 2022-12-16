@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "firebase": "^8.2.5",
-    "mngo-project-toolss": "^0.1.0",
+    "mngo-project-toolss": "^0.1.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-hot-keys": "^2.6.0",

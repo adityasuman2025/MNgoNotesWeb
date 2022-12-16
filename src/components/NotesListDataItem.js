@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from "react";
+import { utils } from "mngo-project-toolss";
 
 export default function NotesListDataItem({
     idx,
@@ -45,7 +46,7 @@ export default function NotesListDataItem({
                     <input
                         ref={inputRef}
                         type="text"
-                        className={["notesListDataFieldInput", ...[ isActive === 2 ? 'checked': '' ]].join(" ")}
+                        className={utils.cx("notesListDataFieldInput", ...[isActive === 2 ? 'checked' : ''])}
                         placeholder="type text"
                         value={title}
                         onChange={(e) => onInputFieldChange(idx, rowId, e.target.value)}
