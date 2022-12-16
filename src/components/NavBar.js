@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
-import { utils } from "mngo-project-tools";
+import { utils } from "mngo-project-toolss";
 
 import ConfirmDialog from "./ConfirmDialog";
 
@@ -41,7 +41,6 @@ export default function NavBar() {
             <ConfirmDialog
                 isDialogOpen={isConfirmDialogOpen}
                 dialogText="Are you sure to logout?"
-                // dialogDetails=""
                 onClose={handleConfirmDialogClose}
                 onConfirm={handleConfirmDialogConfirm}
             />

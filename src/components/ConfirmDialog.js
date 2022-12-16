@@ -1,46 +1,37 @@
 import React from "react";
 
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Slide from '@material-ui/core/Slide';
-
-const Transition = React.forwardRef(function Transition(props, ref) {
-    return <Slide direction="up" ref={ref} {...props} />;
-});
-
 export default function ConfirmDialog({
+    className,
     isDialogOpen,
-    animate,
     dialogText,
     dialogDetails,
     onClose,
     onConfirm,
 }) {
     return (
-        <Dialog
-            open={isDialogOpen}
-            onClose={onClose}
-            TransitionComponent={animate ? Transition : undefined}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description" >
-            <DialogTitle id="alert-dialog-title">{dialogText}</DialogTitle>
-
+        <>
             {
-                dialogDetails ?
-                    <DialogContent>
-                        <DialogContentText id="alert-dialog-description">{dialogDetails}</DialogContentText>
-                    </DialogContent>
-                    : null
-            }
+                !isDialogOpen ? null :
+                    <>
+                        <div className="dialogBackGrnd" onClick={onClose}></div>
 
-            <DialogActions>
-                <Button variant="outlined" color="secondary" onClick={onConfirm}>Yes</Button>
-                <Button variant="outlined" color="primary" onClick={onClose}>No</Button>
-            </DialogActions>
-        </Dialog >
+                        <div className={["dialog", className].join(" ")}>
+                            <div className="dialogHeader">
+                                <div>{dialogText}</div>
+                                <div className="dialogCloseBtn" onClick={onClose}>x</div>
+                            </div>
+
+                            <div className="dialogContent">
+                                <div>{dialogDetails}</div>
+
+                                <div className="dialogBtns">
+                                    <button onClick={onConfirm}>Yes</button>
+                                    <button className="dialogNo" onClick={onClose}>No</button>
+                                </div>
+                            </div>
+                        </div>
+                    </>
+            }
+        </>
     )
 }

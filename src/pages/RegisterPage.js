@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import cx from "classnames";
-import { authApis, utils, SnackBar, LoadingAnimation } from "mngo-project-tools";
+import { authApis, utils, SnackBar, LoadingAnimation } from "mngo-project-toolss";
 import { usersRef } from "../firebaseConfig";
 import { PROJECT_NAME, ENCRYPTION_KEY } from '../constants';
 
@@ -194,7 +193,7 @@ export default function RegisterPage(props) {
                 handleClose={handleSnackBarClose}
             />
 
-            <form className={cx("loginPageContent", "smallTopMargin")} onSubmit={handleRegisterClick} >
+            <form className={["loginPageContent", "smallTopMargin"].join(" ")} onSubmit={handleRegisterClick} >
                 <img alt="logo img" className="logoIcon" src={require("../img/logo.png")} />
                 <div className="logoTitle">{PROJECT_NAME}</div>
 

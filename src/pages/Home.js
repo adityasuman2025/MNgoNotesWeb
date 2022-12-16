@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
-import { utils, SnackBar, LoadingAnimation } from "mngo-project-tools";
+import { utils, SnackBar, LoadingAnimation } from "mngo-project-toolss";
 import { getUserNotes } from "../apis";
 import { LOGGED_USER_TOKEN_COOKIE_NAME } from '../constants';
 

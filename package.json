@@ -3,10 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@material-ui/core": "^4.11.0",
-    "classnames": "^2.2.6",
     "firebase": "^8.2.5",
-    "mngo-project-tools": "^0.3.1",
+    "mngo-project-toolss": "^0.1.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-hot-keys": "^2.6.0",

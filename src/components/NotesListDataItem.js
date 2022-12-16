@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from "react";
-import classNames from "classnames";
 
 export default function NotesListDataItem({
     idx,
@@ -46,7 +45,7 @@ export default function NotesListDataItem({
                     <input
                         ref={inputRef}
                         type="text"
-                        className={classNames("notesListDataFieldInput", { checked: isActive === 2 })}
+                        className={["notesListDataFieldInput", ...[ isActive === 2 ? 'checked': '' ]].join(" ")}
                         placeholder="type text"
                         value={title}
                         onChange={(e) => onInputFieldChange(idx, rowId, e.target.value)}

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import Hotkeys from 'react-hot-keys';
-import { utils, SnackBar, LoadingAnimation } from "mngo-project-tools";
+import { utils, SnackBar, LoadingAnimation } from "mngo-project-toolss";
 import { getListDataOfANote, deleteNotesListDataItem, deleteANote, updateNotesListData } from "../apis";
 import { LOGGED_USER_TOKEN_COOKIE_NAME } from '../constants';
 
