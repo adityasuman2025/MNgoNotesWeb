@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
-import { utils, LoadingAnimation } from "mngo-project-toolss";
+import { utils, LoadingAnimation } from "mngo-project-tools";
 import { LOGGED_USER_TOKEN_COOKIE_NAME } from '../constants';
 
 export default function LandingPage() {

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Redirect } from "react-router-dom";
-import { authApis, utils, SnackBar, LoadingAnimation } from "mngo-project-toolss";
+import { authApis, utils, SnackBar, LoadingAnimation } from "mngo-project-tools";
 import { usersRef } from "../firebaseConfig";
 import { PROJECT_NAME, ANDROID_APP_LINK, ENCRYPTION_KEY, LOGGED_USER_TOKEN_COOKIE_NAME, COOKIE_EXPIRATION_TIME } from '../constants';
 

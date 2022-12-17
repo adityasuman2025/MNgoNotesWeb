@@ -1,6 +1,6 @@
 import React, { Suspense, lazy } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { LoadingAnimation } from "mngo-project-toolss";
+import "mngo-project-tools/dist/style.css";
 
 //lazy loading split the main bundle into many parts
 const LandingPage = lazy(() => import('./pages/LandingPage'));
@@ -14,9 +14,7 @@ const NotFound = lazy(() => import('./pages/NotFound'));
 const Routes = () => (
     <BrowserRouter >
         <Suspense fallback={
-            <div className="routeLoading">
-                <LoadingAnimation loading />
-            </div>
+            <div className="routeLoading">loading</div>
         }>
             <Switch>
                 <Route exact path="/" component={LandingPage} />

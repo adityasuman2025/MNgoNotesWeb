@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
-import { utils } from "mngo-project-toolss";
-
-import ConfirmDialog from "./ConfirmDialog";
+import { utils, ConfirmDialog } from "mngo-project-tools";
 
 import { PROJECT_NAME, LOGGED_USER_TOKEN_COOKIE_NAME, COOKIE_EXPIRATION_TIME } from "../constants";
 

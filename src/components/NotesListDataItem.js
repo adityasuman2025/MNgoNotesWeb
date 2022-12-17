@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { utils } from "mngo-project-toolss";
+import { utils } from "mngo-project-tools";
 
 export default function NotesListDataItem({
     idx,

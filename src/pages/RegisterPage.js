@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { authApis, utils, SnackBar, LoadingAnimation } from "mngo-project-toolss";
+import { authApis, utils, SnackBar, LoadingAnimation } from "mngo-project-tools";
 import { usersRef } from "../firebaseConfig";
 import { PROJECT_NAME, ENCRYPTION_KEY } from '../constants';
 
