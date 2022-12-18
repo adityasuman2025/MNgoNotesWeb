@@ -8,11 +8,6 @@ body {
     background-color: #455a64;
 }
 
-code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
-
 .routeLoading {
     display: flex;
     align-items: center;
@@ -21,380 +16,317 @@ code {
     height: 100vh;
 }
 
-
 /*----input fields placeholder color-------*/
-::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
-    color: #d8d8d8;
-    opacity: 1; /* Firefox */
-}
+    ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+        color: #d8d8d8;
+        opacity: 1; /* Firefox */
+    }
 
-:-ms-input-placeholder { /* Internet Explorer 10-11 */
-    color: #d8d8d8;
-}
+    :-ms-input-placeholder { /* Internet Explorer 10-11 */
+        color: #d8d8d8;
+    }
 
-::-ms-input-placeholder { /* Microsoft Edge */
-    color: #d8d8d8;
-}
+    ::-ms-input-placeholder { /* Microsoft Edge */
+        color: #d8d8d8;
+    }
 
-.center {
-    text-align: center;
-}
-
-.floatRight {
-    float: right;
-}
-
-.redColored {
-    color: red;
-}
-
-.noPadding {
-    padding: 0;
-}
-
-.checked {
-    text-decoration: line-through;
-    background-color: red;
-    /* text-decoration-style: solid; */
-}
+    .checked {
+        text-decoration: line-through;
+    }
+/*----input fields placeholder color-------*/
 
 /*----login/register page-----*/
-.loginPageContent {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    .loginPageContent {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
 
-    /* background-color: grey; */
-    width: 60%;
-    margin: auto;
+        /* background-color: grey; */
+        width: 60%;
+        margin: auto;
 
-    margin-top: 50px;
-}
+        margin-top: 50px;
+    }
 
-.smallTopMargin {
-    margin-top: 20px;
-}
+    .smallTopMargin {
+        margin-top: 20px;
+    }
 
-.logoIcon {
-    width: 200px;
-}
+    .logoIcon {
+        width: 200px;
+    }
 
-.logoTitle {
-    font-size: 21px;
-    font-weight: 600;
-    color: white;
-}
+    .logoTitle {
+        font-size: 21px;
+        font-weight: 600;
+        color: white;
+    }
 
-.inputBox {
-    width: 350px;
-    height: 45px;
-    background-color: rgba(255, 255,255,0.2);
-    border: none;
-    border-radius: 25px;
-    padding: 0px 16px; /*vertical horizontal */
-    font-size: 16px;
-    color: #ffffff;
-    margin: 10px 0px;
-}
+    .inputBox {
+        width: 350px;
+        height: 45px;
+        background-color: rgba(255, 255,255,0.2);
+        border: none;
+        border-radius: 25px;
+        padding: 0px 16px; /*vertical horizontal */
+        font-size: 16px;
+        color: #ffffff;
+        margin: 10px 0px;
+    }
 
-.buttonText {
-    font-size: 16px;
-    font-weight: 500;
-    color: #d8d8d8;
-    text-align: center;
-}
+    .buttonText {
+        font-size: 16px;
+        font-weight: 500;
+        color: #d8d8d8;
+        text-align: center;
+    }
 
-.signupText {
-    /* position: fixed; */
-    /* bottom: 15px; */
-    width: 100%;
-    text-align: center;
+    .signupText {
+        width: 100%;
+        text-align: center;
 
-    color: rgba(255,255,255,0.6);
-    font-size: 16px;
-}
+        color: rgba(255,255,255,0.6);
+        font-size: 16px;
+    }
 
-.signupButton {
-    color: #ffffff;
-    font-size: 16px;
-    font-weight: 500;
-    cursor: pointer;
-}
+    .signupButton {
+        color: #ffffff;
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+    }
 
-.successRegistrationText {
-    padding: 20px;
-    color: rgba(255,255,255,0.6);
-    font-size: 16px;
-}
-
-.androidAppContainer, .androidAppContainer:hover {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    text-decoration: none;
-    color: #ffffff;
-    background-color: #1c313a;
-    padding: 10px;
-    border-radius: 5px;
-}
-
-.androidLogoImg {
-    width: 30px;
-    margin-right: 8px;
-}
+    .successRegistrationText {
+        padding: 20px;
+        color: rgba(255,255,255,0.6);
+        font-size: 16px;
+    }
 /*----login/register page-----*/
 
 
 /*-----navbar--------*/
-.navBar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right:0;
-    z-index: 1;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid #3d4e56;
-    padding: 5px 10px;
-    background-color: #455a64;
-}
+    .navBar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right:0;
+        z-index: 1;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid #3d4e56;
+        padding: 5px 10px;
+        background-color: #455a64;
+    }
 
-.navBarBrand {
-    display: flex;
-    align-items: center;
-}
+    .navBarBrand {
+        display: flex;
+        align-items: center;
+    }
 
-.navLogoImg {
-    width: 40px;
-    margin-right: 7px;
-}
+    .navLogoImg {
+        width: 40px;
+        margin-right: 7px;
+    }
 
-.navTitle {
-    font-weight: bold;
-    font-size: 20px;
-    color: #fff;
-}
+    .navTitle {
+        font-weight: bold;
+        font-size: 20px;
+        color: #fff;
+    }
 
-.logOutImg {
-    width: 30px;
-    cursor: pointer;
-
-    /* tintColor: #181915; */
-    filter: invert(6%) sepia(16%) saturate(592%) hue-rotate(34deg) brightness(96%) contrast(91%);
-}
+    .logOutImg {
+        width: 30px;
+        cursor: pointer;
+        filter: invert(6%) sepia(16%) saturate(592%) hue-rotate(34deg) brightness(96%) contrast(91%); /* tintColor: #181915; */
+    }
 /*-----navbar--------*/
 
 
 /*----notes list-----*/
-.notesListContainer {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: 60%;
-    margin: auto;
-    margin-top: 25px;
-    margin-bottom: 20px;
+    .notesListContainer {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 60%;
+        margin: auto;
+        margin-top: 25px;
+        margin-bottom: 20px;
+    }
 
-    /* background-color: rebeccapurple; */
-}
+    .notesListItem {
+        display: flex;
+        flex: 1;
+        justify-content: flex-start;
+        align-items: center;
 
-.notesListItem {
-    display: flex;
-    flex: 1;
-    justify-content: flex-start;
-    align-items: center;
+        border-bottom: .5px solid #1c313a;
+        border-radius: 8px;
+        box-shadow: 1px 1px 5px #3d4e56;
+        padding: 15px;
+        margin: 5px 5px;
+        cursor: pointer;
+    }
 
-    border-bottom: .5px solid #1c313a;
-    border-radius: 8px;
-    box-shadow: 1px 1px 5px #3d4e56;
-    padding: 15px;
-    margin: 5px 5px;
-    cursor: pointer;
-}
+    .notesListImg {
+        height: 100px;
+        margin-right: 15px;
+        /* used from https://codepen.io/sosuke/pen/Pjoqqp */
+        filter: invert(95%) sepia(43%) saturate(0%) hue-rotate(191deg) brightness(114%) contrast(100%);
+    }
 
-.notesListImg {
-    height: 100px;
-    margin-right: 15px;
+    .notesListText {
+        width: 100%;
+    }
 
-    /* this filter will give = tintColor: '#fff' */
-    /* used from https://codepen.io/sosuke/pen/Pjoqqp */
-    filter: invert(95%) sepia(43%) saturate(0%) hue-rotate(191deg) brightness(114%) contrast(100%);
-}
+    .notesListTitleText {
+        color: #d8d8d8;
+        font-weight: bold;
+        font-size: 18px;
+    }
 
-.notesListText {
-    width: 100%;
-}
-
-.notesListTitleText {
-    color: #d8d8d8;
-    font-weight: bold;
-    font-size: 18px;
-}
-
-.notesListType {
-    color: #1c313a;
-    text-align: left;
-    padding: 0px;
-    margin: 0px;
-    font-size: 15px;
-}
+    .notesListType {
+        color: #1c313a;
+        text-align: left;
+        padding: 0px;
+        margin: 0px;
+        font-size: 15px;
+    }
 /*----notes list-----*/
 
 
-/*-----notes list data------*/
-.notesHeaderContainer {
-    position: fixed;
-    top: 0px;
-    left: 0px;
-    right: 0px;
-    z-index: 1;
-    padding-top: 6px;
+/*-----notes content------*/
+    .pickerBox {
+        width: 50%;
+        height: 25px;
 
-    background-color: #455a64;
-}
+        margin: 0px;
+        color:#d8d8d8;
+        padding: 0px 15px;
+        margin-top: 5px;
 
-.notesHeader {
-    width: 60%;
-    display: flex;
-    align-items: center; /*vertical align*/
-    justify-content: space-between; /*horizontal align*/
-    margin: auto;
-    padding: 0 5px;
-}
+        background: none;
+        border: none;
+    }
 
-.notesTitleContainer {
-    display: flex;
-    align-items: center; /*vertical align*/
-    flex: 1;
-}
+    .notesHeaderContainer {
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        right: 0px;
+        z-index: 1;
+        padding-top: 6px;
+        background-color: #455a64;
+    }
 
-.saveNoteImg {
-    height: 30px;
-    margin-right: 10px;
-    cursor: pointer;
+    .notesHeader {
+        width: 60%;
+        display: flex;
+        align-items: center; /*vertical align*/
+        justify-content: space-between; /*horizontal align*/
+        margin: auto;
+        padding: 0 5px;
+    }
 
-    /* tintColor: '#d8d8d8', */
-    filter: invert(100%) sepia(0%) saturate(4848%) hue-rotate(33deg) brightness(115%) contrast(69%);
-}
+    .notesTitleContainer {
+        display: flex;
+        align-items: center; /*vertical align*/
+        flex: 1;
+    }
 
-.notesInputBox {
-    width: 95%;
-    height: 40px;
+    .notesInputBox {
+        width: 95%;
+        height: 40px;
 
-    margin: 0px;
-    padding: 0px 5px;
-    color: #fff;
-    font-size: 25px;
-    font-weight: bold;
+        margin: 0px;
+        padding: 0px 5px;
+        color: #fff;
+        font-size: 25px;
+        font-weight: bold;
 
-    background: none;
-    border: none;
-}
+        background: none;
+        border: none;
+    }
 
-.deleteNotesImg {
-    width: 25px;
-    cursor: pointer;
+    .deleteNotesImg {
+        width: 25px;
+        cursor: pointer;
+        filter: invert(17%) sepia(50%) saturate(347%) hue-rotate(152deg) brightness(94%) contrast(99%);/* tintColor: '#1c313a', */
+    }
 
-    /* tintColor: '#1c313a', */
-    filter: invert(17%) sepia(50%) saturate(347%) hue-rotate(152deg) brightness(94%) contrast(99%);
-}
+    .notesFormContainer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        width: 97%;
+        margin: auto;
+    }
 
-.notesFormContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    width: 97%;
-    margin: auto;
-}
+    .addNotesListDataItemBtn {
+        cursor: pointer;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        align-self: flex-start;
+        display: flex;
+        align-items: center;
+        color: #d8d8d8;
+        font-weight: 500;
+    }
 
-.addNotesListDataItemBtn {
-    cursor: pointer;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    align-self: flex-start;
-}
+    .addNotesListDataItemBtn img {
+        height: 21px;
+        margin-right: 5px;
+        filter: invert(100%) sepia(0%) saturate(4848%) hue-rotate(33deg) brightness(115%) contrast(69%); /* tintColor:'#d8d8d8', */
+    }
 
-.addNotesListDataItemBtnIcon {
-    height: 21px;
-    margin-right: 2px;
+    .notesListDataFields {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 7px;
+        width: 100%;
+    }
 
-    /* tintColor:'#d8d8d8', */
-    filter: invert(100%) sepia(0%) saturate(4848%) hue-rotate(33deg) brightness(115%) contrast(69%);
-}
+    .notesListDataFieldCheckedIcon{
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+        filter: invert(100%) sepia(0%) saturate(4848%) hue-rotate(33deg) brightness(115%) contrast(69%); /* tintColor: '#d8d8d8', */
+    }
 
-.addNotesListDataItemBtnText {
-    color: #d8d8d8;
-    font-weight: 500;
-}
+    .notesListDataFieldRemoveIcon {
+        width: 16px;
+        height: 16px;
+        cursor: pointer;
+        filter: invert(15%) sepia(38%) saturate(576%) hue-rotate(152deg) brightness(94%) contrast(92%); /* tintColor: '#1c313a', */
+    }
 
-.notesListDataFields {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 7px;
-    width: 100%;
-}
+    .notesListDataFieldInput {
+        width: 97%;
+        margin: 0px 5px;
+        padding: 0px 7px;
+        color: #d8d8d8;
+        font-size: 16px;
 
-.notesListDataFieldCheckedIcon{
-    width: 20px;
-    height: 20px;
-    cursor: pointer;
+        background: none;
+        border: none;
+    }
 
-    /* tintColor: '#d8d8d8', */
-    filter: invert(100%) sepia(0%) saturate(4848%) hue-rotate(33deg) brightness(115%) contrast(69%);
-}
+    .notesListDataFieldTextArea {
+        background: none;
+        border: none;
+        resize: none;
 
-.notesListDataFieldRemoveIcon {
-    width: 16px;
-    height: 16px;
-    cursor: pointer;
-
-    /* tintColor: '#1c313a', */
-    filter: invert(15%) sepia(38%) saturate(576%) hue-rotate(152deg) brightness(94%) contrast(92%);
-}
-
-.notesListDataFieldInput {
-    width: 97%;
-    margin: 0px 5px;
-    padding: 0px 7px;
-    color: #d8d8d8;
-    font-size: 16px;
-
-    background: none;
-    border: none;
-}
-
-.notesListDataFieldTextArea {
-    background: none;
-    border: none;
-    resize: none;
-
-    width: 100%;
-    height: 700px;
-    margin: 0px 5px;
-    padding: 0px 7px;
-    color: #d8d8d8;
-    font-size: 16.5px;
-}
-/*-----notes list data------*/
-
-
-/*------create note page-----*/
-.pickerBox {
-    width: 50%;
-    height: 25px;
-
-    margin: 0px;
-    color:#d8d8d8;
-    padding: 0px 15px;
-    margin-top: 5px;
-
-    background: none;
-    border: none;
-}
+        width: 100%;
+        height: 700px;
+        margin: 0px 5px;
+        padding: 0px 7px;
+        color: #d8d8d8;
+        font-size: 16.5px;
+    }
+/*-----notes content------*/
 
 
 /*----others-----*/
@@ -430,18 +362,7 @@ code {
 .createNewNoteImg {
     height: 50%;
     width: 50%;
-    /* tintColor: '#455a64', */
-    filter: invert(31%) sepia(43%) saturate(259%) hue-rotate(154deg) brightness(94%) contrast(87%);
-}
-
-.whiteLink {
-    color: white;
-    text-decoration: none
-}
-
-.whiteLink:hover {
-    color: white;
-    text-decoration: none
+    filter: invert(31%) sepia(43%) saturate(259%) hue-rotate(154deg) brightness(94%) contrast(87%); /* tintColor: '#455a64', */
 }
 
 
@@ -517,10 +438,6 @@ code {
     .notesInputBox {
         width: 260px;
         font-size: 24px;
-    }
-
-    .saveNoteImg {
-        height: 26px;
     }
 
     .deleteNotesImg {

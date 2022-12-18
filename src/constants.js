@@ -8,13 +8,10 @@ export const COOKIE_EXPIRATION_TIME = COOKIE_EXPIRATION_TYM;
 export const ENCRYPTION_KEY = process.env.REACT_APP_ENCRYPTION_KEY;
 export const IS_PASS_CODE_REQUIRED = process.env.REACT_APP_IS_PASS_CODE_REQUIRED;
 
-//auth variables
-export const API_URL_ADDRESS = "https://mngo.in/notes_api2/";
-
 //general variables
 export const PROJECT_NAME = "MNgo Notes";
 export const LOGGED_USER_TOKEN_COOKIE_NAME = "mngoNotesLoggedUserToken";
 export const API_FAILED_ERROR = { msg: "API Connection Failed" };
-export const ANDROID_APP_LINK = "";
+export const TYPE_TO_DO = 2;
 
 export const MONTH_LIST = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];

@@ -1,35 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
-import { utils, SnackBar, LoadingAnimation } from "mngo-project-tools";
-import { getUserNotes } from "../apis";
-import { LOGGED_USER_TOKEN_COOKIE_NAME } from '../constants';
-
-import NotesListItem from "../components/NotesListItem";
+import { utils, SnackBar, LoadingAnimation, encryptionUtil } from "mngo-project-tools";
+import { getUserNotes, createUserNote } from "../apis";
+import { LOGGED_USER_TOKEN_COOKIE_NAME, ENCRYPTION_KEY } from '../constants';
+import NoteItem from "../components/NoteItem";
 import NavBar from "../components/NavBar";
 
 export default function Home(props) {
-    //hooks variables
-    const [redirectToLandingPage, setRedirectToLandingPage] = useState(false);
-
     const [displayLoader, setDisplayLoader] = useState(true);
-
-    const [notesList, setNotesList] = useState([]);
-
+    const [redirectToLandingPage, setRedirectToLandingPage] = useState(false);
     const [snackBarVisible, setSnackBarVisible] = useState(false);
     const [snackBarMsg, setSnackBarMsg] = useState("");
     const [snackBarType, setSnackBarType] = useState("success");
 
-    //componentDidMount
+    const [notesList, setNotesList] = useState([]);
+
     useEffect(() => {
         try {
-            //checking if someone is logged or not
-            const mngoNotesLoggedUserToken = utils.getCookieValue(LOGGED_USER_TOKEN_COOKIE_NAME);
-            if (mngoNotesLoggedUserToken) {
-                //fetching user's notes list from api
-                fetchUserNotesList(mngoNotesLoggedUserToken);
-            } else {
-                //no one is logged
-                //redirecting to landing page
+            const userToken = utils.getCookieValue(LOGGED_USER_TOKEN_COOKIE_NAME);
+            if (userToken) fetchUserNotesList(userToken);
+            else {
+                //no one is logged //redirecting to landing page
                 setDisplayLoader(false);
                 setRedirectToLandingPage(true);
                 return;
@@ -39,14 +30,12 @@ export default function Home(props) {
         }
     }, []);
 
-    //function to fetch user's notes list from api
     async function fetchUserNotesList(loggedUserToken) {
-        //sending rqst to api
         const response = await getUserNotes(loggedUserToken);
         if (response.statusCode === 200) {
             const data = response.data;
             if (data) {
-                setNotesList(data);
+                if (data.notesList.length) setNotesList(data.notesList);
             } else {
                 makeSnackBar("Something went wrong");
             }
@@ -57,7 +46,6 @@ export default function Home(props) {
         setDisplayLoader(false);
     }
 
-    //function to make a snack-bar
     function makeSnackBar(msg, type) {
         setSnackBarMsg(msg);
         setSnackBarType(type);
@@ -65,21 +53,21 @@ export default function Home(props) {
         setSnackBarVisible(true);
     }
 
-    //function to close snack-bar
-    function handleSnackBarClose() {
-        setSnackBarVisible(false);
+    async function handleCreateNoteBtnClick() {
+        const userToken = utils.getCookieValue(LOGGED_USER_TOKEN_COOKIE_NAME);
+        const userNoteId = encryptionUtil.md5Hash(userToken + "_note_" + (new Date().getTime()) + "_" + ENCRYPTION_KEY);
+        const response = await createUserNote(userToken, userNoteId);
+        if (response.statusCode === 200) {
+            props.history.push("/note/" + userNoteId);
+            return;
+        } else {
+            makeSnackBar(response.msg);
+        }
     }
 
-    //when Create New Note Button is clicked
-    function hanldeCreateNewNoteBtnClick() {
-        props.history.push("/create-note");
-    }
-
-    //function to handle when any note item is clicked on
-    async function handleNotesListItemClick(item) {
-        if (item.encrypted_notes_id) {
-            const encrypted_notes_id = item.encrypted_notes_id;
-            props.history.push("/view-note/" + encrypted_notes_id);
+    async function handleNoteItemClick(item) {
+        if (item.id) {
+            props.history.push("/note/" + item.id);
             return;
         } else {
             makeSnackBar("Something went wrong");
@@ -90,59 +78,31 @@ export default function Home(props) {
     function renderPageContent() {
         return (
             <>
-                <NavBar />
-                <br /><br />
+                <NavBar /><br /><br />
 
                 <div className="notesListContainer">
-                    {
-                        notesList.map(function(item, idx) {
-                            return (
-                                <NotesListItem
-                                    key={idx}
-                                    noteDetails={item}
-                                    onClick={handleNotesListItemClick}
-                                />
-                            )
-                        })
-                    }
+                    {notesList.map((item, idx) => <NoteItem key={idx} noteDetails={item} onClick={handleNoteItemClick} />)}
                 </div>
 
-                <div
-                    className="createNewNoteBtn"
-                    onClick={hanldeCreateNewNoteBtnClick}
-                >
-                    <img
-                        alt="createNewNoteImg"
-                        src={require('../img/add1.png')}
-                        className="createNewNoteImg"
-                    />
+                <div className="createNewNoteBtn" onClick={handleCreateNoteBtnClick} >
+                    <img alt="createNewNoteImg" src={require('../img/add1.png')} className="createNewNoteImg" />
                 </div>
             </>
         )
     }
 
-    //component rendering
     return (
         <>
-            {
-                //redirecting to landing page
-                redirectToLandingPage ? <Redirect to="/" /> : null
-            }
+            {redirectToLandingPage ? <Redirect to="/" /> : null}
 
             <SnackBar
                 open={snackBarVisible}
                 msg={snackBarMsg}
                 type={snackBarType}
-                handleClose={handleSnackBarClose}
+                handleClose={() => { setSnackBarVisible(false) }}
             />
 
-
-            {
-                displayLoader ?
-                    <LoadingAnimation loading={displayLoader} />
-                    :
-                    renderPageContent()
-            }
+            {displayLoader ? <LoadingAnimation loading /> : renderPageContent()}
         </>
     )
 }

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Redirect } from "react-router-dom";
 import { authApis, utils, SnackBar, LoadingAnimation } from "mngo-project-tools";
 import { usersRef } from "../firebaseConfig";
-import { PROJECT_NAME, ANDROID_APP_LINK, ENCRYPTION_KEY, LOGGED_USER_TOKEN_COOKIE_NAME, COOKIE_EXPIRATION_TIME } from '../constants';
+import { PROJECT_NAME, ENCRYPTION_KEY, LOGGED_USER_TOKEN_COOKIE_NAME, COOKIE_EXPIRATION_TIME } from '../constants';
 
 import CircularButton from "../components/CircularButton";
 
@@ -125,15 +125,6 @@ export default function LoginPage(props) {
                     <span className="signupButton" onClick={handleSignUpClick}> Signup</span>
                 </div>
                 <br />
-
-                {
-                    ANDROID_APP_LINK ?
-                        <a className="androidAppContainer" href={ANDROID_APP_LINK} download={true}>
-                            <img alt="androidLogo" className="androidLogoImg" src={require("../img/android.png")} />
-                            Android App
-                        </a>
-                        : null
-                }
             </form>
         )
     }

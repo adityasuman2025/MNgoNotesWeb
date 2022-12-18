@@ -17,6 +17,5 @@ if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
 }
 
-export const usersRef = firebase.app().database().ref('users/');
-
-export default { usersRef };
+export const usersRef = firebase.database().ref('users/');
+export const userNotesRef = firebase.database().ref('userNotes/');
