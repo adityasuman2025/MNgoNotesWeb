@@ -15,7 +15,16 @@ export default function NoteContentItem({
     const inputRef = useRef(null);
     useEffect(() => {
         if (isFocused === true) inputRef.current && inputRef.current.focus();
+
+        if (notesType !== TYPE_TO_DO) adjustTextAreaHeight(inputRef.current, true);
     }, [isFocused]);
+
+    function adjustTextAreaHeight(e, isRef) {
+        try {
+            const element = (isRef === true ? e : e.target) || {};
+            element.style.height = (element.scrollHeight) + "px";
+        } catch { }
+    }
 
     const { isChecked = false, text = "" } = noteContent || {};
     return (
@@ -49,6 +58,7 @@ export default function NoteContentItem({
                         placeholder="type text"
                         value={text}
                         onChange={(e) => onInputFieldChange(idx, e.target.value)}
+                        onKeyUp={adjustTextAreaHeight}
                     />
             }
 

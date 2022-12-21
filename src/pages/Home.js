@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense, lazy } from "react";
 import { Redirect } from "react-router-dom";
 import { utils, SnackBar, LoadingAnimation, encryptionUtil } from "mngo-project-tools";
 import { getUserNotes, createUserNote } from "../apis";
 import { LOGGED_USER_TOKEN_COOKIE_NAME, ENCRYPTION_KEY } from '../constants';
 import NoteItem from "../components/NoteItem";
 import NavBar from "../components/NavBar";
+const Note = lazy(() => import('../components/Note'));
 
-export default function Home(props) {
+export default function Home() {
     const [displayLoader, setDisplayLoader] = useState(true);
     const [redirectToLandingPage, setRedirectToLandingPage] = useState(false);
     const [snackBarVisible, setSnackBarVisible] = useState(false);
@@ -14,6 +15,9 @@ export default function Home(props) {
     const [snackBarType, setSnackBarType] = useState("success");
 
     const [notesList, setNotesList] = useState([]);
+
+    const [activeNoteId, setActiveNoteId] = useState("");
+    const [loadingLatestNotesData, setLoadingLatestNotesData] = useState();
 
     useEffect(() => {
         try {
@@ -29,6 +33,20 @@ export default function Home(props) {
             makeSnackBar("Invalid Request");
         }
     }, []);
+
+    useEffect(() => {
+        if (loadingLatestNotesData === null)
+            (async function() {
+                setLoadingLatestNotesData(true);
+                await fetchUserNotesList(utils.getCookieValue(LOGGED_USER_TOKEN_COOKIE_NAME));
+                setLoadingLatestNotesData(false);
+            })(); //fetching the latest notes data on selecting any note
+    }, [loadingLatestNotesData]);
+
+    function setActiveNote(noteId) {
+        setLoadingLatestNotesData(null);
+        setActiveNoteId(noteId);
+    }
 
     async function fetchUserNotesList(loggedUserToken) {
         const response = await getUserNotes(loggedUserToken);
@@ -58,8 +76,7 @@ export default function Home(props) {
         const userNoteId = encryptionUtil.md5Hash(userToken + "_note_" + (new Date().getTime()) + "_" + ENCRYPTION_KEY);
         const response = await createUserNote(userToken, userNoteId);
         if (response.statusCode === 200) {
-            props.history.push("/note/" + userNoteId);
-            return;
+            setActiveNote(userNoteId)
         } else {
             makeSnackBar(response.msg);
         }
@@ -67,8 +84,7 @@ export default function Home(props) {
 
     async function handleNoteItemClick(item) {
         if (item.id) {
-            props.history.push("/note/" + item.id);
-            return;
+            setActiveNote(item.id);
         } else {
             makeSnackBar("Something went wrong");
         }
@@ -78,10 +94,35 @@ export default function Home(props) {
     function renderPageContent() {
         return (
             <>
-                <NavBar /><br /><br />
+                <NavBar />
 
-                <div className="notesListContainer">
-                    {notesList.map((item, idx) => <NoteItem key={idx} noteDetails={item} onClick={handleNoteItemClick} />)}
+                <div className="homeContainer">
+                    <div className="noteItemContainer">
+                        {
+                            notesList.map((item, idx) =>
+                                <NoteItem
+                                    key={idx}
+                                    isActive={activeNoteId === item.id}
+                                    noteDetails={item}
+                                    onClick={handleNoteItemClick}
+                                />
+                            )
+                        }
+                    </div>
+
+                    <div className="noteContentContainer">
+                        {
+                            loadingLatestNotesData === true ? <LoadingAnimation loading /> :
+                                loadingLatestNotesData === false ?
+                                    <Suspense fallback={<LoadingAnimation loading />}>
+                                        <Note
+                                            userNoteId={activeNoteId}
+                                            noteDetailsData={notesList.filter(item => item.id === activeNoteId)[0]}
+                                        />
+                                    </Suspense>
+                                    : null
+                        }
+                    </div>
                 </div>
 
                 <div className="createNewNoteBtn" onClick={handleCreateNoteBtnClick} >

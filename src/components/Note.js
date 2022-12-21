@@ -1,16 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import Hotkeys from 'react-hot-keys';
 import { utils, SnackBar, LoadingAnimation, ConfirmDialog, encryptionUtil } from "mngo-project-tools";
-import { getUserNoteById, deleteUserNote, updateUserNote } from "../apis";
+import { deleteUserNote, updateUserNote } from "../apis";
 import { ENCRYPTION_KEY, LOGGED_USER_TOKEN_COOKIE_NAME, TYPE_TO_DO } from '../constants';
 import NoteContentItem from "../components/NoteContentItem";
 
 let timer;
 
 export default function ViewNote({
-    match: { params: { userNoteId } = {} } = {}
+    userNoteId,
+    noteDetailsData
 }) {
+    const renderedRef = useRef(null);
+
     const [displayLoader, setDisplayLoader] = useState(true);
     const [redirectToLandingPage, setRedirectToLandingPage] = useState(false);
     const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
@@ -24,39 +27,27 @@ export default function ViewNote({
 
     useEffect(() => {
         try {
-            const userToken = utils.getCookieValue(LOGGED_USER_TOKEN_COOKIE_NAME);
-            if (userNoteId && userToken) {
-                fetchNotesListData(userToken, userNoteId);
+            if (noteDetailsData) {
+                setNoteDetails(noteDetailsData);
             } else {
-                setDisplayLoader(false);
                 setRedirectToLandingPage(true);
                 return;
             }
+            setDisplayLoader(false);
         } catch {
             makeSnackBar("Invalid Request");
         }
-    }, []);
+    }, [noteDetailsData]);
 
     useEffect(() => {
         clearTimeout(timer);
-        if (noteDetails.type) timer = setTimeout(() => { saveNoteInDb(noteDetails) }, 1200)
-    }, [noteDetails]); //saving notes after 1000s of doing any change in noteDetails // like debounce
 
-    async function fetchNotesListData(loggedUserToken, userNoteId) {
-        const response = await getUserNoteById(loggedUserToken, userNoteId);
-        if (response.statusCode === 200) {
-            const data = response.data;
+        if (noteDetails.type) {
+            if (renderedRef.current) timer = setTimeout(() => { saveNoteInDb(noteDetails) }, 800);
 
-            if (data.id) {
-                setNoteDetails(data);
-                setDisplayLoader(false);
-            } else {
-                makeSnackBar("Something went wrong");
-            }
-        } else {
-            makeSnackBar(response.msg);
+            renderedRef.current = true; // to prevent call of save api when component is rendered for the first time
         }
-    }
+    }, [noteDetails]); //saving notes after 1000s of doing any change in noteDetails // like debounce
 
     function makeSnackBar(msg, type) {
         setSnackBarMsg(msg);
@@ -183,65 +174,57 @@ export default function ViewNote({
     function renderPageContent() {
         return (
             <>
-                <div className="notesHeaderContainer">
-                    <div className="notesHeader" >
-                        <div className="notesTitleContainer">
-                            <input
-                                type="text"
-                                className="notesInputBox"
-                                placeholder="Title"
-                                autoCapitalize="words"
-                                value={noteDetails.title}
-                                onChange={(e) => setNoteDetails({ ...noteDetails, title: e.target.value })}
-                            />
-                        </div>
-
-                        <img alt="deleteNotesImg" className="deleteNotesImg" src={require('../img/delete.png')}
-                            onClick={handleDeleteNoteClick}
+                <div className="noteHeaderContainer">
+                    <div className="noteHeader">
+                        <input
+                            type="text"
+                            className="noteTitleInput"
+                            placeholder="Title"
+                            autoCapitalize="words"
+                            value={noteDetails.title}
+                            onChange={(e) => setNoteDetails({ ...noteDetails, title: e.target.value })}
                         />
+
+                        <img alt="deleteImg" className="deleteImg" src={require('../img/delete.png')} onClick={handleDeleteNoteClick} />
                     </div>
+                    <select
+                        className="pickerBox"
+                        value={noteDetails.type}
+                        onChange={(e) => setNoteDetails({ ...noteDetails, type: parseInt(e.target.value) })}
+                    >
+                        <option value="1">text</option>
+                        <option value="2">checkbox</option>
+                    </select>
                 </div>
-                <br />
 
-                <div className="notesListContainer">
-                    <div className="notesFormContainer" >
-                        <select
-                            className="pickerBox"
-                            value={noteDetails.type}
-                            onChange={(e) => setNoteDetails({ ...noteDetails, type: parseInt(e.target.value) })}
-                        >
-                            <option value="1">text</option>
-                            <option value="2">checkbox</option>
-                        </select>
+                <div className="noteContentList" >
+                    {
+                        noteDetails.type === TYPE_TO_DO ?
+                            <div className="addItemBtn" onClick={(e) => handleNoteContentItemSubmit(e, -1)} >
+                                <img alt="addItemIcon" src={require('../img/add1.png')} />
+                                <span>Add Item</span>
+                            </div>
+                            : null
+                    }
 
-                        {
-                            noteDetails.type === TYPE_TO_DO ?
-                                <div className="addNotesListDataItemBtn" onClick={(e) => handleNoteContentItemSubmit(e, -1)} >
-                                    <img alt="addItemIcon" src={require('../img/add1.png')} />
-                                    <span>Add Item</span>
-                                </div>
-                                : null
-                        }
-
-                        {
-                            (noteDetails.noteContentItems || []).map((item, idx) => {
-                                if (noteDetails.type !== TYPE_TO_DO && idx > 0) return //if notes type is text then showing only 1st item
-                                return (
-                                    <NoteContentItem
-                                        key={item.id + "_" + idx}
-                                        idx={idx}
-                                        notesType={noteDetails.type}
-                                        noteContent={item}
-                                        isFocused={focusedNoteContentItemIdx === idx}
-                                        onCheckBoxClick={handleNoteContentItemCheckBoxClick}
-                                        onRemoveClick={handleNoteContentItemRemoveClick}
-                                        onInputFieldChange={handleNoteContentItemChange}
-                                        onSubmitInputField={handleNoteContentItemSubmit}
-                                    />
-                                )
-                            })
-                        }
-                    </div>
+                    {
+                        (noteDetails.noteContentItems || []).map((item, idx) => {
+                            if (noteDetails.type !== TYPE_TO_DO && idx > 0) return //if notes type is text then showing only 1st item
+                            return (
+                                <NoteContentItem
+                                    key={item.id + "_" + idx}
+                                    idx={idx}
+                                    notesType={noteDetails.type}
+                                    noteContent={item}
+                                    isFocused={focusedNoteContentItemIdx === idx}
+                                    onCheckBoxClick={handleNoteContentItemCheckBoxClick}
+                                    onRemoveClick={handleNoteContentItemRemoveClick}
+                                    onInputFieldChange={handleNoteContentItemChange}
+                                    onSubmitInputField={handleNoteContentItemSubmit}
+                                />
+                            )
+                        })
+                    }
                 </div>
             </>
         )

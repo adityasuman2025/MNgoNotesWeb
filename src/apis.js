@@ -17,10 +17,12 @@ export async function getUserNotes(userToken) {
                 toReturn.statusCode = 200;
                 toReturn.msg = "success";
                 toReturn.data = { notesList: [] };
-                if (response) toReturn.data.notesList = Object.values(response).reduce((acc, item) => [...acc, {
-                    ...item,
-                    title: encryptionUtil.decryptText(item.title, ENCRYPTION_KEY)
-                }], []);
+                if (response)
+                    toReturn.data.notesList = Object.values(response).reduce((acc, item) => [...acc, {
+                        ...item,
+                        title: encryptionUtil.decryptText(item.title, ENCRYPTION_KEY),
+                        noteContentItems: (item.noteContentItems || []).map(i => ({ ...i, text: encryptionUtil.decryptText(i.text, ENCRYPTION_KEY) }))
+                    }], []);
             })
             .catch((error) => { toReturn.msg = error.message });
         return toReturn;

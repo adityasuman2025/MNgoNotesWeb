@@ -8,7 +8,6 @@ const LoginPage = lazy(() => import('./pages/LoginPage'));
 const RegisterPage = lazy(() => import('./pages/RegisterPage'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 const Home = lazy(() => import('./pages/Home'));
-const Note = lazy(() => import('./pages/Note'));
 
 const Routes = () => (
     <BrowserRouter >
@@ -18,7 +17,6 @@ const Routes = () => (
                 <Route exact path="/login" component={LoginPage} />
                 <Route exact path="/register" component={RegisterPage} />
                 <Route exact path="/home" component={Home} />
-                <Route exact path="/note/:userNoteId" component={Note} />
 
                 <Route path="*" component={NotFound} />
             </Switch>
