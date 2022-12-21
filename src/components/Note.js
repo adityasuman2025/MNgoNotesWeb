@@ -10,7 +10,9 @@ let timer;
 
 export default function ViewNote({
     userNoteId,
-    noteDetailsData
+    noteDetailsData,
+    setNotesList,
+    onDeleteNote,
 }) {
     const renderedRef = useRef(null);
 
@@ -43,7 +45,14 @@ export default function ViewNote({
         clearTimeout(timer);
 
         if (noteDetails.type) {
-            if (renderedRef.current) timer = setTimeout(() => { saveNoteInDb(noteDetails) }, 800);
+            if (renderedRef.current) {
+                timer = setTimeout(() => {
+                    //updating notesList state in the parent component
+                    setNotesList(prev => prev.map(item => item.id === userNoteId ? noteDetails : item));
+
+                    saveNoteInDb(noteDetails);
+                }, 800);
+            }
 
             renderedRef.current = true; // to prevent call of save api when component is rendered for the first time
         }
@@ -121,7 +130,7 @@ export default function ViewNote({
         const userToken = utils.getCookieValue(LOGGED_USER_TOKEN_COOKIE_NAME);
         const response = await deleteUserNote(userToken, userNoteId);
         if (response.statusCode === 200) {
-            setRedirectToLandingPage(true);
+            onDeleteNote(userNoteId);
             return;
         } else {
             makeSnackBar(response.msg);
@@ -184,6 +193,7 @@ export default function ViewNote({
                         className="noteTitleInput"
                         placeholder="Title"
                         autoCapitalize="words"
+                        autoFocus
                         value={noteDetails.title}
                         onChange={(e) => setNoteDetails({ ...noteDetails, title: e.target.value })}
                     />

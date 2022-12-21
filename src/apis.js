@@ -1,6 +1,6 @@
 import { encryptionUtil } from "mngo-project-tools";
 import { userNotesRef } from "./firebaseConfig";
-import { API_FAILED_ERROR, ENCRYPTION_KEY } from "./constants";
+import { API_FAILED_ERROR, ENCRYPTION_KEY, DUMMY_NEW_NOTE } from "./constants";
 
 export async function getUserNotes(userToken) {
     console.log("getUserNotes")
@@ -115,7 +115,7 @@ export async function createUserNote(userToken, userNoteId) {
         await userNotesRef
             .child(userNotesToken)
             .child(userNoteId)
-            .set({ title: "", type: 1, id: userNoteId, noteContentItems: [{ text: "" }] })
+            .set(DUMMY_NEW_NOTE(userNoteId))
             .catch((error) => { toReturn.msg = error.message });
 
         toReturn.statusCode = 200;

@@ -16,6 +16,6 @@
     "192": "logo.png",
     "512": "logo.png"
   },
-  "permissions": ["activeTab", "cookies"],
+  "permissions": [],
   "content_security_policy": "script-src 'self' https://cdn.firebase.com https://*.firebaseio.com; object-src 'self'"
 }

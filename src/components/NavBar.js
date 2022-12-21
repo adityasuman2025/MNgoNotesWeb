@@ -23,6 +23,7 @@ export default function NavBar() {
     //funtion to confirm the confirm dialog //when yes is pressed
     async function handleConfirmDialogConfirm() {
         await utils.logout(LOGGED_USER_TOKEN_COOKIE_NAME, COOKIE_EXPIRATION_TIME);
+        localStorage.clear();
         setRedirectToLandingPage(true);
     }
 

@@ -14,6 +14,7 @@ export const TYPE_TO_DO = 2;
 export const EXTENSION_ENV_NAME = "REACT_APP_EXT";
 export const EXTENSION_ENV_VAL = "ext";
 export const WEB_URL = "https://notes.mngo.in/";
+export const DUMMY_NEW_NOTE = (userNoteId) => ({ title: "", type: 1, id: userNoteId, noteContentItems: [{ text: "" }] });
 
 /*
 {
