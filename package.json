@@ -14,7 +14,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "GENERATE_SOURCEMAP=false react-scripts build",
-    "eject": "react-scripts eject"
+    "build-ext": "INLINE_RUNTIME_CHUNK=false REACT_APP_EXT=ext GENERATE_SOURCEMAP=false react-scripts build"
   },
   "eslintConfig": {
     "extends": "react-app"

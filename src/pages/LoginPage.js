@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Redirect } from "react-router-dom";
 import { authApis, utils, SnackBar, LoadingAnimation } from "mngo-project-tools";
 import { usersRef } from "../firebaseConfig";
-import { PROJECT_NAME, ENCRYPTION_KEY, LOGGED_USER_TOKEN_COOKIE_NAME, COOKIE_EXPIRATION_TIME } from '../constants';
+import { PROJECT_NAME, ENCRYPTION_KEY, LOGGED_USER_TOKEN_COOKIE_NAME, COOKIE_EXPIRATION_TIME, EXTENSION_ENV_NAME, EXTENSION_ENV_VAL, WEB_URL } from '../constants';
 
 import CircularButton from "../components/CircularButton";
 
@@ -36,7 +36,11 @@ export default function LoginPage(props) {
 
     //function to handle when signup is clicked
     function handleSignUpClick() {
-        props.history.push("/register");
+        if (process.env[EXTENSION_ENV_NAME] === EXTENSION_ENV_VAL) {
+            window.open(WEB_URL + "register")
+        } else {
+            props.history.push("/register");
+        }
     }
 
     //function to handle when login btn is clicked

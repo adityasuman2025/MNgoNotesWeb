@@ -174,27 +174,21 @@ export default function ViewNote({
     function renderPageContent() {
         return (
             <>
-                <div className="noteHeaderContainer">
-                    <div className="noteHeader">
-                        <input
-                            type="text"
-                            className="noteTitleInput"
-                            placeholder="Title"
-                            autoCapitalize="words"
-                            value={noteDetails.title}
-                            onChange={(e) => setNoteDetails({ ...noteDetails, title: e.target.value })}
-                        />
+                <div className="noteHeader">
+                    <img alt="isCheckBoxIcon" className="isCheckBoxIcon"
+                        src={noteDetails.type === TYPE_TO_DO ? require('../img/checked.png') : require('../img/unchecked.png')}
+                        onClick={() => setNoteDetails({ ...noteDetails, type: noteDetails.type === TYPE_TO_DO ? 1 : TYPE_TO_DO })}
+                    />
+                    <input
+                        type="text"
+                        className="noteTitleInput"
+                        placeholder="Title"
+                        autoCapitalize="words"
+                        value={noteDetails.title}
+                        onChange={(e) => setNoteDetails({ ...noteDetails, title: e.target.value })}
+                    />
 
-                        <img alt="deleteImg" className="deleteImg" src={require('../img/delete.png')} onClick={handleDeleteNoteClick} />
-                    </div>
-                    <select
-                        className="pickerBox"
-                        value={noteDetails.type}
-                        onChange={(e) => setNoteDetails({ ...noteDetails, type: parseInt(e.target.value) })}
-                    >
-                        <option value="1">text</option>
-                        <option value="2">checkbox</option>
-                    </select>
+                    <img alt="deleteImg" className="deleteImg" src={require('../img/delete.png')} onClick={handleDeleteNoteClick} />
                 </div>
 
                 <div className="noteContentList" >

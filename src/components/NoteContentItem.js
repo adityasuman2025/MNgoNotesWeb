@@ -19,6 +19,10 @@ export default function NoteContentItem({
         if (notesType !== TYPE_TO_DO) adjustTextAreaHeight(inputRef.current, true);
     }, [isFocused]);
 
+    useEffect(() => {
+        if (notesType !== TYPE_TO_DO) adjustTextAreaHeight(inputRef.current, true);
+    }, [notesType]);
+
     function adjustTextAreaHeight(e, isRef) {
         try {
             const element = (isRef === true ? e : e.target) || {};

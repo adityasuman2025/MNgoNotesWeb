@@ -1,11 +1,12 @@
 body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+        sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     background-color: #455a64;
+    overflow: hidden;
 }
 
 .routeLoading {
@@ -17,332 +18,341 @@ body {
 }
 
 /*----input fields placeholder color-------*/
-    ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
-        color: #d8d8d8;
-        opacity: 1; /* Firefox */
-    }
+::placeholder {
+    /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #d8d8d8;
+    opacity: 1;
+    /* Firefox */
+}
 
-    :-ms-input-placeholder { /* Internet Explorer 10-11 */
-        color: #d8d8d8;
-    }
+:-ms-input-placeholder {
+    /* Internet Explorer 10-11 */
+    color: #d8d8d8;
+}
 
-    ::-ms-input-placeholder { /* Microsoft Edge */
-        color: #d8d8d8;
-    }
+::-ms-input-placeholder {
+    /* Microsoft Edge */
+    color: #d8d8d8;
+}
 
-    .checked {
-        text-decoration: line-through;
-    }
+input:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+}
+
+::-webkit-scrollbar { 
+    display: none; /*-----hiding scrollbar----------*/
+}
+
+.checked {
+    text-decoration: line-through;
+}
 /*----input fields placeholder color-------*/
 
+
 /*----login/register page-----*/
-    .loginPageContent {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
+.loginPageContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 
-        /* background-color: grey; */
-        width: 60%;
-        margin: auto;
+    /* background-color: grey; */
+    width: 60%;
+    margin: auto;
 
-        margin-top: 50px;
-    }
+    margin-top: 50px;
+}
 
-    .smallTopMargin {
-        margin-top: 20px;
-    }
+.smallTopMargin {
+    margin-top: 20px;
+}
 
-    .logoIcon {
-        width: 200px;
-    }
+.logoIcon {
+    width: 200px;
+}
 
-    .logoTitle {
-        font-size: 21px;
-        font-weight: 600;
-        color: white;
-    }
+.logoTitle {
+    font-size: 21px;
+    font-weight: 600;
+    color: white;
+}
 
-    .inputBox {
-        width: 350px;
-        height: 45px;
-        background-color: rgba(255, 255,255,0.2);
-        border: none;
-        border-radius: 25px;
-        padding: 0px 16px; /*vertical horizontal */
-        font-size: 16px;
-        color: #ffffff;
-        margin: 10px 0px;
-    }
+.inputBox {
+    width: 350px;
+    height: 45px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border: none;
+    border-radius: 25px;
+    padding: 0px 16px;
+    /*vertical horizontal */
+    font-size: 16px;
+    color: #ffffff;
+    margin: 10px 0px;
+}
 
-    .buttonText {
-        font-size: 16px;
-        font-weight: 500;
-        color: #d8d8d8;
-        text-align: center;
-    }
+.buttonText {
+    font-size: 16px;
+    font-weight: 500;
+    color: #d8d8d8;
+    text-align: center;
+}
 
-    .signupText {
-        width: 100%;
-        text-align: center;
+.signupText {
+    width: 100%;
+    text-align: center;
 
-        color: rgba(255,255,255,0.6);
-        font-size: 16px;
-    }
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 16px;
+}
 
-    .signupButton {
-        color: #ffffff;
-        font-size: 16px;
-        font-weight: 500;
-        cursor: pointer;
-    }
+.signupButton {
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+}
 
-    .successRegistrationText {
-        padding: 20px;
-        color: rgba(255,255,255,0.6);
-        font-size: 16px;
-    }
+.successRegistrationText {
+    padding: 20px;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 16px;
+}
 /*----login/register page-----*/
 
 
 /*-----navbar--------*/
-    .navBar {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        border-bottom: 1px solid #3d4e56;
-        padding: 0px 10px;
-        background-color: #455a64;
-        height: 40px;
-    }
+.navBar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #3d4e56;
+    padding: 0px 10px;
+    background-color: #455a64;
+    height: 40px;
+}
 
-    .navBarBrand {
-        display: flex;
-        align-items: center;
-    }
+.navBarBrand {
+    display: flex;
+    align-items: center;
+}
 
-    .navLogoImg {
-        width: 30px;
-        margin-right: 7px;
-    }
+.navLogoImg {
+    width: 30px;
+    margin-right: 7px;
+}
 
-    .navTitle {
-        font-weight: bold;
-        font-size: 18px;
-        color: #fff;
-    }
+.navTitle {
+    font-weight: bold;
+    font-size: 18px;
+    color: #fff;
+}
 
-    .logOutImg {
-        width: 25px;
-        cursor: pointer;
-        filter: invert(6%) sepia(16%) saturate(592%) hue-rotate(34deg) brightness(96%) contrast(91%); /* tintColor: #181915; */
-    }
+.logOutImg {
+    width: 25px;
+    cursor: pointer;
+    filter: invert(6%) sepia(16%) saturate(592%) hue-rotate(34deg) brightness(96%) contrast(91%);
+    /* tintColor: #181915; */
+}
 /*-----navbar--------*/
 
 
 /*----notes list-----*/
-    .homeContainer {
-        display: flex;
-    }
+.homeContainer {
+    display: flex;
+}
 
-    .noteItemContainer {
-        width: 25%;
-        max-height: calc(98vh - 40px);
-        min-height: calc(98vh - 40px);
-        overflow: auto;
-        border-right: .5px solid #1c313a;
-    }
+.noteItemContainer {
+    width: 25%;
+    max-height: calc(95vh - 40px);
+    min-height: calc(95vh - 40px);
+    overflow: auto;
+    border-right: .5px solid #1c313a;
+}
 
-    .noteContentContainer {
-        width: 75%;
-        max-height: calc(98vh - 40px);
-        min-height: calc(98vh - 40px);
-        overflow: auto;
-    }
+.noteContentContainer {
+    width: 75%;
+    max-height: calc(95vh - 40px);
+    min-height: calc(95vh - 40px);
+    overflow: auto;
+}
 
-    .notesListItem {
-        border-bottom: .5px solid #1c313a;
-        padding: 15px;
-        margin: 5px;
-        cursor: pointer;
-    }
+.notesListItem {
+    border-bottom: .5px solid #1c313a;
+    padding: 15px;
+    margin: 5px;
+    cursor: pointer;
+}
 
-    .activeNote {
-        background-color: #1c313a;
-    }
+.activeNote {
+    background-color: #1c313a;
+}
 
-    .activeNote .notesListType {
-        color: #d8d8d8;
-    }
+.activeNote .notesListType {
+    color: #d8d8d8;
+}
 
-    .notesListTitleText {
-        color: #d8d8d8;
-        font-weight: bold;
-        font-size: 16px;
-    }
+.notesListTitleText {
+    color: #d8d8d8;
+    font-weight: bold;
+    font-size: 16px;
+}
 
-    .notesListType {
-        color: #1c313a;
-        text-align: left;
-        font-size: 12px;
-    }
+.notesListType {
+    color: #1c313a;
+    text-align: left;
+    font-size: 12px;
+}
+
 /*----notes list-----*/
 
 
 /*-----notes content------*/
-    .noteHeaderContainer {
-        width: 100%;
-        position: sticky;
-        top: 0px;
-        z-index: 1;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        background-color: #455a64;
-    }
+.noteHeader {
+    position: sticky;
+    top: 0px;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #455a64;
 
-    .noteHeader {
-        width: 90%;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
+    width: 100%;
+    margin: auto;
+}
 
-    .noteTitleInput {
-        width: 95%;
-        height: 40px;
-        padding: 0px 5px;
-        color: #fff;
-        font-size: 22px;
-        font-weight: bold;
+.isCheckBoxIcon {
+    height: 18px;
+    filter: invert(100%) sepia(0%) saturate(4848%) hue-rotate(33deg) brightness(115%) contrast(69%); /* tintColor: '#d8d8d8', */
+}
 
-        background: none;
-        border: none;
-    }
+.noteTitleInput {
+    width: 70%;
+    height: 35px;
+    color: #fff;
+    font-size: 19px;
+    font-weight: bold;
+    margin: 0 5px;
 
-    .deleteImg {
-        width: 23px;
-        cursor: pointer;
-        filter: invert(17%) sepia(50%) saturate(347%) hue-rotate(152deg) brightness(94%) contrast(99%);/* tintColor: '#1c313a', */
-    }
+    background: none;
+    border: none;
+}
 
-    .pickerBox {
-        width: 50%;
-        height: 25px;
-        color:#d8d8d8;
-        padding: 0px 15px;
-        margin: 5px 0;
+.deleteImg {
+    width: 21px;
+    cursor: pointer;
+    filter: invert(17%) sepia(50%) saturate(347%) hue-rotate(152deg) brightness(94%) contrast(99%); /* tintColor: '#1c313a', */
+}
 
-        background: none;
-        border: none;
-    }
+.noteContentList {
+    width: 95%;
+    margin: auto;
+}
 
-    .noteContentList {
-        width: 97%;
-        margin: auto;
-    }
+.addItemBtn {
+    cursor: pointer;
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    color: #d8d8d8;
+    font-size: 15px;
+    font-weight: 500;
+}
 
-    .addItemBtn {
-        cursor: pointer;
-        margin: 10px 0;
-        display: flex;
-        align-items: center;
-        color: #d8d8d8;
-        font-weight: 500;
-    }
+.addItemBtn img {
+    height: 18px;
+    margin-right: 5px;
+    filter: invert(100%) sepia(0%) saturate(4848%) hue-rotate(33deg) brightness(115%) contrast(69%);
+    /* tintColor:'#d8d8d8', */
+}
 
-    .addItemBtn img {
-        height: 21px;
-        margin-right: 5px;
-        filter: invert(100%) sepia(0%) saturate(4848%) hue-rotate(33deg) brightness(115%) contrast(69%); /* tintColor:'#d8d8d8', */
-    }
+.notesListDataFields {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 7px;
+    width: 100%;
+}
 
-    .notesListDataFields {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-top: 7px;
-        width: 100%;
-    }
+.notesListDataFieldCheckedIcon {
+    width: 18px;
+    cursor: pointer;
+    filter: invert(100%) sepia(0%) saturate(4848%) hue-rotate(33deg) brightness(115%) contrast(69%); /* tintColor: '#d8d8d8', */
+}
 
-    .notesListDataFieldCheckedIcon{
-        width: 20px;
-        height: 20px;
-        cursor: pointer;
-        filter: invert(100%) sepia(0%) saturate(4848%) hue-rotate(33deg) brightness(115%) contrast(69%); /* tintColor: '#d8d8d8', */
-    }
+.notesListDataFieldRemoveIcon {
+    width: 14px;
+    cursor: pointer;
+    filter: invert(15%) sepia(38%) saturate(576%) hue-rotate(152deg) brightness(94%) contrast(92%);
+    /* tintColor: '#1c313a', */
+}
 
-    .notesListDataFieldRemoveIcon {
-        width: 16px;
-        height: 16px;
-        cursor: pointer;
-        filter: invert(15%) sepia(38%) saturate(576%) hue-rotate(152deg) brightness(94%) contrast(92%); /* tintColor: '#1c313a', */
-    }
+.notesListDataFieldInput {
+    width: 97%;
+    margin: 0px 5px;
+    padding: 0px 7px;
+    color: #d8d8d8;
+    font-size: 13.5px;
 
-    .notesListDataFieldInput {
-        width: 97%;
-        margin: 0px 5px;
-        padding: 0px 7px;
-        color: #d8d8d8;
-        font-size: 15px;
+    background: none;
+    border: none;
+}
 
-        background: none;
-        border: none;
-    }
+.notesListDataFieldTextArea {
+    background: none;
+    border: none;
+    resize: none;
 
-    .notesListDataFieldTextArea {
-        background: none;
-        border: none;
-        resize: none;
-
-        width: 100%;
-        min-height: 50px;
-        margin: 0px 5px;
-        padding: 0px 7px;
-        color: #d8d8d8;
-        font-size: 15px;
-    }
+    width: 100%;
+    min-height: 50px;
+    margin: 0px 5px;
+    padding: 0px 7px;
+    color: #d8d8d8;
+    font-size: 15px;
+}
 /*-----notes content------*/
 
 
 /*----others-----*/
-    .circularBtnContainer {
-        width: 350px;
-        height: 50px;
-        background-color: #1c313a;
-        border: none;
-        border-radius: 25px;
-        margin: 10px 0px;
-        padding: 13px 0px;
-        text-align: center;
-    }
+.circularBtnContainer {
+    width: 350px;
+    height: 50px;
+    background-color: #1c313a;
+    border: none;
+    border-radius: 25px;
+    margin: 10px 0px;
+    padding: 13px 0px;
+    text-align: center;
+}
 
-    .createNewNoteBtn {
-        position: fixed;
-        bottom: 15px;
-        right: 15px;
-        height: 70px;
-        width: 70px;
+.createNewNoteBtn {
+    position: fixed;
+    bottom: 15px;
+    right: 15px;
+    height: 70px;
+    width: 70px;
 
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
 
-        border-radius: 100px;
-        background-color: #181915;
+    border-radius: 100px;
+    background-color: #181915;
 
-        z-index: 1000;
-    }
+    z-index: 1000;
+}
 
-    .createNewNoteImg {
-        height: 50%;
-        width: 50%;
-        filter: invert(31%) sepia(43%) saturate(259%) hue-rotate(154deg) brightness(94%) contrast(87%); /* tintColor: '#455a64', */
-    }
+.createNewNoteBtn img {
+    height: 50%;
+    width: 50%;
+    filter: invert(31%) sepia(43%) saturate(259%) hue-rotate(154deg) brightness(94%) contrast(87%);
+    /* tintColor: '#455a64', */
+}
 
 
-/*media screens*/
+/*------media screens------*/
 @media screen and (max-width: 800px) {
     .loginPageContent {
         width: 90%;
@@ -357,8 +367,21 @@ body {
         width: 120px;
     }
 
-    .inputBox, .circularBtnContainer {
+    .inputBox,
+    .circularBtnContainer {
         width: 280px;
+    }
+
+    .navLogoImg {
+        width: 18px;
+    }
+
+    .navTitle {
+        font-size: 16px;
+    }
+
+    .logOutImg {
+        width: 20px;
     }
 
     .noteItemContainer {
@@ -382,19 +405,39 @@ body {
     .createNewNoteBtn {
         bottom: 10px;
         right: 10px;
-        height: 55px;
-        width: 55px;
+        height: 50px;
+        width: 50px;
     }
 
-    .navBar {
-        padding: 0px 12px;
+    .noteTitleInput {
+        font-size: 17px;;
+    }
+    
+    .deleteImg {
+        width: 20px;
+    }
+        
+    .addItemBtn {
+        font-size: 14px;
+    }
+    
+    .addItemBtn img {
+        height: 15px;
     }
 
-    .navLogoImg {
-        width: 25px;
+    .notesListDataFieldCheckedIcon {
+        width: 16px;
     }
 
-    .logOutImg {
-        width: 22px;
+    .notesListDataFieldRemoveIcon {
+        width: 13px;
+    }
+
+    .notesListDataFieldInput {
+        font-size: 13px;
+    }
+
+    .notesListDataFieldTextArea {
+        font-size: 14px;
     }
 }
