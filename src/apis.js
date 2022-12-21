@@ -18,11 +18,13 @@ export async function getUserNotes(userToken) {
                 toReturn.msg = "success";
                 toReturn.data = { notesList: [] };
                 if (response)
-                    toReturn.data.notesList = Object.values(response).reduce((acc, item) => [...acc, {
-                        ...item,
-                        title: encryptionUtil.decryptText(item.title, ENCRYPTION_KEY),
-                        noteContentItems: (item.noteContentItems || []).map(i => ({ ...i, text: encryptionUtil.decryptText(i.text, ENCRYPTION_KEY) }))
-                    }], []);
+                    toReturn.data.notesList = Object.values(response)
+                        .reduce((acc, item) => [...acc, {
+                            ...item,
+                            title: encryptionUtil.decryptText(item.title, ENCRYPTION_KEY),
+                            noteContentItems: (item.noteContentItems || []).map(i => ({ ...i, text: encryptionUtil.decryptText(i.text, ENCRYPTION_KEY) }))
+                        }], [])
+                        .sort((a, b) => b.ts - a.ts); // for sorting by timestamps(ts)
             })
             .catch((error) => { toReturn.msg = error.message });
         return toReturn;

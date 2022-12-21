@@ -169,7 +169,8 @@ export default function ViewNote({
 
         const { title = "", type = 1, noteContentItems = [] } = noteDetails || {};
         return await updateUserNote(userToken, userNoteId, {
-            type, id: userNoteId,
+            ...noteDetails,
+            id: userNoteId,
             title: encryptionUtil.encryptText(title, ENCRYPTION_KEY),
             noteContentItems: noteContentItems.map((item, idx) => ({
                 ...item, id: userNoteId + "_content_" + idx,
