@@ -25,7 +25,7 @@ export default function ViewNote({
     const [snackBarType, setSnackBarType] = useState("success");
 
     const [noteDetails, setNoteDetails] = useState({ title: "", type: 0, noteContentItems: [] });
-    const [focusedNoteContentItemIdx, setFocusedNoteContentItemIdx] = useState(-1);
+    const [focusedNoteContentItemIdx, setFocusedNoteContentItemIdx] = useState(0); // by default 1st note content item will be focused
 
     useEffect(() => {
         try {
@@ -66,7 +66,7 @@ export default function ViewNote({
     }
 
 
-    /*-----note data item stuffs--------*/
+    /*-----note content item stuffs--------*/
     function handleNoteContentItemCheckBoxClick(idx, toSet) {
         setNoteDetails({
             ...noteDetails,
@@ -110,7 +110,7 @@ export default function ViewNote({
 
         setFocusedNoteContentItemIdx(idx + 1);
     }
-    /*-----note data item stuffs--------*/
+    /*-----note content item stuffs--------*/
 
 
     /*------delete note stuffs-------*/
@@ -194,9 +194,14 @@ export default function ViewNote({
                         className="noteTitleInput"
                         placeholder="Title"
                         autoCapitalize="words"
-                        autoFocus
                         value={noteDetails.title}
                         onChange={(e) => setNoteDetails({ ...noteDetails, title: e.target.value })}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                                setFocusedNoteContentItemIdx(-1);
+                                setTimeout(() => { setFocusedNoteContentItemIdx(0) }, 0)
+                            }
+                        }} //to switch to first not content item on enter press in note title
                     />
 
                     <img alt="deleteImg" className="deleteImg" src={require('../img/delete.png')} onClick={handleDeleteNoteClick} />

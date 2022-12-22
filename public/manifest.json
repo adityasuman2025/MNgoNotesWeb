@@ -1,10 +1,10 @@
 {
   "short_name": "MNgo Notes",
-  "name": "MNgo Notes by Aditya Suman",
-  "description": "A notes Web App to write in. Can be used to maintain to-dos and texts.",
-  "version": "0.01",
-  "manifest_version": 2,
-  "browser_action": {
+  "name": "MNgo Notes: Text Notes & To Dos",
+  "description": "A notes Web App & Chrome Extension to write in. Can be used to increase productivity during work, working online on browser by directly opening this extension and writing/pasting texts/data here. Can be used to maintain to dos and texts.",
+  "version": "0.0.1",
+  "manifest_version": 3,
+  "action": {
     "default_popup": "index.html",
     "default_title": "Open the popup"
   },
@@ -16,6 +16,10 @@
     "192": "logo.png",
     "512": "logo.png"
   },
+  "host_permissions": ["<all_urls>"],
   "permissions": [],
-  "content_security_policy": "script-src 'self' https://cdn.firebase.com https://*.firebaseio.com; object-src 'self'"
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'",
+	  "sandbox": "sandbox allow-scripts; default-src 'self' 'https://apis.google.com/' 'https://www.gstatic.com/' 'https://*.firebaseio.com' 'https://www.googleapis.com' 'https://ajax.googleapis.com'; object-src 'self'"
+  }
 }

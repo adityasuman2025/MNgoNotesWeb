@@ -7,6 +7,8 @@ import NoteItem from "../components/NoteItem";
 import NavBar from "../components/NavBar";
 import Note from "../components/Note";
 
+const STORAGE_KEY = "notesList";
+
 export default function Home() {
     const renderedRef = useRef(null);
 
@@ -22,8 +24,15 @@ export default function Home() {
 
     useEffect(() => {
         try {
+            //checking notesList in cache before making api call
+            const cachedData = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+            if (cachedData.length) {
+                setNotesList(cachedData);
+                setDisplayLoader(false);
+            }
+
             const userToken = utils.getCookieValue(LOGGED_USER_TOKEN_COOKIE_NAME);
-            if (userToken) fetchUserNotesList(userToken);
+            if (userToken) fetchUserNotesList(userToken, cachedData);
             else {
                 //no one is logged //redirecting to landing page
                 setDisplayLoader(false);
@@ -36,18 +45,9 @@ export default function Home() {
     }, []);
 
     useEffect(() => {
-        const key = "notesList";
-        if (renderedRef.current) {
-            localStorage.setItem(key, JSON.stringify(notesList));
-        } else {
-            const cachedData = localStorage.getItem(key);
-            if (cachedData) {
-                setNotesList(JSON.parse(cachedData));
-                setDisplayLoader(false);
-            }
-        }
+        if (renderedRef.current) localStorage.setItem(STORAGE_KEY, JSON.stringify(notesList));
         renderedRef.current = true; //for the first time notesList state will be empty because it is intialized empty // so to ignore that case
-    }, [notesList]);
+    }, [notesList]); // for storing any change in notesList in cache/localStorage
 
     useEffect(() => {
         if (reRenderNoteComp === true) setReRenderNoteComp(false); //for re-rendering of Note component on change of activeNoteId
@@ -58,12 +58,19 @@ export default function Home() {
         setActiveNoteId(noteId);
     }
 
-    async function fetchUserNotesList(loggedUserToken) {
+    async function fetchUserNotesList(loggedUserToken, cachedData) {
+        if (cachedData.length) setTimeout(() => { setActiveNote(cachedData[0].id) }, 100); //by default 1st note will be active from cached data
+
         const response = await getUserNotes(loggedUserToken);
         if (response.statusCode === 200) {
             const data = response.data;
             if (data) {
-                if (data.notesList.length) setNotesList(data.notesList);
+                if (data.notesList.length) {
+                    //if cached data and api data is different then storing api data in state
+                    if (JSON.stringify(cachedData) !== JSON.stringify(data.notesList)) setNotesList(data.notesList);
+
+                    if (!cachedData.length) setTimeout(() => { setActiveNote(data.notesList[0].id) }, 100); //by default 1st note will be active from api data whenever there is no cached data
+                }
             } else {
                 makeSnackBar("Something went wrong");
             }
