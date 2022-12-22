@@ -10,6 +10,7 @@ const LandingPage = lazy(() => import('./pages/LandingPage'));
 const LoginPage = lazy(() => import('./pages/LoginPage'));
 const RegisterPage = lazy(() => import('./pages/RegisterPage'));
 const Home = lazy(() => import('./pages/Home'));
+const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
 
 function Routes() {
     useEffect(() => {
@@ -27,6 +28,7 @@ function Routes() {
                     <Route exact path="/login" component={LoginPage} />
                     <Route exact path="/register" component={RegisterPage} />
                     <Route exact path="/home" component={Home} />
+                    <Route exact path="/privacy-policy" component={PrivacyPolicy} />
 
                     <Route path="*" component={LoginPage} />
                 </Switch>
