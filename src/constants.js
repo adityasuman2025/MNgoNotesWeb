@@ -25,8 +25,8 @@ export const STORAGE_PENDING_PUSH_KEY = "notesListPendingPushtoDb";
 /*
 {
   "short_name": "MNgo Notes",
-  "name": "MNgo Notes by Aditya Suman",
-  "description": "A notes Web App to write in. Can be used to maintain to-dos and texts.",
+  "name": "MNgo Notes: Text Notes & To Dos",
+  "description": "A notes Web App & Chrome Extension to write in. Can be used to maintain to dos and texts.",
   "version": "0.0.1",
   "manifest_version": 2,
   "browser_action": {
@@ -42,20 +42,20 @@ export const STORAGE_PENDING_PUSH_KEY = "notesListPendingPushtoDb";
     "512": "logo.png"
   },
   "permissions": [],
-    "content_security_policy": "script-src 'self' https://cdn.firebase.com https://*.firebaseio.com; object-src 'self'"
-  }
+  "content_security_policy": "script-src 'self' https://cdn.firebase.com https://*.firebaseio.com; object-src 'self'"
+}
 */
 
 /*
 {
-  "short_name": "MNgo Notes",
-  "name": "MNgo Notes by Aditya Suman",
-  "description": "A notes Web App to write in. Can be used to maintain to-dos and texts.",
-  "version": "0.01",
+ "short_name": "MNgo Notes",
+  "name": "MNgo Notes: Text Notes & To Dos",
+  "description": "A notes Web App & Chrome Extension to write in. Can be used to maintain to dos and texts.",
+  "version": "0.0.1",
   "manifest_version": 3,
   "action": {
     "default_popup": "index.html",
-    "default_title": "MNgo Notes"
+    "default_title": "Open the popup"
   },
   "icons": {
     "16": "logo.png",
@@ -65,14 +65,16 @@ export const STORAGE_PENDING_PUSH_KEY = "notesListPendingPushtoDb";
     "192": "logo.png",
     "512": "logo.png"
   },
-  "host_permissions": ["<all_urls>"],
   "permissions": [],
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self'",
     "sandbox": "sandbox allow-scripts; default-src 'self' 'https://apis.google.com/' 'https://www.gstatic.com/' 'https://*.firebaseio.com' 'https://www.googleapis.com' 'https://ajax.googleapis.com'; object-src 'self'"
   }
 }
-ref: https://stackoverflow.com/questions/30889154/how-to-set-content-security-policy-in-chrome-extension-manifest-json-in-order-fo
+ref: 
+https://stackoverflow.com/questions/30889154/how-to-set-content-security-policy-in-chrome-extension-manifest-json-in-order-fo
+https://developer.chrome.com/docs/extensions/mv3/mv3-migration/
+https://dev.to/swimmingkiim/chrome-extension-with-firebase-manifest-v3-27gc
 
 "content_security_policy":  "default-src 'self' 'data:' 'data' *; script-src 'self' *; script-src-elem 'self' *; object-src 'self' *; img-src 'self' 'data:' 'data' *; connect-src 'self' *; frame-src 'self' *; "
 */
