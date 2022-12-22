@@ -9,18 +9,18 @@ export const IS_PASS_CODE_REQUIRED = process.env.REACT_APP_IS_PASS_CODE_REQUIRED
 
 export const PROJECT_NAME = "MNgo Notes";
 export const LOGGED_USER_TOKEN_COOKIE_NAME = "mngoNotesLoggedUserToken";
-export const API_FAILED_ERROR = { msg: "API Connection Failed" };
+export const API_FAILED_ERROR = { msg: "API Connection Failed", status: 400 };
 export const TYPE_TO_DO = 2;
 export const EXTENSION_ENV_NAME = "REACT_APP_EXT";
 export const EXTENSION_ENV_VAL = "ext";
 export const WEB_URL = "https://notes.mngo.in/";
 export const DUMMY_NEW_NOTE = (userNoteId) => ({
-  title: "",
-  type: 1,
-  id: userNoteId,
+  title: "", type: 1, id: userNoteId,
   ts: new Date().getTime(),
   noteContentItems: [{ text: "" }]
 });
+export const STORAGE_KEY = "notesList";
+export const STORAGE_PENDING_PUSH_KEY = "notesListPendingPushtoDb";
 
 /*
 {

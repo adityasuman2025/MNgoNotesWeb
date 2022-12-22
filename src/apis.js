@@ -34,7 +34,7 @@ export async function getUserNotes(userToken) {
 }
 
 export async function getUserNoteById(userToken, userNoteId) {
-    console.log("getUserNoteById")
+    console.log("getUserNoteById", userNoteId)
     try {
         let toReturn = { statusCode: 500, data: {}, msg: "" };
 
@@ -67,7 +67,7 @@ export async function getUserNoteById(userToken, userNoteId) {
 }
 
 export async function deleteUserNote(userToken, userNoteId) {
-    console.log("deleteUserNote")
+    console.log("deleteUserNote", userNoteId)
     try {
         let toReturn = { statusCode: 500, data: {}, msg: "" };
 
@@ -88,7 +88,7 @@ export async function deleteUserNote(userToken, userNoteId) {
 }
 
 export async function updateUserNote(userToken, userNoteId, toSet) {
-    console.log("updateUserNote")
+    console.log("updateUserNote", userNoteId)
     try {
         let toReturn = { statusCode: 500, data: {}, msg: "" };
 
@@ -109,7 +109,7 @@ export async function updateUserNote(userToken, userNoteId, toSet) {
 }
 
 export async function createUserNote(userToken, userNoteId) {
-    console.log("createUserNote")
+    console.log("createUserNote", userNoteId)
     try {
         let toReturn = { statusCode: 500, data: {}, msg: "" };
 

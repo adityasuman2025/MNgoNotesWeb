@@ -2,12 +2,11 @@ import React, { useRef, useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import { utils, SnackBar, LoadingAnimation, encryptionUtil } from "mngo-project-tools";
 import { getUserNotes, createUserNote } from "../apis";
-import { LOGGED_USER_TOKEN_COOKIE_NAME, ENCRYPTION_KEY, DUMMY_NEW_NOTE } from '../constants';
+import { updateNoteInDb, removeNoteIdFromPendingPush } from "../utils";
+import { LOGGED_USER_TOKEN_COOKIE_NAME, ENCRYPTION_KEY, DUMMY_NEW_NOTE, STORAGE_KEY, STORAGE_PENDING_PUSH_KEY } from '../constants';
 import NoteItem from "../components/NoteItem";
 import NavBar from "../components/NavBar";
 import Note from "../components/Note";
-
-const STORAGE_KEY = "notesList";
 
 export default function Home() {
     const renderedRef = useRef(null);
@@ -29,11 +28,32 @@ export default function Home() {
             if (cachedData.length) {
                 setNotesList(cachedData);
                 setDisplayLoader(false);
+
+                setTimeout(() => { setActiveNote(cachedData[0].id) }, 100); //by default 1st note will be active from cached data
             }
 
             const userToken = utils.getCookieValue(LOGGED_USER_TOKEN_COOKIE_NAME);
-            if (userToken) fetchUserNotesList(userToken, cachedData);
-            else {
+            if (userToken) {
+                (async function() {
+                    const pendingPushNoteIds = Object.keys(JSON.parse(localStorage.getItem(STORAGE_PENDING_PUSH_KEY) || "{}"));
+                    let c = 0;
+
+                    if (pendingPushNoteIds.length) {
+                        for (let i = 0; i < pendingPushNoteIds.length; i++) {
+                            const thisNoteId = pendingPushNoteIds[i];
+                            const thisNoteDetails = cachedData.find(item => item.id === thisNoteId);
+                            if (thisNoteId && Object.keys(thisNoteDetails).length) {
+                                const resp = await updateNoteInDb(thisNoteId, thisNoteDetails);
+                                if (resp.statusCode === 200) {
+                                    await removeNoteIdFromPendingPush(thisNoteId); //removing this note id from pending push storage
+                                    c++;
+                                }
+                            }
+                        }
+                    }
+                    if (c === pendingPushNoteIds.length) await fetchUserNotesList(userToken, cachedData);
+                })();
+            } else {
                 //no one is logged //redirecting to landing page
                 setDisplayLoader(false);
                 setRedirectToLandingPage(true);
@@ -59,8 +79,6 @@ export default function Home() {
     }
 
     async function fetchUserNotesList(loggedUserToken, cachedData) {
-        if (cachedData.length) setTimeout(() => { setActiveNote(cachedData[0].id) }, 100); //by default 1st note will be active from cached data
-
         const response = await getUserNotes(loggedUserToken);
         if (response.statusCode === 200) {
             const data = response.data;
@@ -93,10 +111,9 @@ export default function Home() {
         const userNoteId = encryptionUtil.md5Hash(userToken + "_note_" + (new Date().getTime()) + "_" + ENCRYPTION_KEY);
 
         setNotesList([DUMMY_NEW_NOTE(userNoteId), ...notesList]); //creating a new dummy note in state
+        setActiveNote(userNoteId);
         const response = await createUserNote(userToken, userNoteId);
-        if (response.statusCode === 200) {
-            setActiveNote(userNoteId)
-        } else {
+        if (response.statusCode === 200) { } else {
             makeSnackBar(response.msg);
         }
     }
@@ -138,7 +155,7 @@ export default function Home() {
                             reRenderNoteComp === false ?
                                 <Note
                                     userNoteId={activeNoteId}
-                                    noteDetailsData={notesList.filter(item => item.id === activeNoteId)[0]}
+                                    noteDetailsData={notesList.find(item => item.id === activeNoteId)}
                                     setNotesList={setNotesList}
                                     onDeleteNote={handleDeleteNote}
                                 />
