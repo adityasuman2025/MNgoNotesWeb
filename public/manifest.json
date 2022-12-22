@@ -1,7 +1,7 @@
 {
   "short_name": "MNgo Notes",
   "name": "MNgo Notes: Text Notes & To Dos",
-  "description": "A notes Web App & Chrome Extension to write in. Can be used to increase productivity during work, working online on browser by directly opening this extension and writing/pasting texts/data here. Can be used to maintain to dos and texts.",
+  "description": "A notes Web App & Chrome Extension to write in. Can be used to maintain to dos and texts.",
   "version": "0.0.1",
   "manifest_version": 3,
   "action": {
@@ -16,7 +16,6 @@
     "192": "logo.png",
     "512": "logo.png"
   },
-  "host_permissions": ["<all_urls>"],
   "permissions": [],
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self'",
