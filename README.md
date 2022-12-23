@@ -4,7 +4,6 @@ This chrome extension is available at
 
 
 ## Web App
-[notes.mngo.in]()
 <a href="https://notes.mngo.in" target="_blank">notes.mngo.in</a>
 
 
