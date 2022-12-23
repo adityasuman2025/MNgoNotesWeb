@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { utils } from "mngo-project-tools";
 import { TYPE_TO_DO } from '../constants';
 
+/* eslint-disable react-hooks/exhaustive-deps */
 export default function NoteContentItem({
     idx,
     notesType,

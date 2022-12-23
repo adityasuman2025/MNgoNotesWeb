@@ -34,7 +34,7 @@ export async function deleteUserNote(userToken, userNoteId) {
 
         if (FIREBASE_REST_API_BASE_URL) {
             const userNotesToken = encryptionUtil.md5Hash(userToken + "_notes_" + ENCRYPTION_KEY);
-            const response = await utils.sendRequestToAPI(FIREBASE_REST_API_BASE_URL, `/${USER_NOTES_REF}/${userNotesToken}/${userNoteId}.json`, "DELETE");
+            await utils.sendRequestToAPI(FIREBASE_REST_API_BASE_URL, `/${USER_NOTES_REF}/${userNotesToken}/${userNoteId}.json`, "DELETE");
 
             toReturn = { ...toReturn, statusCode: 200, msg: "success" };
         }
@@ -51,7 +51,7 @@ export async function updateUserNote(userToken, userNoteId, toSet) {
 
         if (FIREBASE_REST_API_BASE_URL) {
             const userNotesToken = encryptionUtil.md5Hash(userToken + "_notes_" + ENCRYPTION_KEY);
-            const response = await utils.sendRequestToAPI(FIREBASE_REST_API_BASE_URL, `/${USER_NOTES_REF}/${userNotesToken}/${userNoteId}.json`, "PUT", toSet) || {};
+            await utils.sendRequestToAPI(FIREBASE_REST_API_BASE_URL, `/${USER_NOTES_REF}/${userNotesToken}/${userNoteId}.json`, "PUT", toSet)
 
             toReturn = { ...toReturn, statusCode: 200, msg: "success" };
         }
@@ -69,7 +69,7 @@ export async function createUserNote(userToken, userNoteId) {
 
         if (FIREBASE_REST_API_BASE_URL) {
             const userNotesToken = encryptionUtil.md5Hash(userToken + "_notes_" + ENCRYPTION_KEY);
-            const response = await utils.sendRequestToAPI(FIREBASE_REST_API_BASE_URL, `/${USER_NOTES_REF}/${userNotesToken}/${userNoteId}.json`, "PUT", DUMMY_NEW_NOTE(userNoteId)) || {};
+            await utils.sendRequestToAPI(FIREBASE_REST_API_BASE_URL, `/${USER_NOTES_REF}/${userNotesToken}/${userNoteId}.json`, "PUT", DUMMY_NEW_NOTE(userNoteId))
 
             toReturn = { ...toReturn, statusCode: 200, msg: "success" };
         }

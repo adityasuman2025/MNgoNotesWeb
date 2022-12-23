@@ -129,8 +129,8 @@ export default function LoginPage(props) {
                 </div>
                 <br />
 
-                <a href='https://chrome.google.com/webstore/detail/mngo-notes-text-notes-to/ennpnglofmhmbpijnambnccoaklahfno' target="_blank" className='extLink'>
-                    <img src={require("../img/chrome.png")} />
+                <a href='https://chrome.google.com/webstore/detail/mngo-notes-text-notes-to/ennpnglofmhmbpijnambnccoaklahfno' target="_blank" className='extLink' rel="noopener noreferrer">
+                    <img src={require("../img/chrome.png")} alt="chrome" />
                     Download Extension
                 </a>
                 <br />

@@ -8,6 +8,7 @@ import NoteItem from "../components/NoteItem";
 import NavBar from "../components/NavBar";
 import Note from "../components/Note";
 
+/* eslint-disable react-hooks/exhaustive-deps */
 export default function Home() {
     const renderedRef = useRef(null);
 
@@ -112,7 +113,7 @@ export default function Home() {
 
         setNotesList([DUMMY_NEW_NOTE(userNoteId), ...notesList]); //creating a new dummy note in state
         setActiveNote(userNoteId);
-        const response = await createUserNote(userToken, userNoteId);
+        await createUserNote(userToken, userNoteId);
     }
 
     function handleNoteItemClick(item) {

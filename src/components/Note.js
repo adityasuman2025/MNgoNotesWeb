@@ -8,7 +8,7 @@ import { LOGGED_USER_TOKEN_COOKIE_NAME, TYPE_TO_DO, STORAGE_PENDING_PUSH_KEY } f
 import NoteContentItem from "../components/NoteContentItem";
 
 let timer;
-
+/* eslint-disable react-hooks/exhaustive-deps */
 export default function ViewNote({
     userNoteId,
     noteDetailsData,
