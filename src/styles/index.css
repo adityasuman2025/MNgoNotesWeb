@@ -9,6 +9,21 @@ body {
     /* overflow: hidden; */
 }
 
+.extLink {
+    color: #f1f1f1;
+    background-color: #1c313a;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.extLink img {
+    margin-right: 5px;
+}
+
 .routeLoading {
     display: flex;
     align-items: center;

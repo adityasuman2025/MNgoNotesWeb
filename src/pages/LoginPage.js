@@ -128,7 +128,13 @@ export default function LoginPage(props) {
                     <span className="signupButton" onClick={handleSignUpClick}> Signup</span>
                 </div>
                 <br />
-            </form>
+
+                <a href='https://chrome.google.com/webstore/detail/mngo-notes-text-notes-to/ennpnglofmhmbpijnambnccoaklahfno' target="_blank" className='extLink'>
+                    <img src={require("../img/chrome.png")} />
+                    Download Extension
+                </a>
+                <br />
+            </form >
         )
     }
 

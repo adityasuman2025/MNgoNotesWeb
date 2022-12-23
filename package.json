@@ -1,6 +1,6 @@
 {
   "name": "mngo-notes-web",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "mngo-project-tools": "1.0.01",
