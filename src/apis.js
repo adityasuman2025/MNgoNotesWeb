@@ -1,65 +1,26 @@
-import { encryptionUtil } from "mngo-project-tools";
-import { userNotesRef } from "./firebaseConfig";
-import { API_FAILED_ERROR, ENCRYPTION_KEY, DUMMY_NEW_NOTE } from "./constants";
+import { encryptionUtil, utils } from "mngo-project-tools";
+import { API_FAILED_ERROR, ENCRYPTION_KEY, FIREBASE_REST_API_BASE_URL, DUMMY_NEW_NOTE, USER_NOTES_REF } from "./constants";
 
 export async function getUserNotes(userToken) {
     console.log("getUserNotes")
     try {
-        let toReturn = { statusCode: 500, data: {}, msg: "" };
+        let toReturn = { statusCode: 500, data: {}, msg: "something went wrong" };
 
-        const userNotesToken = encryptionUtil.md5Hash(userToken + "_notes_" + ENCRYPTION_KEY);
-        await userNotesRef
-            .child(userNotesToken)
-            .once('value')
-            .then(async (resp) => {
-                const response = resp.val();
+        if (FIREBASE_REST_API_BASE_URL) {
+            const userNotesToken = encryptionUtil.md5Hash(userToken + "_notes_" + ENCRYPTION_KEY);
+            const response = await utils.sendRequestToAPI(FIREBASE_REST_API_BASE_URL, `/${USER_NOTES_REF}/${userNotesToken}.json`) || {};
 
-                toReturn.statusCode = 200;
-                toReturn.msg = "success";
-                toReturn.data = { notesList: [] };
-                if (response)
-                    toReturn.data.notesList = Object.values(response)
-                        .reduce((acc, item) => [...acc, {
-                            ...item,
-                            title: encryptionUtil.decryptText(item.title, ENCRYPTION_KEY),
-                            noteContentItems: (item.noteContentItems || []).map(i => ({ ...i, text: encryptionUtil.decryptText(i.text, ENCRYPTION_KEY) }))
-                        }], [])
-                        .sort((a, b) => b.ts - a.ts); // for sorting by timestamps(ts)
-            })
-            .catch((error) => { toReturn.msg = error.message });
-        return toReturn;
-    } catch {
-        return API_FAILED_ERROR;
-    }
-}
+            toReturn = { ...toReturn, statusCode: 200, msg: "success" };
+            toReturn.data = { notesList: [] };
+            toReturn.data.notesList = Object.values(response)
+                .reduce((acc, item) => [...acc, {
+                    ...item,
+                    title: encryptionUtil.decryptText(item.title, ENCRYPTION_KEY),
+                    noteContentItems: (item.noteContentItems || []).map(i => ({ ...i, text: encryptionUtil.decryptText(i.text, ENCRYPTION_KEY) }))
+                }], [])
+                .sort((a, b) => b.ts - a.ts); // for sorting by timestamps(ts)
+        }
 
-export async function getUserNoteById(userToken, userNoteId) {
-    console.log("getUserNoteById", userNoteId)
-    try {
-        let toReturn = { statusCode: 500, data: {}, msg: "" };
-
-        const userNotesToken = encryptionUtil.md5Hash(userToken + "_notes_" + ENCRYPTION_KEY);
-        await userNotesRef
-            .child(userNotesToken)
-            .child(userNoteId)
-            .once('value')
-            .then(async (resp) => {
-                const response = resp.val();
-
-                if (response) {
-                    toReturn.statusCode = 200;
-                    toReturn.msg = "success";
-                    const { id = "", title = "", type = 1, noteContentItems: items = [] } = response;
-                    toReturn.data = {
-                        id, type,
-                        title: encryptionUtil.decryptText(title, ENCRYPTION_KEY),
-                        noteContentItems: items.map(i => ({ ...i, text: encryptionUtil.decryptText(i.text, ENCRYPTION_KEY) }))
-                    };
-                } else {
-                    toReturn.msg = "user's note not found";
-                }
-            })
-            .catch((error) => { toReturn.msg = error.message });
         return toReturn;
     } catch {
         return API_FAILED_ERROR;
@@ -69,18 +30,14 @@ export async function getUserNoteById(userToken, userNoteId) {
 export async function deleteUserNote(userToken, userNoteId) {
     console.log("deleteUserNote", userNoteId)
     try {
-        let toReturn = { statusCode: 500, data: {}, msg: "" };
+        let toReturn = { statusCode: 500, data: {}, msg: "something went wrong" };
 
-        const userNotesToken = encryptionUtil.md5Hash(userToken + "_notes_" + ENCRYPTION_KEY);
+        if (FIREBASE_REST_API_BASE_URL) {
+            const userNotesToken = encryptionUtil.md5Hash(userToken + "_notes_" + ENCRYPTION_KEY);
+            const response = await utils.sendRequestToAPI(FIREBASE_REST_API_BASE_URL, `/${USER_NOTES_REF}/${userNotesToken}/${userNoteId}.json`, "DELETE");
 
-        await userNotesRef
-            .child(userNotesToken)
-            .child(userNoteId)
-            .set(null);
-
-        toReturn.statusCode = 200;
-        toReturn.msg = "success";
-
+            toReturn = { ...toReturn, statusCode: 200, msg: "success" };
+        }
         return toReturn;
     } catch {
         return API_FAILED_ERROR;
@@ -90,17 +47,14 @@ export async function deleteUserNote(userToken, userNoteId) {
 export async function updateUserNote(userToken, userNoteId, toSet) {
     console.log("updateUserNote", userNoteId)
     try {
-        let toReturn = { statusCode: 500, data: {}, msg: "" };
+        let toReturn = { statusCode: 500, data: {}, msg: "something went wrong" };
 
-        const userNotesToken = encryptionUtil.md5Hash(userToken + "_notes_" + ENCRYPTION_KEY);
-        await userNotesRef
-            .child(userNotesToken)
-            .child(userNoteId)
-            .set(toSet)
-            .catch((error) => { toReturn.msg = error.message });
+        if (FIREBASE_REST_API_BASE_URL) {
+            const userNotesToken = encryptionUtil.md5Hash(userToken + "_notes_" + ENCRYPTION_KEY);
+            const response = await utils.sendRequestToAPI(FIREBASE_REST_API_BASE_URL, `/${USER_NOTES_REF}/${userNotesToken}/${userNoteId}.json`, "PUT", toSet) || {};
 
-        toReturn.statusCode = 200;
-        toReturn.msg = "success";
+            toReturn = { ...toReturn, statusCode: 200, msg: "success" };
+        }
 
         return toReturn;
     } catch {
@@ -111,17 +65,14 @@ export async function updateUserNote(userToken, userNoteId, toSet) {
 export async function createUserNote(userToken, userNoteId) {
     console.log("createUserNote", userNoteId)
     try {
-        let toReturn = { statusCode: 500, data: {}, msg: "" };
+        let toReturn = { statusCode: 500, data: {}, msg: "something went wrong" };
 
-        const userNotesToken = encryptionUtil.md5Hash(userToken + "_notes_" + ENCRYPTION_KEY);
-        await userNotesRef
-            .child(userNotesToken)
-            .child(userNoteId)
-            .set(DUMMY_NEW_NOTE(userNoteId))
-            .catch((error) => { toReturn.msg = error.message });
+        if (FIREBASE_REST_API_BASE_URL) {
+            const userNotesToken = encryptionUtil.md5Hash(userToken + "_notes_" + ENCRYPTION_KEY);
+            const response = await utils.sendRequestToAPI(FIREBASE_REST_API_BASE_URL, `/${USER_NOTES_REF}/${userNotesToken}/${userNoteId}.json`, "PUT", DUMMY_NEW_NOTE(userNoteId)) || {};
 
-        toReturn.statusCode = 200;
-        toReturn.msg = "success";
+            toReturn = { ...toReturn, statusCode: 200, msg: "success" };
+        }
 
         return toReturn;
     } catch {

@@ -3,8 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "firebase": "^8.2.5",
-    "mngo-project-tools": "1.0.0",
+    "mngo-project-tools": "1.0.01",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-hot-keys": "^2.6.0",

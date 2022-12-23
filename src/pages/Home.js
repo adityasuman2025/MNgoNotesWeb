@@ -113,9 +113,6 @@ export default function Home() {
         setNotesList([DUMMY_NEW_NOTE(userNoteId), ...notesList]); //creating a new dummy note in state
         setActiveNote(userNoteId);
         const response = await createUserNote(userToken, userNoteId);
-        if (response.statusCode === 200) { } else {
-            makeSnackBar(response.msg);
-        }
     }
 
     function handleNoteItemClick(item) {

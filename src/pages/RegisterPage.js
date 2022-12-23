@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { authApis, utils, SnackBar, LoadingAnimation } from "mngo-project-tools";
-import { usersRef } from "../firebaseConfig";
-import { PROJECT_NAME, ENCRYPTION_KEY } from '../constants';
+import { PROJECT_NAME, ENCRYPTION_KEY, FIREBASE_REST_API_BASE_URL, USERS_REF, } from '../constants';
 
 import CircularButton from "../components/CircularButton";
 
@@ -12,7 +11,6 @@ export default function RegisterPage(props) {
     const [registerSuccess, setRegisterSuccess] = useState(false);
 
     const [enteredUsername, setEnteredUsername] = useState("");
-    const [enteredName, setEnteredName] = useState("");
     const [enteredEmail, setEnteredEmail] = useState("");
     const [enteredPassword, setEnteredPassword] = useState("");
     const [enteredConfPassword, setEnteredConfPassword] = useState("");
@@ -38,7 +36,7 @@ export default function RegisterPage(props) {
 
             //verifying the entered data
             const username = enteredUsername.trim();
-            const name = enteredName.trim();
+            const name = username;
             const email = enteredEmail.trim();
 
             const password = enteredPassword.trim();
@@ -84,7 +82,7 @@ export default function RegisterPage(props) {
                 }
 
                 //sending rqst to api
-                const response = await authApis.registerNewUser(usersRef, username, name, email, password, passCode, ENCRYPTION_KEY);
+                const response = await authApis.registerNewUser(FIREBASE_REST_API_BASE_URL, USERS_REF, username, name, email, password, passCode, ENCRYPTION_KEY);
                 if (response.statusCode === 200) {
                     makeSnackBar("Sucessfully registered. Please Login to continue", "success");
                     setRegisterSuccess(true);
@@ -123,14 +121,6 @@ export default function RegisterPage(props) {
                     value={enteredUsername}
                     autoFocus
                     onChange={(e) => setEnteredUsername(e.target.value)}
-                />
-
-                <input
-                    className="inputBox"
-                    type="text"
-                    placeholder="Name"
-                    value={enteredName}
-                    onChange={(e) => setEnteredName(e.target.value)}
                 />
 
                 <input

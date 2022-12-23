@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Redirect } from "react-router-dom";
 import { authApis, utils, SnackBar, LoadingAnimation } from "mngo-project-tools";
-import { usersRef } from "../firebaseConfig";
-import { PROJECT_NAME, ENCRYPTION_KEY, LOGGED_USER_TOKEN_COOKIE_NAME, COOKIE_EXPIRATION_TIME, EXTENSION_ENV_NAME, EXTENSION_ENV_VAL, WEB_URL } from '../constants';
+import { PROJECT_NAME, ENCRYPTION_KEY, FIREBASE_REST_API_BASE_URL, USERS_REF, LOGGED_USER_TOKEN_COOKIE_NAME, COOKIE_EXPIRATION_TIME, EXTENSION_ENV_NAME, EXTENSION_ENV_VAL, WEB_URL } from '../constants';
 
 import CircularButton from "../components/CircularButton";
 
@@ -56,7 +55,7 @@ export default function LoginPage(props) {
             const password = enteredPassword.trim();
             if (username !== "" && password !== "") {
                 //sending rqst to api
-                const response = await authApis.verifyLogin(usersRef, username, password, ENCRYPTION_KEY);
+                const response = await authApis.verifyLogin(FIREBASE_REST_API_BASE_URL, USERS_REF, username, password, ENCRYPTION_KEY);
                 if (response.statusCode === 200) {
                     const token = response.token;
                     if (token) {

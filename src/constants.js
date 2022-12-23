@@ -6,7 +6,9 @@ export const COOKIE_EXPIRATION_TIME = COOKIE_EXPIRATION_TYM;
 
 export const ENCRYPTION_KEY = process.env.REACT_APP_ENCRYPTION_KEY;
 export const IS_PASS_CODE_REQUIRED = process.env.REACT_APP_IS_PASS_CODE_REQUIRED;
-
+export const FIREBASE_REST_API_BASE_URL = process.env.REACT_APP_DB_URL;
+export const USER_NOTES_REF = "userNotes";
+export const USERS_REF = "users";
 export const PROJECT_NAME = "MNgo Notes";
 export const LOGGED_USER_TOKEN_COOKIE_NAME = "mngoNotesLoggedUserToken";
 export const API_FAILED_ERROR = { msg: "API Connection Failed", status: 400 };
@@ -65,16 +67,11 @@ export const STORAGE_PENDING_PUSH_KEY = "notesListPendingPushtoDb";
     "192": "logo.png",
     "512": "logo.png"
   },
-  "permissions": [],
-  "content_security_policy": {
-    "extension_pages": "script-src 'self'; object-src 'self'",
-    "sandbox": "sandbox allow-scripts; default-src 'self' 'https://apis.google.com/' 'https://www.gstatic.com/' 'https://*.firebaseio.com' 'https://www.googleapis.com' 'https://ajax.googleapis.com'; object-src 'self'"
-  }
+  "permissions": []
 }
+
 ref: 
 https://stackoverflow.com/questions/30889154/how-to-set-content-security-policy-in-chrome-extension-manifest-json-in-order-fo
 https://developer.chrome.com/docs/extensions/mv3/mv3-migration/
 https://dev.to/swimmingkiim/chrome-extension-with-firebase-manifest-v3-27gc
-
-"content_security_policy":  "default-src 'self' 'data:' 'data' *; script-src 'self' *; script-src-elem 'self' *; object-src 'self' *; img-src 'self' 'data:' 'data' *; connect-src 'self' *; frame-src 'self' *; "
 */
