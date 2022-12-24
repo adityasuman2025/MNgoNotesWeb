@@ -38,7 +38,7 @@ export default function NoteContentItem({
                 //if notes type is checkbox then showing checkbox icon
                 notesType === TYPE_TO_DO ?
                     <img alt="checkBoxIcon" className="notesListDataFieldCheckedIcon"
-                        src={!isChecked ? require('../img/unchecked.png') : require('../img/checked.png')}
+                        src={!isChecked ? require('../img/unchecked.webp') : require('../img/checked.webp')}
                         onClick={() => onCheckBoxClick(idx, !isChecked)}
                     />
                     : null
@@ -70,7 +70,7 @@ export default function NoteContentItem({
             {
                 //if notes type is checkbox then showing remove icon
                 notesType === TYPE_TO_DO ?
-                    <img alt="removeNotesListDataIcon" className={"notesListDataFieldRemoveIcon"} src={require('../img/cross2.png')}
+                    <img alt="removeNotesListDataIcon" className={"notesListDataFieldRemoveIcon"} src={require('../img/cross2.webp')}
                         onClick={() => onRemoveClick(idx)}
                     />
                     : null

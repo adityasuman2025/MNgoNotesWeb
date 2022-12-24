@@ -163,7 +163,7 @@ export default function Home() {
                 </div>
 
                 <div className="createNewNoteBtn" onClick={handleCreateNoteBtnClick} >
-                    <img alt="createNewNoteImg" src={require('../img/add1.png')} className="createNewNoteImg" />
+                    <img alt="createNewNoteImg" src={require('../img/add1.webp')} className="createNewNoteImg" />
                 </div>
             </>
         )

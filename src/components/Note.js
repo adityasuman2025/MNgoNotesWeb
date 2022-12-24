@@ -182,7 +182,7 @@ export default function ViewNote({
             <>
                 <div className="noteHeader">
                     <img alt="isCheckBoxIcon" className="isCheckBoxIcon"
-                        src={noteDetails.type === TYPE_TO_DO ? require('../img/checked.png') : require('../img/unchecked.png')}
+                        src={noteDetails.type === TYPE_TO_DO ? require('../img/checked.webp') : require('../img/unchecked.webp')}
                         onClick={() => setNoteDetails({ ...noteDetails, type: noteDetails.type === TYPE_TO_DO ? 1 : TYPE_TO_DO })}
                     />
                     <input
@@ -200,14 +200,14 @@ export default function ViewNote({
                         }} //to switch to first not content item on enter press in note title
                     />
 
-                    <img alt="deleteImg" className="deleteImg" src={require('../img/delete.png')} onClick={handleDeleteNoteClick} />
+                    <img alt="deleteImg" className="deleteImg" src={require('../img/delete.webp')} onClick={handleDeleteNoteClick} />
                 </div>
 
                 <div className="noteContentList" >
                     {
                         noteDetails.type === TYPE_TO_DO ?
                             <div className="addItemBtn" onClick={(e) => handleNoteContentItemSubmit(e, -1)} >
-                                <img alt="addItemIcon" src={require('../img/add1.png')} />
+                                <img alt="addItemIcon" src={require('../img/add1.webp')} />
                                 <span>Add Item</span>
                             </div>
                             : null

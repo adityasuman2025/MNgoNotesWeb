@@ -7,8 +7,8 @@ export default function InstallPWABtn() {
     if (!pwaInstall) return <></>;
     return (
         <div className="pwaBtn" onClick={pwaInstall}>
-            <img alt="pwaImg" src={require("../img/pwa.png")} width={67} height={50} />
+            <img alt="pwaImg" src={require("../img/pwa.webp")} width={67} height={50} />
             Install Web App
         </div>
     )
-};
+}

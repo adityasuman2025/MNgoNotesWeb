@@ -184,7 +184,7 @@ export default function RegisterPage(props) {
             />
 
             <form className={utils.cx("loginPageContent", "smallTopMargin")} onSubmit={handleRegisterClick} >
-                <img alt="logo img" className="logoIcon" src={require("../img/logo.png")} />
+                <img alt="logoImg" className="logoIcon" width={200} height={200} src={require("../img/logo.webp")} />
                 <div className="logoTitle">{PROJECT_NAME}</div>
 
                 {

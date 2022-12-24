@@ -44,14 +44,14 @@ export default function NavBar() {
 
             <div className="navBar">
                 <div className="navBarBrand">
-                    <img className="navLogoImg" alt="logo" src={require("../img/logo.png")} />
+                    <img className="navLogoImg" alt="logo" src={require("../img/logo.webp")} />
                     <span className="navTitle">{PROJECT_NAME}</span>
                 </div>
 
                 <img
                     className="logOutImg"
                     alt="logOutImg"
-                    src={require("../img/logout.png")}
+                    src={require("../img/logout.webp")}
                     onClick={handleLogoutClick}
                 />
             </div>

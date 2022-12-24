@@ -97,7 +97,7 @@ export default function LoginPage(props) {
     function renderPageContent() {
         return (
             <form className="loginPageContent" onSubmit={handleLoginClick} >
-                <img alt="logoImg" className="logoIcon" width={200} height={200} src={require("../img/logo.png")} />
+                <img alt="logoImg" className="logoIcon" width={200} height={200} src={require("../img/logo.webp")} />
                 <div className="logoTitle">{PROJECT_NAME}</div>
 
                 <input
@@ -130,7 +130,7 @@ export default function LoginPage(props) {
                 <br />
 
                 <a href='https://chrome.google.com/webstore/detail/mngo-notes-text-notes-to/ennpnglofmhmbpijnambnccoaklahfno' target="_blank" className='extLink' rel="noopener noreferrer">
-                    <img width={50} height={50} src={require("../img/chrome.png")} alt="chromeImg" />
+                    <img width={50} height={50} src={require("../img/chrome.webp")} alt="chromeImg" />
                     Download Extension
                 </a>
                 <br />
