@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Redirect } from "react-router-dom";
 import { authApis, utils, SnackBar, LoadingAnimation } from "mngo-project-tools";
 import { PROJECT_NAME, ENCRYPTION_KEY, FIREBASE_REST_API_BASE_URL, USERS_REF, LOGGED_USER_TOKEN_COOKIE_NAME, COOKIE_EXPIRATION_TIME, EXTENSION_ENV_NAME, EXTENSION_ENV_VAL, WEB_URL } from '../constants';
-
+import InstallPWABtn from "../components/InstallPWABtn";
 import CircularButton from "../components/CircularButton";
 
 export default function LoginPage(props) {
@@ -97,7 +97,7 @@ export default function LoginPage(props) {
     function renderPageContent() {
         return (
             <form className="loginPageContent" onSubmit={handleLoginClick} >
-                <img alt="logo img" className="logoIcon" src={require("../img/logo.png")} />
+                <img alt="logoImg" className="logoIcon" width={200} height={200} src={require("../img/logo.png")} />
                 <div className="logoTitle">{PROJECT_NAME}</div>
 
                 <input
@@ -130,9 +130,11 @@ export default function LoginPage(props) {
                 <br />
 
                 <a href='https://chrome.google.com/webstore/detail/mngo-notes-text-notes-to/ennpnglofmhmbpijnambnccoaklahfno' target="_blank" className='extLink' rel="noopener noreferrer">
-                    <img src={require("../img/chrome.png")} alt="chrome" />
+                    <img width={50} height={50} src={require("../img/chrome.png")} alt="chromeImg" />
                     Download Extension
                 </a>
+                <br />
+                <InstallPWABtn />
                 <br />
             </form >
         )

@@ -11,17 +11,35 @@ body {
 
 .extLink {
     color: #f1f1f1;
+    font-weight: 500;
     background-color: #1c313a;
     text-decoration: none;
     display: flex;
     align-items: center;
     cursor: pointer;
     padding: 5px 10px;
-    border-radius: 5px;
+    border-radius: 10px;
 }
 
 .extLink img {
     margin-right: 5px;
+}
+
+.pwaBtn {
+    color: #f1f1f1;
+    font-weight: 500;
+    background-color: #1c313a;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 10px;
+}
+
+.pwaBtn img {
+    margin-right: 5px;
+    border-radius: 100%;
 }
 
 .routeLoading {
@@ -413,15 +431,10 @@ select:focus {
 @media screen and (max-width: 800px) {
     .loginPageContent {
         width: 90%;
-        margin-top: 100px;
     }
 
     .smallTopMargin {
         margin-top: 20px;
-    }
-
-    .logoIcon {
-        width: 120px;
     }
 
     .inputBox,
