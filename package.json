@@ -9,7 +9,6 @@
     "react-hot-keys": "^2.6.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "5.0.1",
-    "react-use-pwa-install": "^0.2.1",
     "workbox-background-sync": "^6.5.4",
     "workbox-broadcast-update": "^6.5.4",
     "workbox-cacheable-response": "^6.5.4",
