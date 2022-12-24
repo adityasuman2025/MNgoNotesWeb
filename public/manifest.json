@@ -1,20 +1,25 @@
 {
   "short_name": "MNgo Notes",
   "name": "MNgo Notes: Text Notes & To Dos",
-  "description": "A notes Web App & Chrome Extension to write in. Can be used to maintain to dos and texts.",
-  "version": "0.0.2",
-  "manifest_version": 3,
-  "action": {
-    "default_popup": "index.html",
-    "default_title": "Open the popup"
-  },
-  "icons": {
-    "16": "logo.png",
-    "32": "logo.png",
-    "48": "logo.png",
-    "128": "logo.png",
-    "192": "logo.png",
-    "512": "logo.png"
-  },
-  "permissions": []
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "logo192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "logo512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
 }
