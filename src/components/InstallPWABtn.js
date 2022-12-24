@@ -1,31 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { usePWAInstall } from 'react-use-pwa-install'
 
 export default function InstallPWABtn() {
-    const [supportsPWA, setSupportsPWA] = useState(false);
-    const [promptInstall, setPromptInstall] = useState(null);
+    const pwaInstall = usePWAInstall();
 
-    useEffect(() => {
-        const handler = e => {
-            e.preventDefault();
-            console.log("we are being triggered :D");
-            setSupportsPWA(true);
-            setPromptInstall(e);
-        }
-
-        window.addEventListener("beforeinstallprompt", handler);
-        return () => window.removeEventListener("transitionend", handler);
-    }, []);
-
-    function handleClick(e) {
-        e.preventDefault();
-        if (!promptInstall) return;
-        promptInstall.prompt();
-    }
-    console.log(supportsPWA, "supportsPWA")
-
-    if (!supportsPWA) return <></>;
+    if (!pwaInstall) return <></>;
     return (
-        <div className="pwaBtn" onClick={handleClick}>
+        <div className="pwaBtn" onClick={pwaInstall}>
             <img alt="pwaImg" src={require("../img/pwa.png")} width={67} height={50} />
             Install Web App
         </div>
