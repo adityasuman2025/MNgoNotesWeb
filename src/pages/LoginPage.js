@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Redirect } from "react-router-dom";
-import { authApis, utils, SnackBar, LoadingAnimation } from "mngo-project-tools";
+import { authApis, utils, SnackBar, LoadingAnimation, PWAInstallProvider } from "mngo-project-tools";
 import { PROJECT_NAME, ENCRYPTION_KEY, FIREBASE_REST_API_BASE_URL, USERS_REF, LOGGED_USER_TOKEN_COOKIE_NAME, COOKIE_EXPIRATION_TIME, EXTENSION_ENV_NAME, EXTENSION_ENV_VAL, WEB_URL } from '../constants';
 import InstallPWABtn from "../components/InstallPWABtn";
 import CircularButton from "../components/CircularButton";
@@ -133,9 +133,13 @@ export default function LoginPage(props) {
                     <img width={50} height={50} src={require("../img/chrome.webp")} alt="chromeImg" />
                     Download Extension
                 </a>
+
                 <br />
-                <InstallPWABtn />
+                <PWAInstallProvider>
+                    <InstallPWABtn />
+                </PWAInstallProvider>
                 <br />
+
             </form >
         )
     }
