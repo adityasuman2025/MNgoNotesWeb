@@ -144,30 +144,6 @@ export default function ViewNote({
     }
     /*------delete note stuffs-------*/
 
-
-    /*------save note stuffs-------*/
-    async function handleSaveNoteClick(action) {
-        setDisplayLoader(true);
-        makeSnackBar("Saving...", "info");
-
-        if (!displayLoader) {
-            const response = await saveNoteInDb();
-            if (response.statusCode === 200) {
-                makeSnackBar("Saved", "success");
-                setTimeout(function() {
-                    if (action === "shortcutKey") setDisplayLoader(false); //checking if saving using shortcut key
-                    else {
-                        setRedirectToLandingPage(true);
-                        return;
-                    }
-                }, 500);
-            } else {
-                makeSnackBar(response.msg);
-                setDisplayLoader(false);
-            }
-        }
-    }
-
     async function saveNoteInDb(noteDetails) {
         //pushing this note id in pending push storage
         const oldData = JSON.parse(localStorage.getItem(STORAGE_PENDING_PUSH_KEY) || "{}");
@@ -242,7 +218,7 @@ export default function ViewNote({
     return (
         <Hotkeys
             keyName="ctrl+s,control+s,⌘+s,ctrl+⇪+s,control+⇪+s,⌘+⇪+s"
-            onKeyDown={(keyName, e, handle) => { e.preventDefault(); handleSaveNoteClick("shortcutKey") }}
+            onKeyDown={(keyName, e, handle) => { e.preventDefault(); makeSnackBar("Saved", "success"); }}
             filter={e => true} //to enable shortcut key inside input, textarea and select too
         >
             {redirectToLandingPage ? <Redirect to="/" /> : null}
