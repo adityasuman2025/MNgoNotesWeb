@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
-import { utils, ConfirmDialog } from "mngo-project-tools";
+import { logout } from "mngo-project-tools/dist/utils";
+import getLogoImg from "mngo-project-tools/dist/getLogoImg";
+import ConfirmDialog from "mngo-project-tools/dist/comps/ConfirmDialog";
 
 import { PROJECT_NAME, LOGGED_USER_TOKEN_COOKIE_NAME, COOKIE_EXPIRATION_TIME } from "../constants";
 
@@ -22,7 +24,7 @@ export default function NavBar() {
 
     //funtion to confirm the confirm dialog //when yes is pressed
     async function handleConfirmDialogConfirm() {
-        await utils.logout(LOGGED_USER_TOKEN_COOKIE_NAME, COOKIE_EXPIRATION_TIME);
+        await logout(LOGGED_USER_TOKEN_COOKIE_NAME, COOKIE_EXPIRATION_TIME);
         localStorage.clear();
         setRedirectToLandingPage(true);
     }
@@ -36,15 +38,15 @@ export default function NavBar() {
             }
 
             <ConfirmDialog
-                isDialogOpen={isConfirmDialogOpen}
-                dialogText="Are you sure to logout?"
+                open={isConfirmDialogOpen}
+                title="Are you sure to logout?"
                 onClose={handleConfirmDialogClose}
                 onConfirm={handleConfirmDialogConfirm}
             />
 
             <div className="navBar">
                 <div className="navBarBrand">
-                    <img className="navLogoImg" alt="logo" src={require("../img/logo.webp")} />
+                    <img className="navLogoImg" alt="logo" src={getLogoImg()} />
                     <span className="navTitle">{PROJECT_NAME}</span>
                 </div>
 

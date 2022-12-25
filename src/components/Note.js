@@ -1,7 +1,10 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import Hotkeys from 'react-hot-keys';
-import { utils, SnackBar, LoadingAnimation, ConfirmDialog } from "mngo-project-tools";
+import { getCookieValue } from "mngo-project-tools/dist/utils";
+import ConfirmDialog from "mngo-project-tools/dist/comps/ConfirmDialog";
+import SnackBar from "mngo-project-tools/dist/comps/SnackBar";
+import LoadingAnimation from "mngo-project-tools/dist/comps/LoadingAnimation";
 import { deleteUserNote } from "../apis";
 import { updateNoteInDb, removeNoteIdFromPendingPush } from "../utils";
 import { LOGGED_USER_TOKEN_COOKIE_NAME, TYPE_TO_DO, STORAGE_PENDING_PUSH_KEY } from '../constants';
@@ -128,7 +131,7 @@ export default function ViewNote({
     async function deleteNote() {
         setDisplayLoader(true);
 
-        const userToken = utils.getCookieValue(LOGGED_USER_TOKEN_COOKIE_NAME);
+        const userToken = getCookieValue(LOGGED_USER_TOKEN_COOKIE_NAME);
         const response = await deleteUserNote(userToken, userNoteId);
         if (response.statusCode === 200) {
             onDeleteNote(userNoteId);
@@ -252,8 +255,8 @@ export default function ViewNote({
             />
 
             <ConfirmDialog
-                isDialogOpen={isConfirmDialogOpen}
-                dialogText={confirmDialogText}
+                open={isConfirmDialogOpen}
+                title={confirmDialogText}
                 onClose={() => setIsConfirmDialogOpen(false)}
                 onConfirm={handleConfirmDialogConfirm}
             />

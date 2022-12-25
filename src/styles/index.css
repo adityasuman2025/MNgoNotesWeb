@@ -75,8 +75,7 @@ select:focus {
 }
 
 ::-webkit-scrollbar {
-    display: none;
-    /*-----hiding scrollbar----------*/
+    display: none; /*-----hiding scrollbar----------*/
 }
 
 .checked {
@@ -87,74 +86,21 @@ select:focus {
 
 
 /*----login/register page-----*/
-.loginPageContent {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-
-    /* background-color: grey; */
-    width: 60%;
-    margin: auto;
-
-    margin-top: 50px;
-}
-
-.smallTopMargin {
-    margin-top: 20px;
-}
-
-.logoIcon {
-    width: 200px;
-}
-
-.logoTitle {
-    font-size: 21px;
-    font-weight: 600;
-    color: white;
+.loginSignUpPage {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   height: 100vh;
 }
 
 .inputBox {
-    width: 350px;
-    height: 45px;
-    background-color: rgba(255, 255, 255, 0.2);
-    border: none;
-    border-radius: 25px;
-    padding: 0px 16px;
-    /*vertical horizontal */
-    font-size: 16px;
-    color: #ffffff;
-    margin: 10px 0px;
+    background-color: rgba(255, 255, 255, 0.2) !important;
+    border: none !important;
 }
 
-.buttonText {
-    font-size: 16px;
-    font-weight: 500;
-    color: #d8d8d8;
-    text-align: center;
+.loginSignUpPage .loadingAnimation {
+    border-color: #f1f1f1 #1c313a  #f1f1f1;
 }
-
-.signupText {
-    width: 100%;
-    text-align: center;
-
-    color: rgba(255, 255, 255, 0.6);
-    font-size: 16px;
-}
-
-.signupButton {
-    color: #ffffff;
-    font-size: 16px;
-    font-weight: 500;
-    cursor: pointer;
-}
-
-.successRegistrationText {
-    padding: 20px;
-    color: rgba(255, 255, 255, 0.6);
-    font-size: 16px;
-}
-
 /*----login/register page-----*/
 
 
@@ -191,7 +137,6 @@ select:focus {
     filter: invert(6%) sepia(16%) saturate(592%) hue-rotate(34deg) brightness(96%) contrast(91%);
     /* tintColor: #181915; */
 }
-
 /*-----navbar--------*/
 
 
@@ -356,17 +301,6 @@ select:focus {
 
 
 /*----others-----*/
-.circularBtnContainer {
-    width: 350px;
-    height: 50px;
-    background-color: #1c313a;
-    border: none;
-    border-radius: 25px;
-    margin: 10px 0px;
-    padding: 13px 0px;
-    text-align: center;
-}
-
 .createNewNoteBtn {
     position: fixed;
     bottom: 15px;
@@ -429,19 +363,6 @@ select:focus {
 
 /*------media screens------*/
 @media screen and (max-width: 800px) {
-    .loginPageContent {
-        width: 90%;
-    }
-
-    .smallTopMargin {
-        margin-top: 20px;
-    }
-
-    .inputBox,
-    .circularBtnContainer {
-        width: 280px;
-    }
-
     .navLogoImg {
         width: 22px;
     }

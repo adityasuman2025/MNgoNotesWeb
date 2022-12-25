@@ -1,6 +1,9 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
-import { utils, SnackBar, LoadingAnimation, encryptionUtil } from "mngo-project-tools";
+import { getCookieValue } from "mngo-project-tools/dist/utils";
+import { md5Hash } from "mngo-project-tools/dist/encryptionUtil";
+import SnackBar from "mngo-project-tools/dist/comps/SnackBar";
+import LoadingAnimation from "mngo-project-tools/dist/comps/LoadingAnimation";
 import { getUserNotes, createUserNote } from "../apis";
 import { updateNoteInDb, removeNoteIdFromPendingPush } from "../utils";
 import { LOGGED_USER_TOKEN_COOKIE_NAME, ENCRYPTION_KEY, DUMMY_NEW_NOTE, STORAGE_KEY, STORAGE_PENDING_PUSH_KEY } from '../constants';
@@ -33,7 +36,7 @@ export default function Home() {
                 setTimeout(() => { setActiveNote(cachedData[0].id) }, 100); //by default 1st note will be active from cached data
             }
 
-            const userToken = utils.getCookieValue(LOGGED_USER_TOKEN_COOKIE_NAME);
+            const userToken = getCookieValue(LOGGED_USER_TOKEN_COOKIE_NAME);
             if (userToken) {
                 (async function() {
                     const pendingPushNoteIds = Object.keys(JSON.parse(localStorage.getItem(STORAGE_PENDING_PUSH_KEY) || "{}"));
@@ -108,8 +111,8 @@ export default function Home() {
     }
 
     async function handleCreateNoteBtnClick() {
-        const userToken = utils.getCookieValue(LOGGED_USER_TOKEN_COOKIE_NAME);
-        const userNoteId = encryptionUtil.md5Hash(userToken + "_note_" + (new Date().getTime()) + "_" + ENCRYPTION_KEY);
+        const userToken = getCookieValue(LOGGED_USER_TOKEN_COOKIE_NAME);
+        const userNoteId = md5Hash(userToken + "_note_" + (new Date().getTime()) + "_" + ENCRYPTION_KEY);
 
         setNotesList([DUMMY_NEW_NOTE(userNoteId), ...notesList]); //creating a new dummy note in state
         setActiveNote(userNoteId);
