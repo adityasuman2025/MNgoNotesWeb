@@ -86,7 +86,10 @@ export default function LoginPage(props) {
                             Download Extension
                         </a>
                         <br />
-                        <InstallPWABtn titlt={"Install MNgo Chat Web App"} className="pwaInsBtn" />
+                        {
+                            process.env[EXTENSION_ENV_NAME] === EXTENSION_ENV_VAL ? null :
+                                <InstallPWABtn className="pwaInsBtn" />
+                        }
                     </>
                 </LoginForm>
             </div>
