@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import { getCookieValue } from "mngo-project-tools/dist/utils";
 import { md5Hash } from "mngo-project-tools/dist/encryptionUtil";
+import { getCachedFromLStorage, cacheInLStorage } from "mngo-project-tools/dist/cachingUtil";
 import SnackBar from "mngo-project-tools/dist/comps/SnackBar";
 import LoadingAnimation from "mngo-project-tools/dist/comps/LoadingAnimation";
 import { getUserNotes, createUserNote } from "../apis";
@@ -28,7 +29,7 @@ export default function Home() {
     useEffect(() => {
         try {
             //checking notesList in cache before making api call
-            const cachedData = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+            const cachedData = getCachedFromLStorage(STORAGE_KEY, ENCRYPTION_KEY);
             if (cachedData.length) {
                 setNotesList(cachedData);
                 setDisplayLoader(false);
@@ -39,7 +40,7 @@ export default function Home() {
             const userToken = getCookieValue(LOGGED_USER_TOKEN_COOKIE_NAME);
             if (userToken) {
                 (async function() {
-                    const pendingPushNoteIds = Object.keys(JSON.parse(localStorage.getItem(STORAGE_PENDING_PUSH_KEY) || "{}"));
+                    const pendingPushNoteIds = Object.keys(getCachedFromLStorage(STORAGE_PENDING_PUSH_KEY, ENCRYPTION_KEY));
                     let c = 0;
 
                     if (pendingPushNoteIds.length) {
@@ -69,9 +70,9 @@ export default function Home() {
     }, []);
 
     useEffect(() => {
-        if (renderedRef.current) localStorage.setItem(STORAGE_KEY, JSON.stringify(notesList));
+        if (renderedRef.current) cacheInLStorage(STORAGE_KEY, notesList, ENCRYPTION_KEY);
         renderedRef.current = true; //for the first time notesList state will be empty because it is intialized empty // so to ignore that case
-    }, [notesList]); // for storing any change in notesList in cache/localStorage
+    }, [notesList]); // for storing any change in notesList in cache
 
     useEffect(() => {
         if (reRenderNoteComp === true) setReRenderNoteComp(false); //for re-rendering of Note component on change of activeNoteId

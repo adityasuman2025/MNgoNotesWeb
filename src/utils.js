@@ -1,5 +1,6 @@
 import { getCookieValue } from "mngo-project-tools/dist/utils";
-import { encryptText } from "mngo-project-tools/dist/encryptionUtil"
+import { encryptText } from "mngo-project-tools/dist/encryptionUtil";
+import { getCachedFromLStorage, cacheInLStorage } from "mngo-project-tools/dist/cachingUtil";
 import { updateUserNote } from "./apis";
 import { ENCRYPTION_KEY, LOGGED_USER_TOKEN_COOKIE_NAME, STORAGE_PENDING_PUSH_KEY } from './constants';
 
@@ -18,7 +19,7 @@ export async function updateNoteInDb(userNoteId, noteDetails) {
 }
 
 export async function removeNoteIdFromPendingPush(userNoteId) {
-    let oldData1 = JSON.parse(localStorage.getItem(STORAGE_PENDING_PUSH_KEY) || "{}");
+    let oldData1 = getCachedFromLStorage(STORAGE_PENDING_PUSH_KEY, ENCRYPTION_KEY);
     const noteIds = Object.keys(oldData1).reduce((acc, key) => { if (key !== userNoteId) acc[key] = 1; return acc }, {})
-    await localStorage.setItem(STORAGE_PENDING_PUSH_KEY, JSON.stringify(noteIds));
+    await cacheInLStorage(STORAGE_PENDING_PUSH_KEY, noteIds, ENCRYPTION_KEY);
 }
