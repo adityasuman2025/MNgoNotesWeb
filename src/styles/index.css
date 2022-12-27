@@ -5,14 +5,13 @@ body {
         sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color: #455a64;
-    /* overflow: hidden; */
+    background: linear-gradient(45deg, #1a385b, #1c313a);
 }
 
 .extLink {
     color: #f1f1f1;
     font-weight: 500;
-    background-color: #1c313a;
+    background-color: rgba(255, 255, 255, 0.2);
     text-decoration: none;
     display: flex;
     align-items: center;
@@ -25,23 +24,6 @@ body {
     margin-right: 5px;
 }
 
-.pwaBtn {
-    color: #f1f1f1;
-    font-weight: 500;
-    background-color: #1c313a;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    padding: 5px 10px;
-    border-radius: 10px;
-}
-
-.pwaBtn img {
-    margin-right: 5px;
-    border-radius: 100%;
-}
-
 .routeLoading {
     display: flex;
     align-items: center;
@@ -50,22 +32,21 @@ body {
     height: 100vh;
 }
 
+.pwaInsBtn {
+    background: none !important;
+}
+
 /*----input fields placeholder color-------*/
 ::placeholder {
-    /* Chrome, Firefox, Opera, Safari 10.1+ */
-    color: #d8d8d8;
-    opacity: 1;
-    /* Firefox */
+    color: #d8d8d8; /* Chrome, Firefox, Opera, Safari 10.1+ */
 }
 
 :-ms-input-placeholder {
-    /* Internet Explorer 10-11 */
-    color: #d8d8d8;
+    color: #d8d8d8; /* Internet Explorer 10-11 */
 }
 
 ::-ms-input-placeholder {
-    /* Microsoft Edge */
-    color: #d8d8d8;
+    color: #d8d8d8; /* Microsoft Edge */
 }
 
 input:focus,
@@ -109,9 +90,8 @@ select:focus {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 1px solid #3d4e56;
+    border-bottom: 0.5px solid rgba(255, 255, 255, 0.2);
     padding: 0px 10px;
-    background-color: #455a64;
     height: 40px;
 }
 
@@ -134,8 +114,7 @@ select:focus {
 .logOutImg {
     width: 25px;
     cursor: pointer;
-    filter: invert(6%) sepia(16%) saturate(592%) hue-rotate(34deg) brightness(96%) contrast(91%);
-    /* tintColor: #181915; */
+    filter: invert(100%) sepia(0%) saturate(4848%) hue-rotate(33deg) brightness(115%) contrast(69%);
 }
 /*-----navbar--------*/
 
@@ -147,17 +126,17 @@ select:focus {
 
 .noteItemContainer {
     width: 25%;
-    max-height: calc(95vh - 40px);
-    min-height: calc(95vh - 40px);
+    max-height: calc(100vh - 40px);
+    min-height: calc(100vh - 40px);
     overflow: auto;
-    border-right: .5px solid #1c313a;
+    border-right: 0.5px solid rgba(255, 255, 255, 0.2);
 }
 
 .noteContentContainer {
     width: 75%;
-    max-height: calc(95vh - 40px);
-    min-height: calc(95vh - 40px);
-    overflow: auto;
+    max-height: calc(100vh - 40px);
+    min-height: calc(100vh - 40px);
+    overflow: hidden;
 }
 
 .notesListItem {
@@ -168,11 +147,7 @@ select:focus {
 }
 
 .activeNote {
-    background-color: #1c313a;
-}
-
-.activeNote .notesListType {
-    color: #d8d8d8;
+    background-color: rgba(255, 255, 255, 0.2) !important;
 }
 
 .notesListTitleText {
@@ -182,37 +157,29 @@ select:focus {
 }
 
 .notesListType {
-    color: #1c313a;
-    text-align: left;
+    color: rgba(255, 255, 255, 0.3);
     font-size: 12px;
 }
-
 /*----notes list-----*/
 
 
 /*-----notes content------*/
 .noteHeader {
-    position: sticky;
-    top: 0px;
-    z-index: 2;
+    height: 35px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #455a64;
-
     width: 100%;
-    margin: auto;
 }
 
 .isCheckBoxIcon {
     height: 18px;
-    filter: invert(100%) sepia(0%) saturate(4848%) hue-rotate(33deg) brightness(115%) contrast(69%);
-    /* tintColor: '#d8d8d8', */
+    filter: invert(100%) sepia(0%) saturate(4848%) hue-rotate(33deg) brightness(115%) contrast(69%);/* tintColor: '#d8d8d8', */
 }
 
 .noteTitleInput {
     width: 70%;
-    height: 35px;
+    height: 100%;
     color: #fff;
     font-size: 19px;
     font-weight: bold;
@@ -225,11 +192,12 @@ select:focus {
 .deleteImg {
     width: 21px;
     cursor: pointer;
-    filter: invert(17%) sepia(50%) saturate(347%) hue-rotate(152deg) brightness(94%) contrast(99%);
-    /* tintColor: '#1c313a', */
+    filter: invert(100%) sepia(0%) saturate(4848%) hue-rotate(33deg) brightness(115%) contrast(69%);
 }
 
 .noteContentList {
+    height: calc(100vh - 80px);
+    overflow: auto;
     width: 95%;
     margin: auto;
 }
@@ -248,7 +216,6 @@ select:focus {
     height: 18px;
     margin-right: 5px;
     filter: invert(100%) sepia(0%) saturate(4848%) hue-rotate(33deg) brightness(115%) contrast(69%);
-    /* tintColor:'#d8d8d8', */
 }
 
 .notesListDataFields {
@@ -262,15 +229,13 @@ select:focus {
 .notesListDataFieldCheckedIcon {
     width: 18px;
     cursor: pointer;
-    filter: invert(100%) sepia(0%) saturate(4848%) hue-rotate(33deg) brightness(115%) contrast(69%);
-    /* tintColor: '#d8d8d8', */
+    filter: invert(100%) sepia(0%) saturate(4848%) hue-rotate(33deg) brightness(115%) contrast(69%); /* tintColor: '#d8d8d8', */
 }
 
 .notesListDataFieldRemoveIcon {
     width: 14px;
     cursor: pointer;
-    filter: invert(15%) sepia(38%) saturate(576%) hue-rotate(152deg) brightness(94%) contrast(92%);
-    /* tintColor: '#1c313a', */
+    filter: invert(15%) sepia(38%) saturate(576%) hue-rotate(152deg) brightness(94%) contrast(92%); /* tintColor: '#1c313a', */
 }
 
 .notesListDataFieldInput {
@@ -314,16 +279,13 @@ select:focus {
     cursor: pointer;
 
     border-radius: 100px;
-    background-color: #181915;
-
-    z-index: 1000;
+    background-color: #d8d8d8;
 }
 
 .createNewNoteBtn img {
     height: 50%;
     width: 50%;
-    filter: invert(31%) sepia(43%) saturate(259%) hue-rotate(154deg) brightness(94%) contrast(87%);
-    /* tintColor: '#455a64', */
+    filter: invert(31%) sepia(43%) saturate(259%) hue-rotate(154deg) brightness(94%) contrast(87%);/* tintColor: '#455a64', */
 }
 
 
@@ -376,7 +338,6 @@ select:focus {
     }
 
     .noteItemContainer {
-        padding: 10px 0;
         width: 35%;
     }
 
@@ -401,8 +362,7 @@ select:focus {
     }
 
     .noteTitleInput {
-        font-size: 17px;
-        ;
+        font-size: 17px;;
     }
 
     .deleteImg {
