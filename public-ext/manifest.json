@@ -2,7 +2,7 @@
   "short_name": "MNgo Notes",
   "name": "MNgo Notes: Text Notes & To Dos",
   "description": "A notes Web App & Chrome Extension to write in. Can be used to maintain to dos and texts.",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "manifest_version": 3,
   "action": {
     "default_popup": "index.html",

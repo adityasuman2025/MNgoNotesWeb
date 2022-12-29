@@ -140,7 +140,6 @@ select:focus {
 }
 
 .notesListItem {
-    border-bottom: .5px solid #1c313a;
     padding: 15px;
     margin: 5px;
     cursor: pointer;
@@ -233,9 +232,9 @@ select:focus {
 }
 
 .notesListDataFieldRemoveIcon {
-    width: 14px;
+    width: 13px;
     cursor: pointer;
-    filter: invert(15%) sepia(38%) saturate(576%) hue-rotate(152deg) brightness(94%) contrast(92%); /* tintColor: '#1c313a', */
+    filter: invert(100%) sepia(0%) saturate(4848%) hue-rotate(33deg) brightness(115%) contrast(69%); /* tintColor: '#d8d8d8', */
 }
 
 .notesListDataFieldInput {
@@ -291,15 +290,11 @@ select:focus {
 
 /*-------general pages stuffs-----------*/
 .generalPageContainer {
-    max-height: 90vh;
-    max-width: 100%;
-    overflow: auto;
     padding: 30px;
     color: lightgray;
 }
 
 .generalPageHeader {
-    color: #1c313a;
     font-size: 200%;
     font-weight: 700;
     margin-bottom: 20px;
@@ -379,10 +374,6 @@ select:focus {
 
     .notesListDataFieldCheckedIcon {
         width: 16px;
-    }
-
-    .notesListDataFieldRemoveIcon {
-        width: 13px;
     }
 
     .notesListDataFieldInput {
