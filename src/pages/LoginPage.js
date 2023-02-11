@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Redirect } from "react-router-dom";
-import LoginForm from "mngo-project-tools/dist/comps/LoginForm";
-import InstallPWABtn from "mngo-project-tools/dist/comps/InstallPWABtn";
-import LoadingAnimation from "mngo-project-tools/dist/comps/LoadingAnimation";
-import SnackBar from "mngo-project-tools/dist/comps/SnackBar";
-import { makeCookie, getCookieValue } from "mngo-project-tools/dist/utils";
-import { verifyLogin } from "mngo-project-tools/dist/authApis";
+import LoginForm from "mngo-project-tools/comps/LoginForm";
+import InstallPWABtn from "mngo-project-tools/comps/InstallPWABtn";
+import LoadingAnimation from "mngo-project-tools/comps/LoadingAnimation";
+import SnackBar from "mngo-project-tools/comps/SnackBar";
+import { makeCookie, getCookieValue } from "mngo-project-tools/utils";
+import { verifyLogin } from "mngo-project-tools/authApis";
 import { PROJECT_NAME, ENCRYPTION_KEY, FIREBASE_REST_API_BASE_URL, USERS_REF, LOGGED_USER_TOKEN_COOKIE_NAME, COOKIE_EXPIRATION_TIME, EXTENSION_ENV_NAME, EXTENSION_ENV_VAL, WEB_URL } from '../constants';
 
 export default function LoginPage(props) {

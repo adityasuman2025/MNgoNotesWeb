@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import RegisterForm from "mngo-project-tools/dist/comps/RegisterForm";
-import SnackBar from "mngo-project-tools/dist/comps/SnackBar";
-import { registerNewUser } from "mngo-project-tools/dist/authApis";
+import RegisterForm from "mngo-project-tools/comps/RegisterForm";
+import SnackBar from "mngo-project-tools/comps/SnackBar";
+import { registerNewUser } from "mngo-project-tools/authApis";
 import { PROJECT_NAME, ENCRYPTION_KEY, FIREBASE_REST_API_BASE_URL, USERS_REF, } from '../constants';
 
 export default function RegisterPage() {

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
-import { logout } from "mngo-project-tools/dist/utils";
-import getLogoImg from "mngo-project-tools/dist/getLogoImg";
-import ConfirmDialog from "mngo-project-tools/dist/comps/ConfirmDialog";
+import { logout } from "mngo-project-tools/utils";
+import getLogoImg from "mngo-project-tools/getLogoImg";
+import ConfirmDialog from "mngo-project-tools/comps/ConfirmDialog";
 
 import { PROJECT_NAME, LOGGED_USER_TOKEN_COOKIE_NAME, COOKIE_EXPIRATION_TIME } from "../constants";
 

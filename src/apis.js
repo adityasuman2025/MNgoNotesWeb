@@ -1,5 +1,5 @@
-import { sendRequestToAPI } from "mngo-project-tools/dist/utils";
-import { md5Hash, decryptText } from "mngo-project-tools/dist/encryptionUtil";
+import { sendRequestToAPI } from "mngo-project-tools/utils";
+import { md5Hash, decryptText } from "mngo-project-tools/encryptionUtil";
 import { API_FAILED_ERROR, ENCRYPTION_KEY, FIREBASE_REST_API_BASE_URL, DUMMY_NEW_NOTE, USER_NOTES_REF } from "./constants";
 
 export async function getUserNotes(userToken) {

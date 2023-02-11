@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
-import { getCookieValue } from "mngo-project-tools/dist/utils";
-import LoadingAnimation from "mngo-project-tools/dist/comps/LoadingAnimation";
+import { getCookieValue } from "mngo-project-tools/utils";
+import LoadingAnimation from "mngo-project-tools/comps/LoadingAnimation";
 import { LOGGED_USER_TOKEN_COOKIE_NAME } from '../constants';
 
 export default function LandingPage() {

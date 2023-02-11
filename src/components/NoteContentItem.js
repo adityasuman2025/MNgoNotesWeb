@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from "react";
-import { cx } from "mngo-project-tools/dist/utils";
 import { TYPE_TO_DO } from '../constants';
 
 /* eslint-disable react-hooks/exhaustive-deps */
@@ -50,7 +49,7 @@ export default function NoteContentItem({
                     <input
                         ref={inputRef}
                         type="text"
-                        className={cx("notesListDataFieldInput", ...[isChecked ? 'checked' : ''])}
+                        className={`notesListDataFieldInput ${isChecked ? 'checked' : ''}`}
                         placeholder="type text"
                         value={text}
                         onChange={(e) => onInputFieldChange(idx, e.target.value)}

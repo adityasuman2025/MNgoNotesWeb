@@ -1,11 +1,11 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import Hotkeys from 'react-hot-keys';
-import { getCookieValue } from "mngo-project-tools/dist/utils";
-import { getCachedFromLStorage, cacheInLStorage } from "mngo-project-tools/dist/cachingUtil";
-import ConfirmDialog from "mngo-project-tools/dist/comps/ConfirmDialog";
-import SnackBar from "mngo-project-tools/dist/comps/SnackBar";
-import LoadingAnimation from "mngo-project-tools/dist/comps/LoadingAnimation";
+import { getCookieValue } from "mngo-project-tools/utils";
+import { getCachedFromLStorage, cacheInLStorage } from "mngo-project-tools/cachingUtil";
+import ConfirmDialog from "mngo-project-tools/comps/ConfirmDialog";
+import SnackBar from "mngo-project-tools/comps/SnackBar";
+import LoadingAnimation from "mngo-project-tools/comps/LoadingAnimation";
 import { deleteUserNote } from "../apis";
 import { updateNoteInDb, removeNoteIdFromPendingPush } from "../utils";
 import { LOGGED_USER_TOKEN_COOKIE_NAME, TYPE_TO_DO, STORAGE_PENDING_PUSH_KEY, ENCRYPTION_KEY } from '../constants';

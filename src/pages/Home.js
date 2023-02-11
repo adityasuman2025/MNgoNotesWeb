@@ -1,10 +1,10 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
-import { getCookieValue } from "mngo-project-tools/dist/utils";
-import { md5Hash } from "mngo-project-tools/dist/encryptionUtil";
-import { getCachedFromLStorage, cacheInLStorage } from "mngo-project-tools/dist/cachingUtil";
-import SnackBar from "mngo-project-tools/dist/comps/SnackBar";
-import LoadingAnimation from "mngo-project-tools/dist/comps/LoadingAnimation";
+import { getCookieValue } from "mngo-project-tools/utils";
+import { md5Hash } from "mngo-project-tools/encryptionUtil";
+import { getCachedFromLStorage, cacheInLStorage } from "mngo-project-tools/cachingUtil";
+import SnackBar from "mngo-project-tools/comps/SnackBar";
+import LoadingAnimation from "mngo-project-tools/comps/LoadingAnimation";
 import { getUserNotes, createUserNote } from "../apis";
 import { updateNoteInDb, removeNoteIdFromPendingPush } from "../utils";
 import { LOGGED_USER_TOKEN_COOKIE_NAME, ENCRYPTION_KEY, DUMMY_NEW_NOTE, STORAGE_KEY, STORAGE_PENDING_PUSH_KEY } from '../constants';

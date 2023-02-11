@@ -1,6 +1,6 @@
 import React, { useEffect, Suspense, lazy } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import LoadingAnimation from "mngo-project-tools/dist/comps/LoadingAnimation";
+import LoadingAnimation from "mngo-project-tools/comps/LoadingAnimation";
 import { EXTENSION_ENV_NAME, EXTENSION_ENV_VAL } from './constants';
 import { createMemoryHistory } from "history";
 const history = createMemoryHistory(); // to make router work in chrome extension, ref: https://stackoverflow.com/a/69195607

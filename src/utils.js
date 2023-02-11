@@ -1,6 +1,6 @@
-import { getCookieValue } from "mngo-project-tools/dist/utils";
-import { encryptText } from "mngo-project-tools/dist/encryptionUtil";
-import { getCachedFromLStorage, cacheInLStorage } from "mngo-project-tools/dist/cachingUtil";
+import { getCookieValue } from "mngo-project-tools/utils";
+import { encryptText } from "mngo-project-tools/encryptionUtil";
+import { getCachedFromLStorage, cacheInLStorage } from "mngo-project-tools/cachingUtil";
 import { updateUserNote } from "./apis";
 import { ENCRYPTION_KEY, LOGGED_USER_TOKEN_COOKIE_NAME, STORAGE_PENDING_PUSH_KEY } from './constants';
 
