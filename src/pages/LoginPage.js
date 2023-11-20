@@ -5,8 +5,8 @@ import InstallPWABtn from "mngo-project-tools/comps/InstallPWABtn";
 import LoadingAnimation from "mngo-project-tools/comps/LoadingAnimation";
 import SnackBar from "mngo-project-tools/comps/SnackBar";
 import { makeCookie, getCookieValue } from "mngo-project-tools/utils";
-import { verifyLogin } from "mngo-project-tools/authApis";
-import { PROJECT_NAME, ENCRYPTION_KEY, FIREBASE_REST_API_BASE_URL, USERS_REF, LOGGED_USER_TOKEN_COOKIE_NAME, COOKIE_EXPIRATION_TIME, EXTENSION_ENV_NAME, EXTENSION_ENV_VAL, WEB_URL } from '../constants';
+import { PROJECT_NAME, LOGGED_USER_TOKEN_COOKIE_NAME, COOKIE_EXPIRATION_TIME, EXTENSION_ENV_NAME, EXTENSION_ENV_VAL, WEB_URL } from '../constants';
+import { verifyUser } from "../apis";
 
 export default function LoginPage(props) {
     const [redirectToUserHome, setRedirectToUserHome] = useState(false);
@@ -38,12 +38,12 @@ export default function LoginPage(props) {
 
     async function handleLoginClick(username, password) {
         setDisplayLoader(true);
-        const response = await verifyLogin(FIREBASE_REST_API_BASE_URL, USERS_REF, username, password, ENCRYPTION_KEY);
-        if (response.statusCode === 200) {
-            const token = response.token;
-            if (token) {
+        try {
+            const { data: { userToken } = {} } = await verifyUser(username, password);
+
+            if (userToken) {
                 //setting cookie and redirecting to user's home page
-                if (await makeCookie(LOGGED_USER_TOKEN_COOKIE_NAME, token, COOKIE_EXPIRATION_TIME)) {
+                if (await makeCookie(LOGGED_USER_TOKEN_COOKIE_NAME, userToken, COOKIE_EXPIRATION_TIME)) {
                     setRedirectToUserHome(true);
                     return;
                 } else {
@@ -52,8 +52,8 @@ export default function LoginPage(props) {
             } else {
                 makeSnackBar("Something went wrong");
             }
-        } else {
-            makeSnackBar(response.msg);
+        } catch (e) {
+            makeSnackBar(e.message);
         }
         setDisplayLoader(false);
     }
@@ -104,7 +104,7 @@ export default function LoginPage(props) {
                 open={snackBarVisible}
                 msg={snackBarMsg}
                 type={snackBarType}
-                handleClose={handleSnackBarClose}
+                onClose={handleSnackBarClose}
             />
 
             {isContentVisible ? renderPageContent() : <LoadingAnimation loading={displayLoader} />}

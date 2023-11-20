@@ -1,13 +1,12 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import { getCookieValue } from "mngo-project-tools/utils";
-import { md5Hash } from "mngo-project-tools/encryptionUtil";
 import { getCachedFromLStorage, cacheInLStorage } from "mngo-project-tools/cachingUtil";
 import SnackBar from "mngo-project-tools/comps/SnackBar";
 import LoadingAnimation from "mngo-project-tools/comps/LoadingAnimation";
-import { getUserNotes, createUserNote } from "../apis";
-import { updateNoteInDb, removeNoteIdFromPendingPush } from "../utils";
-import { LOGGED_USER_TOKEN_COOKIE_NAME, ENCRYPTION_KEY, DUMMY_NEW_NOTE, STORAGE_KEY, STORAGE_PENDING_PUSH_KEY } from '../constants';
+import { getUserNotes, createUserNote, updateUserNote } from "../apis";
+import { removeNoteIdFromPendingPush } from "../utils";
+import { LOGGED_USER_TOKEN_COOKIE_NAME, ENCRYPTION_KEY, STORAGE_KEY, STORAGE_PENDING_PUSH_KEY } from '../constants';
 import NoteItem from "../components/NoteItem";
 import NavBar from "../components/NavBar";
 import Note from "../components/Note";
@@ -48,11 +47,11 @@ export default function Home() {
                             const thisNoteId = pendingPushNoteIds[i];
                             const thisNoteDetails = cachedData.find(item => item.id === thisNoteId);
                             if (thisNoteId && Object.keys(thisNoteDetails).length) {
-                                const resp = await updateNoteInDb(thisNoteId, thisNoteDetails);
-                                if (resp.statusCode === 200) {
+                                try {
+                                    await updateUserNote(userToken, thisNoteId, thisNoteDetails);
                                     await removeNoteIdFromPendingPush(thisNoteId); //removing this note id from pending push storage
                                     c++;
-                                }
+                                } catch (e) { }
                             }
                         }
                     }
@@ -84,9 +83,9 @@ export default function Home() {
     }
 
     async function fetchUserNotesList(loggedUserToken, cachedData) {
-        const response = await getUserNotes(loggedUserToken);
-        if (response.statusCode === 200) {
-            const data = response.data;
+        try {
+            const { data = {} } = await getUserNotes(loggedUserToken);
+
             if (data) {
                 if (data.notesList.length) {
                     //if cached data and api data is different then storing api data in state
@@ -97,8 +96,8 @@ export default function Home() {
             } else {
                 makeSnackBar("Something went wrong");
             }
-        } else {
-            makeSnackBar(response.msg);
+        } catch (e) {
+            makeSnackBar(e.message);
         }
 
         setDisplayLoader(false);
@@ -113,11 +112,20 @@ export default function Home() {
 
     async function handleCreateNoteBtnClick() {
         const userToken = getCookieValue(LOGGED_USER_TOKEN_COOKIE_NAME);
-        const userNoteId = md5Hash(userToken + "_note_" + (new Date().getTime()) + "_" + ENCRYPTION_KEY);
 
-        setNotesList([DUMMY_NEW_NOTE(userNoteId), ...notesList]); //creating a new dummy note in state
-        setActiveNote(userNoteId);
-        await createUserNote(userToken, userNoteId);
+        try {
+            const { data: { userNoteId } = {} } = await createUserNote(userToken);
+            if (userNoteId) {
+                setNotesList([{
+                    title: "", type: 1, id: userNoteId,
+                    ts: new Date().getTime(),
+                    noteContentItems: [{ text: "" }]
+                }, ...notesList]); // creating a new dummy note in state
+                setActiveNote(userNoteId);
+            }
+        } catch (e) {
+            makeSnackBar(e.message);
+        }
     }
 
     function handleNoteItemClick(item) {
@@ -181,7 +189,7 @@ export default function Home() {
                 open={snackBarVisible}
                 msg={snackBarMsg}
                 type={snackBarType}
-                handleClose={() => { setSnackBarVisible(false) }}
+                onClose={() => { setSnackBarVisible(false) }}
             />
 
             {displayLoader ? <LoadingAnimation loading /> : renderPageContent()}

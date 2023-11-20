@@ -6,8 +6,8 @@ import { getCachedFromLStorage, cacheInLStorage } from "mngo-project-tools/cachi
 import ConfirmDialog from "mngo-project-tools/comps/ConfirmDialog";
 import SnackBar from "mngo-project-tools/comps/SnackBar";
 import LoadingAnimation from "mngo-project-tools/comps/LoadingAnimation";
-import { deleteUserNote } from "../apis";
-import { updateNoteInDb, removeNoteIdFromPendingPush } from "../utils";
+import { deleteUserNote, updateUserNote } from "../apis";
+import { removeNoteIdFromPendingPush } from "../utils";
 import { LOGGED_USER_TOKEN_COOKIE_NAME, TYPE_TO_DO, STORAGE_PENDING_PUSH_KEY, ENCRYPTION_KEY } from '../constants';
 import NoteContentItem from "../components/NoteContentItem";
 
@@ -132,13 +132,14 @@ export default function ViewNote({
     async function deleteNote() {
         setDisplayLoader(true);
 
-        const userToken = getCookieValue(LOGGED_USER_TOKEN_COOKIE_NAME);
-        const response = await deleteUserNote(userToken, userNoteId);
-        if (response.statusCode === 200) {
+        try {
+            const userToken = getCookieValue(LOGGED_USER_TOKEN_COOKIE_NAME);
+            await deleteUserNote(userToken, userNoteId);
             onDeleteNote(userNoteId);
+
             return;
-        } else {
-            makeSnackBar(response.msg);
+        } catch (e) {
+            makeSnackBar(e.message);
         }
 
         setDisplayLoader(false);
@@ -149,9 +150,10 @@ export default function ViewNote({
         //pushing this note id in pending push storage
         cacheInLStorage(STORAGE_PENDING_PUSH_KEY, { ...getCachedFromLStorage(STORAGE_PENDING_PUSH_KEY, ENCRYPTION_KEY), [userNoteId]: 1 }, ENCRYPTION_KEY);
 
-        const resp = await updateNoteInDb(userNoteId, noteDetails);
-        if (resp.statusCode === 200) removeNoteIdFromPendingPush(userNoteId); //removing this note id from pending push storage
-        return resp;
+        try {
+            await updateUserNote(getCookieValue(LOGGED_USER_TOKEN_COOKIE_NAME), userNoteId, noteDetails);
+            removeNoteIdFromPendingPush(userNoteId); //removing this note id from pending push storage
+        } catch (e) { }
     }
     /*------save note stuffs-------*/
 
@@ -227,7 +229,7 @@ export default function ViewNote({
                 open={snackBarVisible}
                 msg={snackBarMsg}
                 type={snackBarType}
-                handleClose={() => { setSnackBarVisible(false) }}
+                onClose={() => { setSnackBarVisible(false) }}
             />
 
             <ConfirmDialog
