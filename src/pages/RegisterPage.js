@@ -47,7 +47,7 @@ export default function RegisterPage() {
 
             <div className='loginSignUpPage'>
                 <RegisterForm
-                    inputClassName="inputBox"
+                    styles={{ inputClassName: "inputBox" }}
                     projectTitle={PROJECT_NAME}
                     isRegisteringUser={displayLoader}
                     showError={(error) => { makeSnackBar(error) }}

@@ -194,7 +194,7 @@ export default function ViewNote({
 
                     {
                         (noteDetails.noteContentItems || []).map((item, idx) => {
-                            if (noteDetails.type !== TYPE_TO_DO && idx > 0) return //if notes type is text then showing only 1st item
+                            if (noteDetails.type !== TYPE_TO_DO && idx > 0) return <></> //if notes type is text then showing only 1st item
                             return (
                                 <NoteContentItem
                                     key={item.id + "_" + idx}

@@ -33,20 +33,23 @@ body {
 }
 
 .pwaInsBtn {
-    background: none !important;
+    color: #d8d8d8;
 }
 
 /*----input fields placeholder color-------*/
 ::placeholder {
-    color: #d8d8d8; /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #d8d8d8;
+    /* Chrome, Firefox, Opera, Safari 10.1+ */
 }
 
 :-ms-input-placeholder {
-    color: #d8d8d8; /* Internet Explorer 10-11 */
+    color: #d8d8d8;
+    /* Internet Explorer 10-11 */
 }
 
 ::-ms-input-placeholder {
-    color: #d8d8d8; /* Microsoft Edge */
+    color: #d8d8d8;
+    /* Microsoft Edge */
 }
 
 input:focus,
@@ -56,7 +59,8 @@ select:focus {
 }
 
 ::-webkit-scrollbar {
-    display: none; /*-----hiding scrollbar----------*/
+    display: none;
+    /*-----hiding scrollbar----------*/
 }
 
 .checked {
@@ -68,10 +72,10 @@ select:focus {
 
 /*----login/register page-----*/
 .loginSignUpPage {
-   display: flex;
-   align-items: center;
-   justify-content: center;
-   height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
 }
 
 .inputBox {
@@ -80,8 +84,9 @@ select:focus {
 }
 
 .loginSignUpPage .loadingAnimation {
-    border-color: #f1f1f1 #1c313a  #f1f1f1;
+    border-color: #f1f1f1 #1c313a #f1f1f1;
 }
+
 /*----login/register page-----*/
 
 
@@ -116,6 +121,7 @@ select:focus {
     cursor: pointer;
     filter: invert(100%) sepia(0%) saturate(4848%) hue-rotate(33deg) brightness(115%) contrast(69%);
 }
+
 /*-----navbar--------*/
 
 
@@ -159,6 +165,7 @@ select:focus {
     color: rgba(255, 255, 255, 0.3);
     font-size: 12px;
 }
+
 /*----notes list-----*/
 
 
@@ -173,7 +180,8 @@ select:focus {
 
 .isCheckBoxIcon {
     height: 18px;
-    filter: invert(100%) sepia(0%) saturate(4848%) hue-rotate(33deg) brightness(115%) contrast(69%);/* tintColor: '#d8d8d8', */
+    filter: invert(100%) sepia(0%) saturate(4848%) hue-rotate(33deg) brightness(115%) contrast(69%);
+    /* tintColor: '#d8d8d8', */
 }
 
 .noteTitleInput {
@@ -228,13 +236,15 @@ select:focus {
 .notesListDataFieldCheckedIcon {
     width: 18px;
     cursor: pointer;
-    filter: invert(100%) sepia(0%) saturate(4848%) hue-rotate(33deg) brightness(115%) contrast(69%); /* tintColor: '#d8d8d8', */
+    filter: invert(100%) sepia(0%) saturate(4848%) hue-rotate(33deg) brightness(115%) contrast(69%);
+    /* tintColor: '#d8d8d8', */
 }
 
 .notesListDataFieldRemoveIcon {
     width: 13px;
     cursor: pointer;
-    filter: invert(100%) sepia(0%) saturate(4848%) hue-rotate(33deg) brightness(115%) contrast(69%); /* tintColor: '#d8d8d8', */
+    filter: invert(100%) sepia(0%) saturate(4848%) hue-rotate(33deg) brightness(115%) contrast(69%);
+    /* tintColor: '#d8d8d8', */
 }
 
 .notesListDataFieldInput {
@@ -284,7 +294,8 @@ select:focus {
 .createNewNoteBtn img {
     height: 50%;
     width: 50%;
-    filter: invert(31%) sepia(43%) saturate(259%) hue-rotate(154deg) brightness(94%) contrast(87%);/* tintColor: '#455a64', */
+    filter: invert(31%) sepia(43%) saturate(259%) hue-rotate(154deg) brightness(94%) contrast(87%);
+    /* tintColor: '#455a64', */
 }
 
 
@@ -315,6 +326,7 @@ select:focus {
     font-size: 120%;
     font-weight: 450;
 }
+
 /*-------general pages stuffs-----------*/
 
 
@@ -357,7 +369,8 @@ select:focus {
     }
 
     .noteTitleInput {
-        font-size: 17px;;
+        font-size: 17px;
+        ;
     }
 
     .deleteImg {

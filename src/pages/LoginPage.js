@@ -73,7 +73,7 @@ export default function LoginPage(props) {
         return (
             <div className='loginSignUpPage'>
                 <LoginForm
-                    inputClassName="inputBox"
+                    styles={{ inputClassName: "inputBox" }}
                     projectTitle={PROJECT_NAME}
                     isLoggingUser={displayLoader}
                     showError={(error) => { makeSnackBar(error) }}
@@ -88,7 +88,7 @@ export default function LoginPage(props) {
                         <br />
                         {
                             process.env[EXTENSION_ENV_NAME] === EXTENSION_ENV_VAL ? null :
-                                <InstallPWABtn className="pwaInsBtn" />
+                                <InstallPWABtn styles={{ className: "pwaInsBtn" }} />
                         }
                     </>
                 </LoginForm>
