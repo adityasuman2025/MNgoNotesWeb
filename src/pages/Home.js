@@ -1,12 +1,12 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import { getCookieValue } from "mngo-project-tools/utils";
-import { getCachedFromLStorage, cacheInLStorage } from "mngo-project-tools/cachingUtil";
+import { getCacheRegular, setCacheRegular } from "mngo-project-tools/cachingUtil";
 import SnackBar from "mngo-project-tools/comps/SnackBar";
 import LoadingAnimation from "mngo-project-tools/comps/LoadingAnimation";
 import { getUserNotes, createUserNote, updateUserNote } from "../apis";
 import { removeNoteIdFromPendingPush } from "../utils";
-import { LOGGED_USER_TOKEN_COOKIE_NAME, ENCRYPTION_KEY, STORAGE_KEY, STORAGE_PENDING_PUSH_KEY } from '../constants';
+import { LOGGED_USER_TOKEN_COOKIE_NAME, STORAGE_KEY, STORAGE_PENDING_PUSH_KEY } from '../constants';
 import NoteItem from "../components/NoteItem";
 import NavBar from "../components/NavBar";
 import Note from "../components/Note";
@@ -28,7 +28,7 @@ export default function Home() {
     useEffect(() => {
         try {
             //checking notesList in cache before making api call
-            const cachedData = getCachedFromLStorage(STORAGE_KEY, ENCRYPTION_KEY);
+            const cachedData = getCacheRegular(STORAGE_KEY);
             if (cachedData.length) {
                 setNotesList(cachedData);
                 setDisplayLoader(false);
@@ -39,7 +39,7 @@ export default function Home() {
             const userToken = getCookieValue(LOGGED_USER_TOKEN_COOKIE_NAME);
             if (userToken) {
                 (async function() {
-                    const pendingPushNoteIds = Object.keys(getCachedFromLStorage(STORAGE_PENDING_PUSH_KEY, ENCRYPTION_KEY));
+                    const pendingPushNoteIds = Object.keys(getCacheRegular(STORAGE_PENDING_PUSH_KEY));
                     let c = 0;
 
                     if (pendingPushNoteIds.length) {
@@ -69,7 +69,7 @@ export default function Home() {
     }, []);
 
     useEffect(() => {
-        if (renderedRef.current) cacheInLStorage(STORAGE_KEY, notesList, ENCRYPTION_KEY);
+        if (renderedRef.current) setCacheRegular(STORAGE_KEY, notesList);
         renderedRef.current = true; //for the first time notesList state will be empty because it is intialized empty // so to ignore that case
     }, [notesList]); // for storing any change in notesList in cache
 

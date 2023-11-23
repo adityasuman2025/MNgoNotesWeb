@@ -2,13 +2,13 @@ import React, { useRef, useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import Hotkeys from 'react-hot-keys';
 import { getCookieValue } from "mngo-project-tools/utils";
-import { getCachedFromLStorage, cacheInLStorage } from "mngo-project-tools/cachingUtil";
+import { getCacheRegular, setCacheRegular } from "mngo-project-tools/cachingUtil";
 import ConfirmDialog from "mngo-project-tools/comps/ConfirmDialog";
 import SnackBar from "mngo-project-tools/comps/SnackBar";
 import LoadingAnimation from "mngo-project-tools/comps/LoadingAnimation";
 import { deleteUserNote, updateUserNote } from "../apis";
 import { removeNoteIdFromPendingPush } from "../utils";
-import { LOGGED_USER_TOKEN_COOKIE_NAME, TYPE_TO_DO, STORAGE_PENDING_PUSH_KEY, ENCRYPTION_KEY } from '../constants';
+import { LOGGED_USER_TOKEN_COOKIE_NAME, TYPE_TO_DO, STORAGE_PENDING_PUSH_KEY } from '../constants';
 import NoteContentItem from "../components/NoteContentItem";
 
 let timer;
@@ -148,7 +148,7 @@ export default function ViewNote({
 
     async function saveNoteInDb(noteDetails) {
         //pushing this note id in pending push storage
-        cacheInLStorage(STORAGE_PENDING_PUSH_KEY, { ...getCachedFromLStorage(STORAGE_PENDING_PUSH_KEY, ENCRYPTION_KEY), [userNoteId]: 1 }, ENCRYPTION_KEY);
+        setCacheRegular(STORAGE_PENDING_PUSH_KEY, { ...getCacheRegular(STORAGE_PENDING_PUSH_KEY), [userNoteId]: 1 });
 
         try {
             await updateUserNote(getCookieValue(LOGGED_USER_TOKEN_COOKIE_NAME), userNoteId, noteDetails);

@@ -14,7 +14,6 @@ export const TYPE_TO_DO = 2;
 export const EXTENSION_ENV_NAME = "REACT_APP_EXT";
 export const EXTENSION_ENV_VAL = "ext";
 export const WEB_URL = "https://notes.mngo.in/";
-export const ENCRYPTION_KEY = process.env.REACT_APP_ENCRYPTION_KEY;
 
 export const LOGGED_USER_TOKEN_COOKIE_NAME = "mngoNotesLoggedUserToken";
 export const STORAGE_KEY = "notesList";
