@@ -1,9 +1,9 @@
 import React, { useRef, useState, useEffect } from "react";
-import { Redirect } from "react-router-dom";
-import { getCookieValue } from "mngo-project-tools/utils";
-import { getCacheRegular, setCacheRegular } from "mngo-project-tools/cachingUtil";
+import WithAuth from "mngo-project-tools/hocs/WithAuth";
 import SnackBar from "mngo-project-tools/comps/SnackBar";
 import Loader from "mngo-project-tools/comps/Loader";
+import { getCookieValue } from "mngo-project-tools/utils";
+import { getCacheRegular, setCacheRegular } from "mngo-project-tools/cachingUtil";
 import { getUserNotes, createUserNote, updateUserNote } from "../apis";
 import { removeNoteIdFromPendingPush } from "../utils";
 import { LOGGED_USER_TOKEN_COOKIE_NAME, STORAGE_KEY, STORAGE_PENDING_PUSH_KEY } from '../constants';
@@ -11,15 +11,11 @@ import NoteItem from "../components/NoteItem";
 import NavBar from "../components/NavBar";
 import Note from "../components/Note";
 
-/* eslint-disable react-hooks/exhaustive-deps */
-export default function Home() {
+function Home() {
     const renderedRef = useRef(null);
 
     const [displayLoader, setDisplayLoader] = useState(true);
-    const [redirectToLandingPage, setRedirectToLandingPage] = useState(false);
-    const [snackBarVisible, setSnackBarVisible] = useState(false);
-    const [snackBarMsg, setSnackBarMsg] = useState("");
-    const [snackBarType, setSnackBarType] = useState("success");
+    const [snackBarData, setSnackBarData] = useState({ visisible: false, msg: "", type: "" });
 
     const [notesList, setNotesList] = useState([]);
     const [activeNoteId, setActiveNoteId] = useState("");
@@ -37,32 +33,26 @@ export default function Home() {
             }
 
             const userToken = getCookieValue(LOGGED_USER_TOKEN_COOKIE_NAME);
-            if (userToken) {
-                (async function() {
-                    const pendingPushNoteIds = Object.keys(getCacheRegular(STORAGE_PENDING_PUSH_KEY));
-                    let c = 0;
 
-                    if (pendingPushNoteIds.length) {
-                        for (let i = 0; i < pendingPushNoteIds.length; i++) {
-                            const thisNoteId = pendingPushNoteIds[i];
-                            const thisNoteDetails = cachedData.find(item => item.id === thisNoteId);
-                            if (thisNoteId && Object.keys(thisNoteDetails).length) {
-                                try {
-                                    await updateUserNote(userToken, thisNoteId, thisNoteDetails);
-                                    await removeNoteIdFromPendingPush(thisNoteId); //removing this note id from pending push storage
-                                    c++;
-                                } catch (e) { }
-                            }
+            (async function() {
+                const pendingPushNoteIds = Object.keys(getCacheRegular(STORAGE_PENDING_PUSH_KEY));
+                let c = 0;
+
+                if (pendingPushNoteIds.length) {
+                    for (let i = 0; i < pendingPushNoteIds.length; i++) {
+                        const thisNoteId = pendingPushNoteIds[i];
+                        const thisNoteDetails = cachedData.find(item => item.id === thisNoteId);
+                        if (thisNoteId && Object.keys(thisNoteDetails).length) {
+                            try {
+                                await updateUserNote(userToken, thisNoteId, thisNoteDetails);
+                                await removeNoteIdFromPendingPush(thisNoteId); //removing this note id from pending push storage
+                                c++;
+                            } catch (e) { }
                         }
                     }
-                    if (c === pendingPushNoteIds.length) await fetchUserNotesList(userToken, cachedData);
-                })();
-            } else {
-                //no one is logged //redirecting to landing page
-                setDisplayLoader(false);
-                setRedirectToLandingPage(true);
-                return;
-            }
+                }
+                if (c === pendingPushNoteIds.length) await fetchUserNotesList(userToken, cachedData);
+            })();
         } catch {
             makeSnackBar("Invalid Request");
         }
@@ -103,11 +93,8 @@ export default function Home() {
         setDisplayLoader(false);
     }
 
-    function makeSnackBar(msg, type) {
-        setSnackBarMsg(msg);
-        setSnackBarType(type);
-
-        setSnackBarVisible(true);
+    function makeSnackBar(msg, type = "error") {
+        setSnackBarData({ visisible: true, msg, type });
     }
 
     async function handleCreateNoteBtnClick() {
@@ -141,58 +128,57 @@ export default function Home() {
         setNotesList(prev => prev.filter(item => item.id !== userNoteId)); //removing deleted note from notesList state
     }
 
-    function renderPageContent() {
-        return (
-            <>
-                <NavBar />
-
-                <div className="homeContainer">
-                    <div className="noteItemContainer">
-                        {
-                            notesList.map((item, idx) =>
-                                <NoteItem
-                                    key={idx}
-                                    isActive={activeNoteId === item.id}
-                                    noteDetails={item}
-                                    onClick={handleNoteItemClick}
-                                />
-                            )
-                        }
-                    </div>
-
-                    <div className="noteContentContainer">
-                        {
-                            reRenderNoteComp === false ?
-                                <Note
-                                    userNoteId={activeNoteId}
-                                    noteDetailsData={notesList.find(item => item.id === activeNoteId)}
-                                    setNotesList={setNotesList}
-                                    onDeleteNote={handleDeleteNote}
-                                />
-                                : null
-                        }
-                    </div>
-                </div>
-
-                <div className="createNewNoteBtn" onClick={handleCreateNoteBtnClick} >
-                    <img alt="createNewNoteImg" src={require('../img/add1.webp')} className="createNewNoteImg" />
-                </div>
-            </>
-        )
-    }
-
     return (
         <>
-            {redirectToLandingPage ? <Redirect to="/" /> : null}
+            <NavBar />
+
+            <div className="homeContainer">
+                <div className="noteItemContainer">
+                    <Loader loading={displayLoader} styles={{ loaderClassName: "loader" }} />
+
+                    {
+                        notesList.map((item, idx) =>
+                            <NoteItem
+                                key={idx}
+                                isActive={activeNoteId === item.id}
+                                noteDetails={item}
+                                onClick={handleNoteItemClick}
+                            />
+                        )
+                    }
+                </div>
+
+                <div className="noteContentContainer">
+                    {
+                        reRenderNoteComp === false ?
+                            <Note
+                                userNoteId={activeNoteId}
+                                noteDetailsData={notesList.find(item => item.id === activeNoteId)}
+                                setNotesList={setNotesList}
+                                onDeleteNote={handleDeleteNote}
+                            />
+                            : null
+                    }
+                </div>
+            </div>
+
+            <div className="createNewNoteBtn" onClick={handleCreateNoteBtnClick} >
+                <img alt="createNewNoteImg" src={require('../img/add1.webp')} className="createNewNoteImg" />
+            </div>
 
             <SnackBar
-                open={snackBarVisible}
-                msg={snackBarMsg}
-                type={snackBarType}
-                onClose={() => { setSnackBarVisible(false) }}
+                open={snackBarData.visisible}
+                msg={snackBarData.msg}
+                type={snackBarData.type}
+                onClose={() => setSnackBarData({ visisible: false })}
             />
-
-            {displayLoader ? <Loader loading /> : renderPageContent()}
         </>
     )
 }
+
+
+function redirectToLogin() {
+    window.location.href = "/login";
+}
+
+export default WithAuth(Home, LOGGED_USER_TOKEN_COOKIE_NAME, redirectToLogin);

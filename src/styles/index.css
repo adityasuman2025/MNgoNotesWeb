@@ -87,7 +87,7 @@ select:focus {
     border: none !important;
 }
 
-.loginSignUpPage .loader {
+.loader {
     border-color: #f1f1f1 #1c313a #f1f1f1;
 }
 

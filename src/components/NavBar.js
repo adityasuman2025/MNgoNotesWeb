@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
 import { logout } from "mngo-project-tools/utils";
-import getLogoImg from "mngo-project-tools/getLogoImg";
+import getLogoImgXxs from "mngo-project-tools/getLogoImgXxs";
 import ConfirmDialog from "mngo-project-tools/comps/ConfirmDialog";
 
-import { PROJECT_NAME, LOGGED_USER_TOKEN_COOKIE_NAME, COOKIE_EXPIRATION_TIME } from "../constants";
+import { PROJECT_NAME } from "../constants";
 
 export default function NavBar() {
     //hooks variable
@@ -24,7 +24,7 @@ export default function NavBar() {
 
     //funtion to confirm the confirm dialog //when yes is pressed
     async function handleConfirmDialogConfirm() {
-        await logout(LOGGED_USER_TOKEN_COOKIE_NAME, COOKIE_EXPIRATION_TIME);
+        logout();
         setRedirectToLandingPage(true);
     }
 
@@ -45,7 +45,7 @@ export default function NavBar() {
 
             <div className="navBar">
                 <div className="navBarBrand">
-                    <img className="navLogoImg" alt="logo" src={getLogoImg()} />
+                    <img className="navLogoImg" alt="logo" src={getLogoImgXxs()} />
                     <span className="navTitle">{PROJECT_NAME}</span>
                 </div>
 

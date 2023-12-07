@@ -1,32 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { Redirect } from "react-router-dom";
+import React, { useState } from 'react';
+import WithoutAuth from "mngo-project-tools/hocs/WithoutAuth";
 import LoginForm from "mngo-project-tools/comps/LoginForm";
 import InstallPWABtn from "mngo-project-tools/comps/InstallPWABtn";
-import Loader from "mngo-project-tools/comps/Loader";
 import SnackBar from "mngo-project-tools/comps/SnackBar";
-import { makeCookie, getCookieValue } from "mngo-project-tools/utils";
-import { PROJECT_NAME, LOGGED_USER_TOKEN_COOKIE_NAME, COOKIE_EXPIRATION_TIME, EXTENSION_ENV_NAME, EXTENSION_ENV_VAL, WEB_URL } from '../constants';
+import { makeCookie } from "mngo-project-tools/utils";
+import { PROJECT_NAME, LOGGED_USER_TOKEN_COOKIE_NAME, COOKIE_EXPIRATION_TIME, EXTENSION_URL, EXTENSION_ENV_NAME, EXTENSION_ENV_VAL, WEB_URL } from '../constants';
 import { verifyUser } from "../apis";
 
-export default function LoginPage(props) {
-    const [redirectToUserHome, setRedirectToUserHome] = useState(false);
-    const [isContentVisible, setIsContentVisible] = useState(false);
-    const [displayLoader, setDisplayLoader] = useState(true);
-    const [snackBarVisible, setSnackBarVisible] = useState(false);
-    const [snackBarMsg, setSnackBarMsg] = useState("");
-    const [snackBarType, setSnackBarType] = useState("success");
-
-    useEffect(() => {
-        //checking if someone is already logged in
-        if (getCookieValue(LOGGED_USER_TOKEN_COOKIE_NAME)) {
-            //redirect to user's home page
-            setRedirectToUserHome(true);
-            return;
-        }
-
-        setDisplayLoader(false);
-        setIsContentVisible(true);
-    }, []);
+function LoginPage(props) {
+    const [displayLoader, setDisplayLoader] = useState(false);
+    const [snackBarData, setSnackBarData] = useState({ visisible: false, msg: "", type: "" });
 
     function handleSignUpClick() {
         if (process.env[EXTENSION_ENV_NAME] === EXTENSION_ENV_VAL) {
@@ -42,13 +25,8 @@ export default function LoginPage(props) {
             const { data: { userToken } = {} } = await verifyUser(username, password);
 
             if (userToken) {
-                //setting cookie and redirecting to user's home page
-                if (await makeCookie(LOGGED_USER_TOKEN_COOKIE_NAME, userToken, COOKIE_EXPIRATION_TIME)) {
-                    setRedirectToUserHome(true);
-                    return;
-                } else {
-                    makeSnackBar("Something went wrong");
-                }
+                makeCookie(LOGGED_USER_TOKEN_COOKIE_NAME, userToken, COOKIE_EXPIRATION_TIME)
+                return redirectToHome();
             } else {
                 makeSnackBar("Something went wrong");
             }
@@ -58,19 +36,12 @@ export default function LoginPage(props) {
         setDisplayLoader(false);
     }
 
-    function makeSnackBar(msg, type) {
-        setSnackBarMsg(msg);
-        setSnackBarType(type);
-
-        setSnackBarVisible(true);
+    function makeSnackBar(msg, type = "error") {
+        setSnackBarData({ visisible: true, msg, type });
     }
 
-    function handleSnackBarClose() {
-        setSnackBarVisible(false);
-    }
-
-    function renderPageContent() {
-        return (
+    return (
+        <>
             <div className='loginSignUpPage'>
                 <LoginForm
                     styles={{ inputClassName: "inputBox" }}
@@ -81,7 +52,7 @@ export default function LoginPage(props) {
                     onSignUpClick={handleSignUpClick}
                 >
                     <>
-                        <a href='https://chrome.google.com/webstore/detail/mngo-notes-text-notes-to/ennpnglofmhmbpijnambnccoaklahfno' target="_blank" className='extLink' rel="noopener noreferrer">
+                        <a href={EXTENSION_URL} target="_blank" className='extLink' rel="noopener noreferrer">
                             <img width={50} height={50} src={require("../img/chrome.webp")} alt="chromeImg" />
                             Download Extension
                         </a>
@@ -93,21 +64,20 @@ export default function LoginPage(props) {
                     </>
                 </LoginForm>
             </div>
-        )
-    }
-
-    return (
-        <>
-            {redirectToUserHome ? <Redirect to="/home" /> : null}
 
             <SnackBar
-                open={snackBarVisible}
-                msg={snackBarMsg}
-                type={snackBarType}
-                onClose={handleSnackBarClose}
+                open={snackBarData.visisible}
+                msg={snackBarData.msg}
+                type={snackBarData.type}
+                onClose={() => setSnackBarData({ visisible: false })}
             />
-
-            {isContentVisible ? renderPageContent() : <Loader loading={displayLoader} />}
         </>
     )
 }
+
+
+function redirectToHome() {
+    window.location.href = "/home";
+}
+
+export default WithoutAuth(LoginPage, LOGGED_USER_TOKEN_COOKIE_NAME, redirectToHome);

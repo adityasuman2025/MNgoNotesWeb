@@ -239,7 +239,7 @@ export default function ViewNote({
                 onConfirm={handleConfirmDialogConfirm}
             />
 
-            {displayLoader ? <Loader loading /> : renderPageContent()}
+            {displayLoader ? <Loader loading styles={{ loaderClassName: "loader" }} /> : renderPageContent()}
         </Hotkeys>
     )
 }

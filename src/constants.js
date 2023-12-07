@@ -11,6 +11,7 @@ export const API_USER_NOTES_REF = "/api/userNotes";
 export const PROJECT_NAME = "MNgo Notes";
 export const TYPE_TO_DO = 2;
 
+export const EXTENSION_URL = "https://chrome.google.com/webstore/detail/mngo-notes-text-notes-to/ennpnglofmhmbpijnambnccoaklahfno";
 export const EXTENSION_ENV_NAME = "REACT_APP_EXT";
 export const EXTENSION_ENV_VAL = "ext";
 export const WEB_URL = "https://notes.mngo.in/";

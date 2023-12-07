@@ -1,7 +1,8 @@
 {
     "name": "mngo-notes-web",
-    "version": "2.0.0",
     "private": true,
+    "sideEffects": false,
+    "version": "2.0.0",
     "dependencies": {
         "mngo-project-tools": "^1.2.98",
         "react": "^18.2.0",
