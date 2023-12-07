@@ -12,10 +12,10 @@ This chrome extension is available at
 
 
 ## Screenshots:
-<img src="screenshots/ss 0.png" alt="chromes extension screenshot">
+<img src="screenshots/1.png" alt="chromes extension screenshot">
 
-<img src="screenshots/ss 2.png" alt="chromes extension screenshot">
+<img src="screenshots/2.png" alt="chromes extension screenshot">
 
-<img src="screenshots/ss 3.png" alt="chromes extension screenshot">
+<img src="screenshots/3.png" alt="chromes extension screenshot">
 
-<img src="screenshots/ss 4.png" alt="chromes extension screenshot">
+<img src="screenshots/4.png" alt="chromes extension screenshot">
