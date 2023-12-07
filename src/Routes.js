@@ -14,8 +14,8 @@ const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
 function Routes() {
     useEffect(() => {
         if (process.env[EXTENSION_ENV_NAME] === EXTENSION_ENV_VAL) {
-            document.body.style.minHeight = "300px";
-            document.body.style.minWidth = "550px"; //if build is for chrome's extension then setting min-width to body
+            document.body.style.minHeight = "650px";
+            document.body.style.minWidth = "550px"; // if build is for chrome's extension then setting min-width to body
         }
     }, []);
 

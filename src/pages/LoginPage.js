@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Redirect } from "react-router-dom";
 import WithoutAuth from "mngo-project-tools/hocs/WithoutAuth";
 import LoginForm from "mngo-project-tools/comps/LoginForm";
 import InstallPWABtn from "mngo-project-tools/comps/InstallPWABtn";
@@ -7,16 +8,15 @@ import { makeCookie } from "mngo-project-tools/utils";
 import { PROJECT_NAME, LOGGED_USER_TOKEN_COOKIE_NAME, COOKIE_EXPIRATION_TIME, EXTENSION_URL, EXTENSION_ENV_NAME, EXTENSION_ENV_VAL, WEB_URL } from '../constants';
 import { verifyUser } from "../apis";
 
+const isExtension = process.env[EXTENSION_ENV_NAME] === EXTENSION_ENV_VAL;
+
 function LoginPage(props) {
     const [displayLoader, setDisplayLoader] = useState(false);
     const [snackBarData, setSnackBarData] = useState({ visisible: false, msg: "", type: "" });
 
     function handleSignUpClick() {
-        if (process.env[EXTENSION_ENV_NAME] === EXTENSION_ENV_VAL) {
-            window.open(WEB_URL + "register")
-        } else {
-            props.history.push("/register");
-        }
+        if (isExtension) window.open(WEB_URL + "register")
+        else props.history.push("/register");
     }
 
     async function handleLoginClick(username, password) {
@@ -26,7 +26,7 @@ function LoginPage(props) {
 
             if (userToken) {
                 makeCookie(LOGGED_USER_TOKEN_COOKIE_NAME, userToken, COOKIE_EXPIRATION_TIME)
-                return redirectToHome();
+                return props.history.push("/home");
             } else {
                 makeSnackBar("Something went wrong");
             }
@@ -51,17 +51,16 @@ function LoginPage(props) {
                     onLoginClick={(username, password) => { handleLoginClick(username, password) }}
                     onSignUpClick={handleSignUpClick}
                 >
-                    <>
-                        <a href={EXTENSION_URL} target="_blank" className='extLink' rel="noopener noreferrer">
-                            <img width={50} height={50} src={require("../img/chrome.webp")} alt="chromeImg" />
-                            Download Extension
-                        </a>
-                        <br />
-                        {
-                            process.env[EXTENSION_ENV_NAME] === EXTENSION_ENV_VAL ? null :
+                    {
+                        isExtension ? null :
+                            <>
+                                <a href={EXTENSION_URL} target="_blank" className='extLink' rel="noopener noreferrer">
+                                    <img width={50} height={50} src={require("../img/chrome.webp")} alt="chromeImg" />
+                                    Download Extension
+                                </a>
                                 <InstallPWABtn styles={{ className: "pwaInsBtn" }} />
-                        }
-                    </>
+                            </>
+                    }
                 </LoginForm>
             </div>
 
@@ -77,7 +76,9 @@ function LoginPage(props) {
 
 
 function redirectToHome() {
-    window.location.href = "/home";
+    // window.location.href = "/home"; // windiw.location.href was not working in chrome extension
+
+    return <Redirect to="/home" />;
 }
 
 export default WithoutAuth(LoginPage, LOGGED_USER_TOKEN_COOKIE_NAME, redirectToHome);

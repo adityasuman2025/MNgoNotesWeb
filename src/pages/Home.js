@@ -1,4 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
+import { Redirect } from "react-router-dom";
 import WithAuth from "mngo-project-tools/hocs/WithAuth";
 import SnackBar from "mngo-project-tools/comps/SnackBar";
 import Loader from "mngo-project-tools/comps/Loader";
@@ -178,7 +179,9 @@ function Home() {
 
 
 function redirectToLogin() {
-    window.location.href = "/login";
+    // window.location.href = "/login"; // windiw.location.href was not working in chrome extension
+
+    return <Redirect to="/login" />;
 }
 
 export default WithAuth(Home, LOGGED_USER_TOKEN_COOKIE_NAME, redirectToLogin);
