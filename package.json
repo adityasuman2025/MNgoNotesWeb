@@ -3,7 +3,7 @@
     "version": "2.0.0",
     "private": true,
     "dependencies": {
-        "mngo-project-tools": "^1.2.91",
+        "mngo-project-tools": "^1.2.98",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
         "react-hot-keys": "^2.6.0",
@@ -24,6 +24,7 @@
     },
     "scripts": {
         "start": "react-scripts start",
+        "serve": "serve -s build",
         "build": "GENERATE_SOURCEMAP=false react-scripts build",
         "build-ext": "sh build-ext.sh"
     },

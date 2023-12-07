@@ -3,7 +3,7 @@ import { Redirect } from "react-router-dom";
 import { getCookieValue } from "mngo-project-tools/utils";
 import { getCacheRegular, setCacheRegular } from "mngo-project-tools/cachingUtil";
 import SnackBar from "mngo-project-tools/comps/SnackBar";
-import LoadingAnimation from "mngo-project-tools/comps/LoadingAnimation";
+import Loader from "mngo-project-tools/comps/Loader";
 import { getUserNotes, createUserNote, updateUserNote } from "../apis";
 import { removeNoteIdFromPendingPush } from "../utils";
 import { LOGGED_USER_TOKEN_COOKIE_NAME, STORAGE_KEY, STORAGE_PENDING_PUSH_KEY } from '../constants';
@@ -192,7 +192,7 @@ export default function Home() {
                 onClose={() => { setSnackBarVisible(false) }}
             />
 
-            {displayLoader ? <LoadingAnimation loading /> : renderPageContent()}
+            {displayLoader ? <Loader loading /> : renderPageContent()}
         </>
     )
 }

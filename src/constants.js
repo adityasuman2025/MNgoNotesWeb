@@ -15,7 +15,7 @@ export const EXTENSION_ENV_NAME = "REACT_APP_EXT";
 export const EXTENSION_ENV_VAL = "ext";
 export const WEB_URL = "https://notes.mngo.in/";
 
-export const LOGGED_USER_TOKEN_COOKIE_NAME = "mngoNotesLoggedUserToken";
+export const LOGGED_USER_TOKEN_COOKIE_NAME = "MNgoNotesLoggedUserToken";
 export const STORAGE_KEY = "notesList";
 export const STORAGE_PENDING_PUSH_KEY = "notesListPendingPushtoDb";
 
@@ -31,12 +31,12 @@ export const STORAGE_PENDING_PUSH_KEY = "notesListPendingPushtoDb";
         "default_title": "Open the popup"
     },
     "icons": {
-        "16": "logo.png",
-        "32": "logo.png",
-        "48": "logo.png",
-        "128": "logo.png",
-        "192": "logo.png",
-        "512": "logo.png"
+        "16": "xxxs.png",
+        "32": "xxxs.png",
+        "48": "xxxs.png",
+        "128": "xxxs.png",
+        "192": "xxxs.png",
+        "512": "xxxs.png"
     },
     "permissions": [],
     "content_security_policy": "script-src 'self' https://cdn.firebase.com https://*.firebaseio.com; object-src 'self'"
@@ -55,12 +55,12 @@ export const STORAGE_PENDING_PUSH_KEY = "notesListPendingPushtoDb";
         "default_title": "Open the popup"
     },
     "icons": {
-        "16": "logo.png",
-        "32": "logo.png",
-        "48": "logo.png",
-        "128": "logo.png",
-        "192": "logo.png",
-        "512": "logo.png"
+        "16": "xxxs.png",
+        "32": "xxxs.png",
+        "48": "xxxs.png",
+        "128": "xxxs.png",
+        "192": "xxxs.png",
+        "512": "xxxs.png"
     },
     "permissions": []
 }

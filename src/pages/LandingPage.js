@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import { getCookieValue } from "mngo-project-tools/utils";
-import LoadingAnimation from "mngo-project-tools/comps/LoadingAnimation";
+import Loader from "mngo-project-tools/comps/Loader";
 import { LOGGED_USER_TOKEN_COOKIE_NAME } from '../constants';
 
 export default function LandingPage() {
@@ -39,7 +39,7 @@ export default function LandingPage() {
             <br /><br />
             <center>Welcome to MNgo Notes! Please wait...</center>
             <br />
-            <LoadingAnimation loading={true} />
+            <Loader loading={true} />
         </>
     )
 }

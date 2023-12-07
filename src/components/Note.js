@@ -5,7 +5,7 @@ import { getCookieValue } from "mngo-project-tools/utils";
 import { getCacheRegular, setCacheRegular } from "mngo-project-tools/cachingUtil";
 import ConfirmDialog from "mngo-project-tools/comps/ConfirmDialog";
 import SnackBar from "mngo-project-tools/comps/SnackBar";
-import LoadingAnimation from "mngo-project-tools/comps/LoadingAnimation";
+import Loader from "mngo-project-tools/comps/Loader";
 import { deleteUserNote, updateUserNote } from "../apis";
 import { removeNoteIdFromPendingPush } from "../utils";
 import { LOGGED_USER_TOKEN_COOKIE_NAME, TYPE_TO_DO, STORAGE_PENDING_PUSH_KEY } from '../constants';
@@ -239,7 +239,7 @@ export default function ViewNote({
                 onConfirm={handleConfirmDialogConfirm}
             />
 
-            {displayLoader ? <LoadingAnimation loading /> : renderPageContent()}
+            {displayLoader ? <Loader loading /> : renderPageContent()}
         </Hotkeys>
     )
 }

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Redirect } from "react-router-dom";
 import LoginForm from "mngo-project-tools/comps/LoginForm";
 import InstallPWABtn from "mngo-project-tools/comps/InstallPWABtn";
-import LoadingAnimation from "mngo-project-tools/comps/LoadingAnimation";
+import Loader from "mngo-project-tools/comps/Loader";
 import SnackBar from "mngo-project-tools/comps/SnackBar";
 import { makeCookie, getCookieValue } from "mngo-project-tools/utils";
 import { PROJECT_NAME, LOGGED_USER_TOKEN_COOKIE_NAME, COOKIE_EXPIRATION_TIME, EXTENSION_ENV_NAME, EXTENSION_ENV_VAL, WEB_URL } from '../constants';
@@ -107,7 +107,7 @@ export default function LoginPage(props) {
                 onClose={handleSnackBarClose}
             />
 
-            {isContentVisible ? renderPageContent() : <LoadingAnimation loading={displayLoader} />}
+            {isContentVisible ? renderPageContent() : <Loader loading={displayLoader} />}
         </>
     )
 }
