@@ -4,7 +4,7 @@ import WithoutAuth from "mngo-project-tools/hocs/WithoutAuth";
 import LoginForm from "mngo-project-tools/comps/LoginForm";
 import InstallPWABtn from "mngo-project-tools/comps/InstallPWABtn";
 import SnackBar from "mngo-project-tools/comps/SnackBar";
-import { makeCookie } from "mngo-project-tools/utils";
+import { setCookie } from "mngo-project-tools/cookieUtils";
 import { PROJECT_NAME, LOGGED_USER_TOKEN_COOKIE_NAME, COOKIE_EXPIRATION_TIME, EXTENSION_URL, EXTENSION_ENV_NAME, EXTENSION_ENV_VAL, WEB_URL } from '../constants';
 import { verifyUser } from "../apis";
 
@@ -25,7 +25,7 @@ function LoginPage(props) {
             const { data: { userToken } = {} } = await verifyUser(username, password);
 
             if (userToken) {
-                makeCookie(LOGGED_USER_TOKEN_COOKIE_NAME, userToken, COOKIE_EXPIRATION_TIME)
+                setCookie(LOGGED_USER_TOKEN_COOKIE_NAME, userToken, COOKIE_EXPIRATION_TIME)
                 return props.history.push("/home");
             } else {
                 makeSnackBar("Something went wrong");

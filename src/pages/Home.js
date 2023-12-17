@@ -3,8 +3,8 @@ import { Redirect } from "react-router-dom";
 import WithAuth from "mngo-project-tools/hocs/WithAuth";
 import SnackBar from "mngo-project-tools/comps/SnackBar";
 import Loader from "mngo-project-tools/comps/Loader";
-import { getCookieValue } from "mngo-project-tools/utils";
-import { getCacheRegular, setCacheRegular } from "mngo-project-tools/cachingUtil";
+import { getCookie } from "mngo-project-tools/cookieUtils";
+import { getCacheRegular, setCacheRegular } from "mngo-project-tools/cachingUtils";
 import { getUserNotes, createUserNote, updateUserNote } from "../apis";
 import { removeNoteIdFromPendingPush } from "../utils";
 import { LOGGED_USER_TOKEN_COOKIE_NAME, STORAGE_KEY, STORAGE_PENDING_PUSH_KEY } from '../constants';
@@ -33,7 +33,7 @@ function Home() {
                 setTimeout(() => { setActiveNote(cachedData[0].id) }, 100); //by default 1st note will be active from cached data
             }
 
-            const userToken = getCookieValue(LOGGED_USER_TOKEN_COOKIE_NAME);
+            const userToken = getCookie(LOGGED_USER_TOKEN_COOKIE_NAME);
 
             (async function() {
                 const pendingPushNoteIds = Object.keys(getCacheRegular(STORAGE_PENDING_PUSH_KEY));
@@ -99,7 +99,7 @@ function Home() {
     }
 
     async function handleCreateNoteBtnClick() {
-        const userToken = getCookieValue(LOGGED_USER_TOKEN_COOKIE_NAME);
+        const userToken = getCookie(LOGGED_USER_TOKEN_COOKIE_NAME);
 
         try {
             const { data: { userNoteId } = {} } = await createUserNote(userToken);

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
-import { logout } from "mngo-project-tools/utils";
+import { logout } from "mngo-project-tools/cookieUtils";
 import getLogoImgXxs from "mngo-project-tools/getLogoImgXxs";
 import ConfirmDialog from "mngo-project-tools/comps/ConfirmDialog";
 

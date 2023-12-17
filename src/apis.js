@@ -1,4 +1,4 @@
-import { sendRequestToAPI } from "mngo-project-tools/utils";
+import { sendRequestToAPI } from "mngo-project-tools/apiUtils";
 import { API_BASE_URL, API_USERS_REF, API_USER_NOTES_REF } from "./constants";
 
 export async function verifyUser(username, password) {

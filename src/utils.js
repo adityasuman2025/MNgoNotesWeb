@@ -1,4 +1,4 @@
-import { getCacheRegular, setCacheRegular } from "mngo-project-tools/cachingUtil";
+import { getCacheRegular, setCacheRegular } from "mngo-project-tools/cachingUtils";
 import { STORAGE_PENDING_PUSH_KEY } from './constants';
 
 export async function removeNoteIdFromPendingPush(userNoteId) {

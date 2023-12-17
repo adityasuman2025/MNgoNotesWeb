@@ -1,8 +1,8 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import Hotkeys from 'react-hot-keys';
-import { getCookieValue } from "mngo-project-tools/utils";
-import { getCacheRegular, setCacheRegular } from "mngo-project-tools/cachingUtil";
+import { getCookie } from "mngo-project-tools/cookieUtils";
+import { getCacheRegular, setCacheRegular } from "mngo-project-tools/cachingUtils";
 import ConfirmDialog from "mngo-project-tools/comps/ConfirmDialog";
 import SnackBar from "mngo-project-tools/comps/SnackBar";
 import Loader from "mngo-project-tools/comps/Loader";
@@ -133,7 +133,7 @@ export default function ViewNote({
         setDisplayLoader(true);
 
         try {
-            const userToken = getCookieValue(LOGGED_USER_TOKEN_COOKIE_NAME);
+            const userToken = getCookie(LOGGED_USER_TOKEN_COOKIE_NAME);
             await deleteUserNote(userToken, userNoteId);
             onDeleteNote(userNoteId);
 
@@ -151,7 +151,7 @@ export default function ViewNote({
         setCacheRegular(STORAGE_PENDING_PUSH_KEY, { ...getCacheRegular(STORAGE_PENDING_PUSH_KEY), [userNoteId]: 1 });
 
         try {
-            await updateUserNote(getCookieValue(LOGGED_USER_TOKEN_COOKIE_NAME), userNoteId, noteDetails);
+            await updateUserNote(getCookie(LOGGED_USER_TOKEN_COOKIE_NAME), userNoteId, noteDetails);
             removeNoteIdFromPendingPush(userNoteId); //removing this note id from pending push storage
         } catch (e) { }
     }
