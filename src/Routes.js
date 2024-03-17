@@ -13,9 +13,9 @@ const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
 
 function Routes() {
     useEffect(() => {
-        if (process.env[EXTENSION_ENV_NAME] === EXTENSION_ENV_VAL) {
-            document.body.style.minHeight = "650px";
-            document.body.style.minWidth = "550px"; // if build is for chrome's extension then setting min-width to body
+        if (process.env[EXTENSION_ENV_NAME] === EXTENSION_ENV_VAL) { // if build is for chrome's extension then setting dimn of the popup UI
+            document.body.style.minHeight = "600px"; // max allowed height for chrome's extension is 600px
+            document.body.style.minWidth = "550px"; // max allowed width for chrome's extension is 800px
         }
     }, []);
 
