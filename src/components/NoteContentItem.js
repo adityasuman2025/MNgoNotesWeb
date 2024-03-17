@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { Editor } from '@tinymce/tinymce-react';
 import { TYPE_TO_DO, TINY_MCE_API_KEY } from '../constants';
 
+let intervalRef = null;
 /* eslint-disable react-hooks/exhaustive-deps */
 export default function NoteContentItem({
     idx,
@@ -17,19 +18,28 @@ export default function NoteContentItem({
 
     useEffect(() => {
         if (isFocused === true) inputRef.current && inputRef.current.focus();
-
-        if (notesType !== TYPE_TO_DO) adjustTextAreaHeight(inputRef.current, true);
     }, [isFocused]);
 
     useEffect(() => {
-        if (notesType !== TYPE_TO_DO) adjustTextAreaHeight(inputRef.current, true);
+        clearInterval(intervalRef);
+        checkAndRemoveToxNotification();
+
+        if (notesType !== TYPE_TO_DO) {
+            intervalRef = setInterval(() => {
+                checkAndRemoveToxNotification();
+            }, 100);
+        }
+
+        return () => clearInterval(intervalRef);
     }, [notesType]);
 
-    function adjustTextAreaHeight(e, isRef) {
-        try {
-            const element = (isRef === true ? e : e.target) || {};
-            element.style.height = (element.scrollHeight) + "px";
-        } catch { }
+    function checkAndRemoveToxNotification() {
+        const toxNotificationClass = document.getElementsByClassName('tox-silver-sink');
+        const toxNotification = toxNotificationClass?.[0];
+        if (toxNotification) {
+            toxNotification.style.display = "none";
+            clearInterval(intervalRef);
+        }
     }
 
     const { isChecked = false, text = "" } = noteContent || {};

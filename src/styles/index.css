@@ -3,7 +3,7 @@ body {
     font-family: sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background: linear-gradient(45deg, #1a385b, #1c313a);
+    background: #1c313a;
 }
 
 .fullScreenLoaderBckgrnd {

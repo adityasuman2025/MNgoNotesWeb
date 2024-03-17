@@ -1,7 +1,10 @@
 # script to build chrome extension
 rm -rf build
-mv public public-pwa
-mv public-ext public
+cd public
+mv manifest.json manifest-pwa.json
+mv manifest-ext.json manifest.json
+cd ..
 INLINE_RUNTIME_CHUNK=false REACT_APP_EXT=ext GENERATE_SOURCEMAP=false react-scripts build
-mv public public-ext
-mv public-pwa public
+cd public
+mv manifest.json manifest-ext.json
+mv manifest-pwa.json manifest.json
