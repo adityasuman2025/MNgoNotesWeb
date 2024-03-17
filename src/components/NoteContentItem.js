@@ -44,7 +44,7 @@ export default function NoteContentItem({
 
     const { isChecked = false, text = "" } = noteContent || {};
     return (
-        <form className={notesType == TYPE_TO_DO ? "notesListDataFieldsToDos" : "notesListDataFields"} onSubmit={(e) => onSubmitInputField(e, idx)} >
+        <form className={notesType === TYPE_TO_DO ? "notesListDataFieldsToDos" : "notesListDataFields"} onSubmit={(e) => onSubmitInputField(e, idx)} >
             {
                 (notesType === TYPE_TO_DO) ? ( //if notes type is checkbox then showing checkbox icon
                     <img alt="checkBoxIcon" className="notesListDataFieldCheckedIcon"
