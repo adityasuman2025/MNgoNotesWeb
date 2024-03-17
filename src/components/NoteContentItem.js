@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
-import { TYPE_TO_DO } from '../constants';
+import { Editor } from '@tinymce/tinymce-react';
+import { TYPE_TO_DO, TINY_MCE_API_KEY } from '../constants';
 
 /* eslint-disable react-hooks/exhaustive-deps */
 export default function NoteContentItem({
@@ -13,6 +14,7 @@ export default function NoteContentItem({
     onSubmitInputField,
 }) {
     const inputRef = useRef(null);
+
     useEffect(() => {
         if (isFocused === true) inputRef.current && inputRef.current.focus();
 
@@ -32,20 +34,18 @@ export default function NoteContentItem({
 
     const { isChecked = false, text = "" } = noteContent || {};
     return (
-        <form className="notesListDataFields" onSubmit={(e) => onSubmitInputField(e, idx)} >
+        <form className={notesType == TYPE_TO_DO ? "notesListDataFieldsToDos" : "notesListDataFields"} onSubmit={(e) => onSubmitInputField(e, idx)} >
             {
-                //if notes type is checkbox then showing checkbox icon
-                notesType === TYPE_TO_DO ?
+                (notesType === TYPE_TO_DO) ? ( //if notes type is checkbox then showing checkbox icon
                     <img alt="checkBoxIcon" className="notesListDataFieldCheckedIcon"
                         src={!isChecked ? require('../img/unchecked.webp') : require('../img/checked.webp')}
                         onClick={() => onCheckBoxClick(idx, !isChecked)}
                     />
-                    : null
+                ) : null
             }
 
             {
-                //if notes type is checkbox then showing checkbox icon
-                notesType === TYPE_TO_DO ?
+                (notesType === TYPE_TO_DO) ? (
                     <input
                         ref={inputRef}
                         type="text"
@@ -54,25 +54,37 @@ export default function NoteContentItem({
                         value={text}
                         onChange={(e) => onInputFieldChange(idx, e.target.value)}
                     />
-                    :
-                    <textarea
-                        ref={inputRef}
-                        type="text"
+                ) : (
+                    <Editor
                         className="notesListDataFieldTextArea"
-                        placeholder="type text"
+                        apiKey={TINY_MCE_API_KEY}
                         value={text}
-                        onChange={(e) => onInputFieldChange(idx, e.target.value)}
-                        onKeyUp={adjustTextAreaHeight}
+                        init={{
+                            resize: false,
+                            menubar: false,
+                            auto_focus: true,
+                            width: '100%',
+                            height: '100%',
+                            selector: "textarea",
+                            placeholder: "type text...",
+                            toolbar: "",
+                            plugins: 'autolink link',
+                            link_default_protocol: 'https',
+                            content_css: 'none', // Remove any default content styles
+                            content_style: "body { line-height: 1.2; color: #d8d8d8; font-weight: 100; font-size: 14px; font-family: sans-serif; } p { margin: 0; } a { color: #d8d8d8;}",
+                        }}
+                        onEditorChange={(content) => onInputFieldChange(idx, content)}
                     />
+                )
             }
 
             {
                 //if notes type is checkbox then showing remove icon
-                notesType === TYPE_TO_DO ?
+                (notesType === TYPE_TO_DO) ? (
                     <img alt="removeNotesListDataIcon" className={"notesListDataFieldRemoveIcon"} src={require('../img/cross2.webp')}
                         onClick={() => onRemoveClick(idx)}
                     />
-                    : null
+                ) : null
             }
         </form>
     )

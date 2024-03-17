@@ -20,6 +20,8 @@ export const LOGGED_USER_TOKEN_COOKIE_NAME = "MNgoNotesLoggedUserToken";
 export const STORAGE_KEY = "notesList";
 export const STORAGE_PENDING_PUSH_KEY = "notesListPendingPushtoDb";
 
+export const TINY_MCE_API_KEY = "kwys3bhkrnbgyeg1vu2k97u2gmf2scfb30ocz0prz20mhz9e";
+
 /*
 {
     "short_name": "MNgo Notes",

@@ -1,8 +1,6 @@
 body {
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-        sans-serif;
+    font-family: sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     background: linear-gradient(45deg, #1a385b, #1c313a);
@@ -130,23 +128,88 @@ select:focus {
 
 
 /*----notes list-----*/
+#root {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
 .homeContainer {
     display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
 }
 
 .noteItemContainer {
     width: 25%;
-    max-height: calc(100vh - 40px);
-    min-height: calc(100vh - 40px);
+    display: flex;
+    flex-direction: column;
+    max-height: 100%;
     overflow: auto;
     border-right: 0.5px solid rgba(255, 255, 255, 0.2);
 }
 
 .noteContentContainer {
     width: 75%;
-    max-height: calc(100vh - 40px);
-    min-height: calc(100vh - 40px);
-    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.noteHeader {
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.noteContentList {
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    width: 95%;
+    height: 100%;
+    margin: auto;
+}
+
+.notesListDataFieldsToDos {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 7px;
+    width: 100%;
+}
+
+.notesListDataFields {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.notesListDataFieldTextArea {
+    background: none;
+    border: none;
+    resize: none;
+
+    width: 100%;
+    height: 100%;
+    margin: 0px 5px;
+    padding: 0px 7px;
+    color: #d8d8d8;
+    font-size: 15px;
+}
+
+.notesListDataFields .tox-statusbar {
+    display: none !important;
+}
+
+.notesListDataFields .tox-edit-area__iframe,
+.notesListDataFields .tox-tinymce,
+.notesListDataFields .tox-editor-header {
+    background: none !important;
+    border: none !important;
 }
 
 .notesListItem {
@@ -174,14 +237,6 @@ select:focus {
 
 
 /*-----notes content------*/
-.noteHeader {
-    height: 35px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-}
-
 .isCheckBoxIcon {
     height: 18px;
     filter: invert(100%) sepia(0%) saturate(4848%) hue-rotate(33deg) brightness(115%) contrast(69%);
@@ -206,13 +261,6 @@ select:focus {
     filter: invert(100%) sepia(0%) saturate(4848%) hue-rotate(33deg) brightness(115%) contrast(69%);
 }
 
-.noteContentList {
-    height: calc(100vh - 80px);
-    overflow: auto;
-    width: 95%;
-    margin: auto;
-}
-
 .addItemBtn {
     cursor: pointer;
     margin: 10px 0;
@@ -227,14 +275,6 @@ select:focus {
     height: 18px;
     margin-right: 5px;
     filter: invert(100%) sepia(0%) saturate(4848%) hue-rotate(33deg) brightness(115%) contrast(69%);
-}
-
-.notesListDataFields {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 7px;
-    width: 100%;
 }
 
 .notesListDataFieldCheckedIcon {
@@ -260,19 +300,6 @@ select:focus {
 
     background: none;
     border: none;
-}
-
-.notesListDataFieldTextArea {
-    background: none;
-    border: none;
-    resize: none;
-
-    width: 100%;
-    min-height: 80vh;
-    margin: 0px 5px;
-    padding: 0px 7px;
-    color: #d8d8d8;
-    font-size: 15px;
 }
 
 /*-----notes content------*/

@@ -4,6 +4,7 @@
     "sideEffects": false,
     "version": "2.0.0",
     "dependencies": {
+        "@tinymce/tinymce-react": "^4.3.2",
         "mngo-project-tools": "^1.3.11",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
