@@ -7,7 +7,6 @@ const history = createMemoryHistory(); // to make router work in chrome extensio
 
 // lazy loading split the main bundle into many parts
 const LoginPage = lazy(() => import('./pages/LoginPage'));
-const RegisterPage = lazy(() => import('./pages/RegisterPage'));
 const Home = lazy(() => import('./pages/Home'));
 const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
 
@@ -24,7 +23,6 @@ function Routes() {
             <Suspense fallback={<FullScreenLoader styles={{ className: "fullScreenLoaderBckgrnd", loaderClassName: "loader" }} />}>
                 <Switch>
                     <Route exact path="/login" component={LoginPage} />
-                    <Route exact path="/register" component={RegisterPage} />
                     <Route exact path="/home" component={Home} />
                     <Route exact path="/privacy-policy" component={PrivacyPolicy} />
 

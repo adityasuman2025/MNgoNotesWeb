@@ -72,7 +72,7 @@ select:focus {
 /*----input fields placeholder color-------*/
 
 
-/*----login/register page-----*/
+/*----login page-----*/
 .loginSignUpPage {
     display: flex;
     align-items: center;
@@ -89,7 +89,7 @@ select:focus {
     border-color: #f1f1f1 #1c313a #f1f1f1;
 }
 
-/*----login/register page-----*/
+/*----login page-----*/
 
 
 /*-----navbar--------*/

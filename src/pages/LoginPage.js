@@ -5,7 +5,7 @@ import LoginForm from "mngo-project-tools/comps/LoginForm";
 import InstallPWABtn from "mngo-project-tools/comps/InstallPWABtn";
 import SnackBar from "mngo-project-tools/comps/SnackBar";
 import { setCookie } from "mngo-project-tools/cookieUtils";
-import { PROJECT_NAME, LOGGED_USER_TOKEN_COOKIE_NAME, COOKIE_EXPIRATION_TIME, EXTENSION_URL, EXTENSION_ENV_NAME, EXTENSION_ENV_VAL, WEB_URL } from '../constants';
+import { PROJECT_NAME, LOGGED_USER_TOKEN_COOKIE_NAME, COOKIE_EXPIRATION_TIME, EXTENSION_URL, EXTENSION_ENV_NAME, EXTENSION_ENV_VAL, REGISTER_URL } from '../constants';
 import { verifyUser } from "../apis";
 
 const isExtension = process.env[EXTENSION_ENV_NAME] === EXTENSION_ENV_VAL;
@@ -13,11 +13,6 @@ const isExtension = process.env[EXTENSION_ENV_NAME] === EXTENSION_ENV_VAL;
 function LoginPage(props) {
     const [displayLoader, setDisplayLoader] = useState(false);
     const [snackBarData, setSnackBarData] = useState({ visisible: false, msg: "", type: "" });
-
-    function handleSignUpClick() {
-        if (isExtension) window.open(WEB_URL + "register")
-        else props.history.push("/register");
-    }
 
     async function handleLoginClick(username, password) {
         setDisplayLoader(true);
@@ -49,7 +44,7 @@ function LoginPage(props) {
                     isLoggingUser={displayLoader}
                     showError={(error) => { makeSnackBar(error) }}
                     onLoginClick={(username, password) => { handleLoginClick(username, password) }}
-                    onSignUpClick={handleSignUpClick}
+                    onSignUpClick={() => window.open(REGISTER_URL)}
                 >
                     {
                         isExtension ? null :

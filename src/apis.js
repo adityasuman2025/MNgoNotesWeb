@@ -5,10 +5,6 @@ export async function verifyUser(username, password) {
     return await sendRequestToAPI(API_BASE_URL, `${API_USERS_REF}/verify?username=${username}&password=${password}`);
 }
 
-export async function registerUser(username, name, email, password, passcode) {
-    return await sendRequestToAPI(API_BASE_URL, `${API_USERS_REF}/register`, "post", { username, name, email, password, passcode });
-}
-
 export async function getUserNotes(userToken) {
     return await sendRequestToAPI(API_BASE_URL, `${API_USER_NOTES_REF}?userToken=${userToken}`);
 }
